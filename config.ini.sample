@@ -1,0 +1,15 @@
+[login]
+username=<Enter_username>
+password=<Enter_password>
+
+[qa]
+base_url=<qa_url>
+
+[stage]
+base_url=<stage_url>
+
+[dev]
+base_url=<dev_url>
+
+[prod]
+base_url=<prod_url>
