@@ -1,0 +1,5 @@
+LOGIN_TAB_XPATH = "//*[@href='#/login']"
+USER_NAME_ID = "username"
+PASSWORD_ID = "password"
+LOGIN_BUTTON_CLASS_NAME = "pf-m-primary"
+LOGGED_IN_USER_XPATH = "//*[contains(text(),'Log Out [demo]')]"
