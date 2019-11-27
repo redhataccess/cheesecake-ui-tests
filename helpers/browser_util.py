@@ -9,7 +9,7 @@ class Driver(object):
 
     url = base.config_reader('qa', 'base_url')
 
-    def setup_suite(self):
+    def setup_suite(self, setup_test_repo):
         lcc.log_info("Inside setup")
         #global driver
         driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -18,6 +18,7 @@ class Driver(object):
         self.driver.implicitly_wait(15)
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
+
 
     def teardown_suite(self):
         self.driver.close()
