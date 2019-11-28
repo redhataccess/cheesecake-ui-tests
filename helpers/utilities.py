@@ -51,15 +51,12 @@ def enter_text_by_class_name(driver, locator, value):
     element.send_keys(value)
 
 
-def get_text(driver, locator):
-    logged_in_user = driver.find_element_by_xpath(locator).text
-    return logged_in_user
+def find_element_by_partial_text(driver, locator):
+    wait = WebDriverWait(driver, 15)
+    element = wait.until(ec.presence_of_element_located((By.PARTIAL_LINK_TEXT, locator)))
+    return element
 
 
 def assert_text(driver, expected_value, locator):
     actual_value = WebDriverWait(driver, 20).until(ec.presence_of_element_located((By.XPATH, locator))).text
     assert actual_value == expected_value
-
-
-def assert_contains_text(expected_substring, actual_string):
-    assert expected_substring in actual_string
