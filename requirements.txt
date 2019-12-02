@@ -1,3 +1,4 @@
 lemoncheesecake[slack]
 selenium
 webdriver-manager
+git-python
