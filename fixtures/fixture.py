@@ -2,11 +2,15 @@ import lemoncheesecake.api as lcc
 import git, os, shutil
 import logging
 import subprocess
+import helpers.base as base
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
-test_repo_URL = "https://gitlab.cee.redhat.com/testing/pantheon-v2-test-repo.git"
+test_repo_URL = base.config_reader('test_repo', 'test_repo_url')
+url = base.config_reader('qa', 'base_url')
 
 
 @lcc.fixture(scope="pre_run")
@@ -41,5 +45,16 @@ def setup_test_repo():
         raise e
 
 
-
-
+@lcc.fixture(names=("driver", "driver_obj"), scope="session")
+def setup(setup_test_repo):
+    lcc.log_info("Initialising the webdriver object, opening the browser...")
+    # Initialise the global webdriver, open the browser and maximise the browser window
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver.implicitly_wait(15)
+    driver.maximize_window()
+    driver.implicitly_wait(10)
+    driver.get(url)
+    yield driver
+    lcc.log_info("Closing the browser window...")
+    driver.close()
+    driver.quit()

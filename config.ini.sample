@@ -13,3 +13,6 @@ base_url=<dev_url>
 
 [prod]
 base_url=<prod_url>
+
+[test_repo]
+test_repo_url=<URL for test repo to be used, this is a required value for the tests to execute>
