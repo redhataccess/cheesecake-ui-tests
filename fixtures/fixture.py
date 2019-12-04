@@ -6,7 +6,6 @@ import logging
 import requests
 import subprocess
 import helpers.base as base
-from helpers import constants
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
@@ -54,7 +53,8 @@ def setup_test_repo():
     os.chdir(project_dir_git)
 
     try:
-        subprocess.check_call('python3 ../pantheon.py push', shell=True)
+        subprocess.check_call(
+            ('python3 ../pantheon.py --user={} --password={} push'.format(username, auth)), shell=True)
     except subprocess.CalledProcessError as e:
         logging.info(
             "Test setup did not complete successfully, error encountered during 'pantheon push'")
@@ -108,14 +108,3 @@ def setup(setup_test_repo):
     lcc.log_info("Closing the browser window...")
     driver.close()
     driver.quit()
-
-
-@lcc.fixture(scope="session")
-def publish_module_api(driver):
-    # preview_path = driver.current_url[59:]
-    # preview_path[:-8]
-    url_endpoint = url + constants.path_to_module_to_be_published
-    print (url_endpoint)
-    body = {":operation": "pant:release"}
-    response = requests.post(url_endpoint, json=body, auth=('admin', 'admin'))
-    print (response.text)

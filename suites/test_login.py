@@ -20,8 +20,5 @@ def verify_login_success(driver):
     #login_page.login(driver)
     logged_in_user = login_page.get_logged_in_username(driver)
     lcc.log_info("Logged in username: %s" % logged_in_user)
-    assert_that(
-        "Logged in username is visible",
-        logged_in_user,
-        contains_string(username),
-        quiet=False)
+    assert_that("Logged in username is visible", logged_in_user,
+                contains_string(username), quiet=False)
