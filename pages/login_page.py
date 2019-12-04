@@ -18,6 +18,5 @@ def login(driver):
 
 def get_logged_in_username(driver):
     logged_in_user = utilities.find_element_by_partial_text(driver, LOGGED_IN_USER_PARTIAL_TEXT).text
-    print(logged_in_user)
     return logged_in_user
 
