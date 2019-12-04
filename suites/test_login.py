@@ -6,7 +6,6 @@ from lemoncheesecake.matching import *
 sys.path.append("..")
 
 
-
 SUITE = {
     "description": "Login tests suite",
     "rank": "1"
