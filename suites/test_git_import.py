@@ -1,5 +1,6 @@
 import sys
 from helpers import base
+from selenium.common.exceptions import TimeoutException
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 from pages import git_import_page
@@ -21,7 +22,7 @@ def git_import_for_empty_git_repo(driver):
     utilities.click_element_by_link_text(driver, locators.MENU_GIT_IMPORT_LINK_TEXT)
     git_import_page.import_git_repo(driver, None, None)
     check_that("Empty git repo url warning message",
-               utilities.get_text_by_css(driver, locators.REPO_URL_EMPTY_WARNING_CSS),
+               utilities.get_text_by_css(driver, locators.WARNING_ALERT_CSS),
                contains_string(constants.repo_url_empty_warning_message))
 
 @lcc.test("Error message should be displayed when repository url has invalid")
@@ -42,7 +43,7 @@ def git_import(driver):
     utilities.page_reload(driver)
     try:
         search_page.wait_for_module_to_load(driver, constants.git_import_last_module_uploaded)
-    except TimeoutError as e:
+    except TimeoutException as e:
         utilities.wait(15)
         utilities.page_reload(driver)
         search_page.wait_for_module_to_load(driver, constants.git_import_last_module_uploaded)
