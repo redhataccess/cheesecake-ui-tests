@@ -3,6 +3,7 @@ import git, os, shutil
 import logging, requests
 import subprocess
 import helpers.base as base
+from helpers import constants
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from lemoncheesecake.matching import *
@@ -70,3 +71,13 @@ def setup(setup_test_repo):
     lcc.log_info("Closing the browser window...")
     driver.close()
     driver.quit()
+
+@lcc.fixture(scope="session")
+def publish_module_api(driver):
+    # preview_path = driver.current_url[59:]
+    # preview_path[:-8]
+    url_endpoint = url + constants.path_to_module_to_be_published
+    print (url_endpoint)
+    body = {":operation": "pant:release"}
+    response = requests.post(url_endpoint, json=body, auth=('admin', 'admin'))
+    print (response.text)

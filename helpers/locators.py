@@ -1,3 +1,6 @@
+# Common constants
+WARNING_ALERT_CSS = "div.pf-c-alert.pf-m-warning h4.pf-c-alert__title"
+CLOSE_WARNING_ALERT_CSS = "div.pf-c-alert__action button"
 # Login page
 LOGIN_TAB_XPATH = "//*[@href='#/login']"
 USER_NAME_ID = "username"
@@ -19,6 +22,9 @@ PRODUCT_USECASE_DROPDOWN_CSS = "select[aria-label='FormSelect Usecase'].pf-c-for
 PRODUCT_URLFRAGMENT_CSS = "input#url-fragment"
 EDIT_METADATA_SAVE_CSS = "div.pf-c-modal-box__footer button.pf-c-button.pf-m-primary"
 EDIT_METADATA_CANCEL_CSS = "div.pf-c-modal-box__footer button.pf-c-button.pf-m-secondary"
+EDIT_METADATA_WARNING_CSS = "span.pf-u-screen-reader"
+UPDATE_SUCCESS_MESSAGE_CSS = "div.pf-c-alert.pf-m-success div.pf-c-alert__description"
+PRODUCT_INFO_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.pf-c-data-list__item-content div.pf-c-data-list__cell.pf-m-flex-2 span"
 #Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
 # Git import page
@@ -27,7 +33,6 @@ GIT_REPO_BRANCH_TEXTBOX_CSS = "input#branch-name"
 GIT_REPO_SUBMIT_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
 GIT_IMPORT_REQUEST_SUBMITTED_TITLE = "//div[@role='dialog']/h1"
 GIT_IMPORT_REQUEST_SUBMITTED_YES = "div.pf-c-modal-box__footer button.pf-m-primary"
-REPO_URL_EMPTY_WARNING_CSS = "div.pf-c-alert.pf-m-warning h4.pf-c-alert__title"
 REPO_URL_INVALID_ERROR_CSS = "div.pf-c-alert.pf-m-danger h4.pf-c-alert__title"
 # Search page
 FIRST_MODULE_CHECKBOX_XPATH = "//div[@id='data-rows'][2]/div[@class='pf-c-check checkbox']"
