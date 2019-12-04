@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from lemoncheesecake.matching import *
+from selenium.webdriver.support.ui import Select
 import time
 
 
@@ -63,7 +64,7 @@ def find_element_by_partial_text(driver, locator):
     return element
 
 def click_element_by_link_text(driver, locator_value):
-    element = driver.find_element_by_link_text(locator_value)
+    element = find_element_by_partial_text(driver, locator_value)
     element.click()
 
 def get_text_by_xpath(driver, locator):
@@ -90,4 +91,8 @@ def verify_and_accept_confirmation_modal(driver, modal_title_xpath, modal_title,
 
 def page_reload(driver):
     driver.refresh()
+
+def select_value_from_dropdown(driver, dropdown, value):
+    select = Select(driver.find_element_by_css_selector(dropdown))
+    select.select_by_visible_text(value)
 
