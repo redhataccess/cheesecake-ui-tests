@@ -3,3 +3,4 @@ selenium
 webdriver-manager
 git-python
 requests
+pyyaml
