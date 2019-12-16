@@ -14,6 +14,9 @@ base_url=https://stage.example.com/
 [prod]
 base_url=https://prod.example.com/
 
+[test_mode]
+headless=yes  #If you don't want your tests to run in headless mode, change the value to 'no'.
+
 [test_repo]
 test_repo_url=<URL for test repo to be used, this is a required value for the tests to execute>
 repo_name=<Repository name as mentioned in pantheon2.yml in the above test repo>
