@@ -39,6 +39,9 @@ PYTHONPATH should not be blank and should be your current directory.
 ``` cp config.ini.sample config.ini ```
 
 Make the appropriate changes to base URL,username and password fields in config.ini file.
+You can reach out to any of the contributors for the actual values to be used.
+By default, the tests will run in headless mode. If you choose to run otherwise, change the value to "no".
+
 
 * To execute the tests:
 ``` lcc run ```
