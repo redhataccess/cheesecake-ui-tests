@@ -25,7 +25,7 @@ EDIT_METADATA_CANCEL_CSS = "div.pf-c-modal-box__footer button.pf-c-button.pf-m-s
 EDIT_METADATA_WARNING_CSS = "span.pf-u-screen-reader"
 UPDATE_SUCCESS_MESSAGE_CSS = "div.pf-c-alert.pf-m-success div.pf-c-alert__description"
 PRODUCT_INFO_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.pf-c-data-list__item-content div.pf-c-data-list__cell.pf-m-flex-2 span"
-#Menu
+# Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
 # Git import page
 GIT_REPO_URL_TEXTBOX_CSS = "input#repository-url"
@@ -46,4 +46,3 @@ CHECKBOX_BY_TITLE = "//a[contains(text(), 'module_title_placeholder')]/../..//pr
 MODULES_WITH_SOURCE_NAME = "//span[contains(text(),'{}')]"
 SEARCH_BOX_ID = "searchFilterInput"
 SEARCH_BUTTON_CSS = "button.pf-c-button.pf-m-control:nth-child(2)"
-

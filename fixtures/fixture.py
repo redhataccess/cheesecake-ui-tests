@@ -1,6 +1,9 @@
 import lemoncheesecake.api as lcc
-import git, os, shutil
-import logging, requests
+import git
+import os
+import shutil
+import logging
+import requests
 import subprocess
 import helpers.base as base
 from helpers import constants
@@ -14,7 +17,9 @@ logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
 test_repo_URL = base.config_reader('test_repo', 'test_repo_url')
 test_repo_name = base.config_reader('test_repo', 'repo_name')
-git_import_repo = base.config_reader('git_import_test_repo', 'git_import_repo_name')
+git_import_repo = base.config_reader(
+    'git_import_test_repo',
+    'git_import_repo_name')
 url = base.config_reader('qa', 'base_url')
 username = base.config_reader('login', 'username')
 auth = base.config_reader('login', 'password')
@@ -38,8 +43,9 @@ def setup_test_repo():
 
     logging.info("Installing the Pantheon uploader script..")
     try:
-        subprocess.check_call("curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
-                              shell=True)
+        subprocess.check_call(
+            "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
+            shell=True)
     except subprocess.CalledProcessError as e:
         logging.error("Unable to install the uploader script")
         raise e
@@ -49,20 +55,25 @@ def setup_test_repo():
     try:
         subprocess.check_call('python3 ../pantheon.py push', shell=True)
     except subprocess.CalledProcessError as e:
-        logging.info("Test setup did not complete successfully, error encountered during 'pantheon push'")
+        logging.info(
+            "Test setup did not complete successfully, error encountered during 'pantheon push'")
         raise e
 
 
 @lcc.fixture(names=("driver", "driver_obj"), scope="session")
 def setup(setup_test_repo):
     lcc.log_info("Initialising the webdriver object, opening the browser...")
-    # Initialise the global webdriver, open the browser and maximise the browser window
+    # Initialise the global webdriver, open the browser and maximise the
+    # browser window
     if headless == "yes":
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
-        driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
-        logging.info("Chrome driver has been initialised successfully in headless mode")
+        driver = webdriver.Chrome(
+            ChromeDriverManager().install(),
+            chrome_options=options)
+        logging.info(
+            "Chrome driver has been initialised successfully in headless mode")
     else:
         driver = webdriver.Chrome(ChromeDriverManager().install())
         logging.info("Chrome driver has been initialised successfully")
@@ -73,20 +84,28 @@ def setup(setup_test_repo):
     driver.get(url)
     # the global driver object can be used globally in the tests.
     yield driver
-    # This block of code is the teardown method which deletes the repository created and closes the browser window.
+    # This block of code is the teardown method which deletes the repository
+    # created and closes the browser window.
     lcc.log_info("Deleting the test-repo from QA env...")
     path_to_repo = url + "content/repositories/" + test_repo_name
     lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
     body = {":operation": "delete"}
     response = requests.post(path_to_repo, data=body, auth=(username, auth))
-    check_that("The test repo was deleted successfully", response.status_code, equal_to(200))
+    check_that("The test repo was deleted successfully",
+               response.status_code, equal_to(200))
     path_to_git_repo = url + "content/repositories/" + git_import_repo
     lcc.log_info("Test repo node being deleted at: %s" % path_to_git_repo)
-    response_git_delete = requests.post(path_to_git_repo, data=body, auth=(username, auth))
-    check_that("The git import test repo was deleted successfully from backend", response_git_delete.status_code, equal_to(200))
+    response_git_delete = requests.post(
+        path_to_git_repo, data=body, auth=(
+            username, auth))
+    check_that(
+        "The git import test repo was deleted successfully from backend",
+        response_git_delete.status_code,
+        equal_to(200))
     lcc.log_info("Closing the browser window...")
     driver.close()
     driver.quit()
+
 
 @lcc.fixture(scope="session")
 def publish_module_api(driver):
