@@ -2,8 +2,8 @@ import sys
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 from selenium.common.exceptions import TimeoutException
-from pages import display_module_page
 from pages import search_page
+from pages import display_module_page
 from helpers import utilities
 from helpers import constants
 from helpers import locators
