@@ -11,6 +11,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from lemoncheesecake.matching import *
+from pages import login_page
 
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
@@ -78,10 +79,12 @@ def setup(setup_test_repo):
         driver = webdriver.Chrome(ChromeDriverManager().install())
         logging.info("Chrome driver has been initialised successfully")
 
-    driver.implicitly_wait(15)
     driver.maximize_window()
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(15)
     driver.get(url)
+    # login to Pantheon v2
+    lcc.log_info("Log in to Pantheon v2 using credentials")
+    login_page.login(driver)
     # the global driver object can be used globally in the tests.
     yield driver
     # This block of code is the teardown method which deletes the repository

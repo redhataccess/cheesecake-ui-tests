@@ -29,3 +29,10 @@ unpublished_module = "Assembly 1"
 unpublished_module_preview_text = "Released content version not found for module"
 delete_confirmation_modal_title = "Confirmation"
 module_metadata_warning = "Empty Product info. Please edit metadata before publishing"
+
+# Create new product constants
+new_product_name = "A Test Product RH_"
+new_product_description = "Test Product Description"
+blank_product_name_warning = "A Product name is required"
+duplicate_product_name_warning = "Duplicated Product name"
+
