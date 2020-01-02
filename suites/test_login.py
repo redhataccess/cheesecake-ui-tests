@@ -17,7 +17,7 @@ def verify_login_success(driver):
     # 'driver' param is the webdriver object that is being called from 'setup' fixture and used through the scope
     # of the session.
     username = base.config_reader('login', 'username')
-    login_page.login(driver)
+    #login_page.login(driver)
     logged_in_user = login_page.get_logged_in_username(driver)
     lcc.log_info("Logged in username: %s" % logged_in_user)
     assert_that(

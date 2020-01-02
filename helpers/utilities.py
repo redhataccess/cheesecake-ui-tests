@@ -3,6 +3,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from lemoncheesecake.matching import *
 from selenium.webdriver.support.ui import Select
+import random
+import string
 import time
 
 
@@ -78,6 +80,11 @@ def find_element_by_partial_text(driver, locator):
     return element
 
 
+def find_elements_by_id(driver, locator):
+    element_list = driver.find_elements_by_id(locator)
+    return element_list
+
+
 def click_element_by_link_text(driver, locator_value):
     element = find_element_by_partial_text(driver, locator_value)
     element.click()
@@ -128,3 +135,10 @@ def page_reload(driver):
 def select_value_from_dropdown(driver, dropdown, value):
     select = Select(driver.find_element_by_css_selector(dropdown))
     select.select_by_visible_text(value)
+
+
+def generate_random_string(string_length):
+    # Generate a random string of fixed length
+    letters = string.ascii_lowercase
+    random_string = ''.join(random.choice(letters) for i in range(string_length))
+    return random_string
