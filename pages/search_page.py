@@ -8,8 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 sys.path.append("..")
 
-# Returns number of modules that have the given source repo name =
-# {source_name}
+# Returns number of modules that have the given source repo name = {source_name}
 
 
 def count_of_modules_with_the_source_name(driver, source_name):
@@ -21,10 +20,8 @@ def count_of_modules_with_the_source_name(driver, source_name):
 
 
 def wait_for_module_to_load(driver, title):
-    WebDriverWait(
-        driver, 20).until(
-        ec.presence_of_element_located(
-            (By.LINK_TEXT, title)))
+    WebDriverWait(driver, 20).until(
+        ec.presence_of_element_located((By.LINK_TEXT, title)))
 
 # Search for a module by title and click on it
 

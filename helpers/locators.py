@@ -1,5 +1,6 @@
 # Common constants
 WARNING_ALERT_CSS = "div.pf-c-alert.pf-m-warning h4.pf-c-alert__title"
+WARNING_ALERT_DESCRIPTION_CSS = "div.pf-c-alert.pf-m-warning div.pf-c-alert__description"
 CLOSE_WARNING_ALERT_CSS = "div.pf-c-alert__action button"
 
 # Login page
@@ -12,6 +13,7 @@ LOGGED_IN_USER_PARTIAL_TEXT = "Log Out"
 # Display module page
 MODULE_DISPLAY_TITLE_CSS = "div.pf-c-content h1"
 MODULE_DISPLAY_PUBLISH_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
+MODULE_DISPLAY_UNPUBLISH_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
 MODULE_DISPLAY_PREVIEW_BUTTON_CSS = "button.pf-c-button.pf-m-secondary"
 MODULE_DISPLAY_PUBLISH_STATUS_XPATH = "//div[contains(text(),'Not published')]"
 MODULE_METADATA_WARNING_CSS = "div.pf-c-alert__description"
@@ -27,6 +29,8 @@ EDIT_METADATA_CANCEL_CSS = "div.pf-c-modal-box__footer button.pf-c-button.pf-m-s
 EDIT_METADATA_WARNING_CSS = "span.pf-u-screen-reader"
 UPDATE_SUCCESS_MESSAGE_CSS = "div.pf-c-alert.pf-m-success div.pf-c-alert__description"
 PRODUCT_INFO_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.pf-c-data-list__item-content div.pf-c-data-list__cell.pf-m-flex-2 span"
+COPY_URL_LINK_CSS = "a#permanentURL"
+VIEW_ON_PORTAL_LINK_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(4) span:nth-child(1) a"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
@@ -63,5 +67,4 @@ SAVE_PRODUCT_BUTTON_CLASS_NAME = "pf-c-button.pf-m-primary"
 # Product Listing page
 PRODUCT_LIST_UL_CLASS_NAME = "pf-c-data-list"
 PRODUCT_NAMES_LI_ID = "{data.name}"
-
 
