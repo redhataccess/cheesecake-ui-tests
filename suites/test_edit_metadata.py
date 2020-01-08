@@ -23,7 +23,7 @@ SUITE = {
 # 6. Populate all the fields on edit metadata with valid data and click on submit
 
 
-@lcc.test("Warning should be displayed on Edit Metadata modal when no data is entered")
+@lcc.test("Verify that warning should be displayed on Edit Metadata modal when no data is entered")
 def edit_metadata_blank_data(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
@@ -44,7 +44,7 @@ def edit_metadata_blank_data(driver):
                contains_string(constants.edit_metadata_modal_warning))
 
 
-@lcc.test("Warning should be displayed on Edit Metadata modal when URL fragment field is blank")
+@lcc.test("Verify that warning should be displayed on Edit Metadata modal when URL fragment field is blank")
 def edit_metadata_empty_url_fragment(driver):
     display_module_page.reset_edit_metadata_from(driver)
     utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
@@ -56,7 +56,7 @@ def edit_metadata_empty_url_fragment(driver):
                contains_string(constants.edit_metadata_modal_warning))
 
 
-@lcc.test("Warning should be displayed on Edit Metadata modal when Product name field is blank")
+@lcc.test("Verify that warning should be displayed on Edit Metadata modal when Product name field is blank")
 def edit_metadata_empty_productname(driver):
     display_module_page.reset_edit_metadata_from(driver)
     # utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
@@ -68,7 +68,7 @@ def edit_metadata_empty_productname(driver):
                contains_string(constants.edit_metadata_modal_warning))
 
 
-@lcc.test("Warning should be displayed on Edit Metadata modal when Product version field is blank")
+@lcc.test("Verify that warning should be displayed on Edit Metadata modal when Product version field is blank")
 def edit_metadata_empty_version(driver):
     display_module_page.reset_edit_metadata_from(driver)
     utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
@@ -80,7 +80,7 @@ def edit_metadata_empty_version(driver):
                contains_string(constants.edit_metadata_modal_warning))
 
 
-@lcc.test("Warning should be displayed on Edit Metadata modal when Usecase field is blank")
+@lcc.test("Verify that warning should be displayed on Edit Metadata modal when Usecase field is blank")
 def edit_metadata_empty_usecase(driver):
     display_module_page.reset_edit_metadata_from(driver)
     utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
@@ -92,7 +92,7 @@ def edit_metadata_empty_usecase(driver):
                contains_string(constants.edit_metadata_modal_warning))
 
 
-@lcc.test("User should be able to add product metadata successfully")
+@lcc.test("Verify that user should be able to add product metadata successfully")
 def edit_metadata_successfully(driver):
     display_module_page.reset_edit_metadata_from(driver)
     utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)

@@ -132,4 +132,3 @@ def generate_random_string(string_length):
     letters = string.ascii_lowercase
     random_string = ''.join(random.choice(letters) for i in range(string_length))
     return random_string
-

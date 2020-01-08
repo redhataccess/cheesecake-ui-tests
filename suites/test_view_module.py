@@ -1,4 +1,5 @@
 import sys
+import re
 from helpers import base
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
@@ -14,8 +15,10 @@ SUITE = {
     "rank": "5"
 }
 
+url = base.config_reader('qa', 'base_url')
 
-@lcc.test("Authenticated user view unpublished module")
+
+@lcc.test("Verify that for authenticated user an unpublished module displays all expected fields")
 def authenticated_user_view_unpublished_module(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
@@ -26,9 +29,11 @@ def authenticated_user_view_unpublished_module(driver):
     except TimeoutException as e:
         search_page.search_for_module_and_click(
             driver, constants.unpublished_module)
-    check_that("Button contains text", utilities.get_text_by_css(
+    check_that("URL", driver.current_url, contains_string(
+        url+constants.module_display_page_path_unpublished))
+    check_that("Button", utilities.get_text_by_css(
         driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Publish"))
-    check_that("Button contains text", utilities.get_text_by_css(
+    check_that("Button", utilities.get_text_by_css(
         driver, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS), contains_string("Preview"))
     check_that("Publish status", utilities.get_text_by_xpath(
         driver, locators.MODULE_DISPLAY_PUBLISH_STATUS_XPATH), contains_string("Not published"))
@@ -36,7 +41,7 @@ def authenticated_user_view_unpublished_module(driver):
         driver, locators.MODULE_DISPLAY_TITLE_CSS), contains_string(constants.unpublished_module))
 
 
-@lcc.test("Authenticated user view published module")
+@lcc.test("Verify that for authenticated user a published module displays all expected fields")
 def authenticated_user_view_published_module(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
@@ -49,5 +54,24 @@ def authenticated_user_view_published_module(driver):
             driver, constants.module_to_be_published)
     utilities.find_element_by_css(
         driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
-    check_that("Button contains text", utilities.get_text_by_css(
+    check_that("URL", driver.current_url,
+               contains_string(url + constants.module_display_page_path_published))
+    check_that("Button", utilities.get_text_by_css(
         driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Unpublish"))
+
+
+@lcc.test("Verify that view on portal link navigates to correct page and verify its content")
+def view_on_portal_link_test(driver):
+    utilities.click_element_by_css_selector(
+        driver, locators.VIEW_ON_PORTAL_LINK_CSS)
+    utilities.switch_to_latest_tab(driver)
+    check_that("View on Portal URL path", driver.current_url,
+               contains_string(constants.view_on_portal_page_url))
+    print(driver.current_url[42:])
+    module_id_regex = re.compile(
+        r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
+    check_that("View on Portal URL id",
+               driver.current_url[42:], match_pattern(module_id_regex))
+    check_that("Module content", utilities.find_element_by_css(
+        driver, locators.MODULE_BODY_ON_PORTAL_CSS).is_displayed(), is_(True))
+    utilities.switch_to_first_tab(driver)

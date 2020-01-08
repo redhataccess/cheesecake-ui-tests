@@ -32,6 +32,10 @@ PRODUCT_INFO_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.pf-c-data-list
 COPY_URL_LINK_CSS = "a#permanentURL"
 VIEW_ON_PORTAL_LINK_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(4) span:nth-child(1) a"
 
+# Customer portal
+MODULE_BODY_ON_PORTAL_CSS = "article#rhdocs"
+MODULE_TITLE_ON_PORTAL_CSS= "header#rhdocs-header"
+
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
 MENU_PRODUCTS_LINK_TEXT = "Products"
