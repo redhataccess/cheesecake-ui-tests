@@ -15,7 +15,7 @@ SUITE = {
 }
 
 
-@lcc.test("Publish module with no product metadata")
+@lcc.test("Verify that warning is displayed for publish module with no product metadata")
 def no_product_info_publish_module(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
@@ -36,7 +36,7 @@ def no_product_info_publish_module(driver):
         driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Publish"))
 
 
-@lcc.test("Publish module with product metadata added")
+@lcc.test("Verify that user is able to successfully publish module with product metadata added")
 def publish_module(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page

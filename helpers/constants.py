@@ -12,8 +12,11 @@ repo_url_invalid_error_message = "The repository entered does not look like a gi
 
 # View module constants
 path_to_module_to_be_published = "repositories/pantheon-v2-test-repo/docs/assembly-2.adoc"
+module_display_page_path_unpublished = "pantheon/#/repositories/pantheon-v2-test-repo/docs/assembly-1.adoc"
+module_display_page_path_published = "pantheon/#/repositories/pantheon-v2-test-repo/docs/assembly-2.adoc"
 view_on_portal_link = "View on Customer Portal"
 copy_url_link = "Copy permanent URL"
+view_on_portal_page_url = "https://access.qa.redhat.com/topics/en-us/"
 
 # Edit metadata constants
 module_to_be_published = "Assembly 2"
