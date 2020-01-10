@@ -71,4 +71,12 @@ SAVE_PRODUCT_BUTTON_CLASS_NAME = "pf-c-button.pf-m-primary"
 # Product Listing page
 PRODUCT_LIST_UL_CLASS_NAME = "pf-c-data-list"
 PRODUCT_NAMES_LI_ID = "{data.name}"
+PRODUCT_NAMES_LIST_CLASS_NAME = "pf-c-data-list__item"
+PRODUCT_NAME_LI_DROPDOWN_CLASS_NAME = "pf-c-options-menu__toggle pf-m-plain"
+PRODUCT_DETAILS_BUTTON_CLASS_NAME = "pf-c-options-menu__menu-item"
 
+# Product Versions page
+PRODUCT_VERSION_SAVE_BUTTON_XPATH = '//button[text()="Save"]'
+NEW_PRODUCT_VERSION_TEXTBOX_ID = "new_version_name_text"
+PRODUCT_VERSIONS_UL_CLASS_NAME = "pf-c-list"
+PRODUCT_VERSIONS_LI_TAG_NAME = "li"
