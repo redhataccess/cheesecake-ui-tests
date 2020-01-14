@@ -1,9 +1,9 @@
 # Git import constants
 git_import_branch="master"
 git_import_submitted_modal_title="Request submitted."
-    # This count specifies the number of modules being imported from 'git_import_repo_url'
-    # which is being used to verify if git import functionality imported all the modules successfully.
-    # You will have to change this number if you change the default repo used.
+# This count specifies the number of modules being imported from 'git_import_repo_url'
+# which is being used to verify if git import functionality imported all the modules successfully.
+# You will have to change this number if you change the default repo used.
 git_import_repo_modules_count=10
 git_import_last_module_uploaded = "Stopping containers"
 repo_url_empty_warning_message = "A repository url is required."
@@ -41,3 +41,8 @@ unpublished_module_preview_text = "Released content version not found for module
 delete_confirmation_modal_title = "Confirmation"
 module_metadata_warning_title = "Module Versions"
 module_metadata_warning = "Empty Product info. Please edit metadata before publishing"
+
+# Create Product Versions
+product_version_1 = "1"
+product_version_2 = "alpha"
+product_version_3 = "1.1"

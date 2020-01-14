@@ -85,6 +85,22 @@ def find_elements_by_id(driver, locator):
     return element_list
 
 
+def find_element_by_class_name(driver, locator):
+    element = WebDriverWait(driver, 15).until(ec.presence_of_element_located((By.CLASS_NAME, locator)))
+    return element
+
+
+def find_elements_by_class_name(driver, locator):
+    elements_list_by_class = WebDriverWait(driver, 30).until(ec.visibility_of_all_elements_located((By.CLASS_NAME,
+                                                                                                    locator)))
+    return elements_list_by_class
+
+
+def find_elements_by_css_selector(driver, locator):
+    elements_list_by_css_selector = driver.find_elements(By.CSS_SELECTOR, locator)
+    return elements_list_by_css_selector
+
+
 def click_element_by_link_text(driver, locator_value):
     element = find_element_by_partial_text(driver, locator_value)
     element.click()
@@ -110,6 +126,7 @@ def switch_to_latest_tab(driver):
 
 def switch_to_first_tab(driver):
     driver.switch_to.window(driver.window_handles[0])
+
 
 # Verifies title for confirmation modal and accept the modal
 def verify_and_accept_confirmation_modal(driver, modal_title_xpath, modal_title, confirmation_yes):
