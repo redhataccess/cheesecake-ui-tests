@@ -20,7 +20,22 @@ test_repo_name = base.config_reader('test_repo', 'repo_name')
 git_import_repo = base.config_reader(
     'git_import_test_repo',
     'git_import_repo_name')
-url = base.config_reader('qa', 'base_url')
+
+# setting the appropriate URL value from env variable
+env = os.environ['PANTHEON_ENV']
+if env == "qa":
+    url = base.config_reader('qa', 'base_url')
+elif env == "dev":
+    url = base.config_reader('dev', 'base_url')
+elif env == "stage":
+    url = base.config_reader('stage', 'base_url')
+elif env == "prod":
+    url = base.config_reader('prod', 'base_url')
+else:
+    raise Exception("Please set the env variable PANTHEON_ENV as dev/qa/stage specifically. "
+                    "To run your tests against QA, run `$export PANTHEON_ENV=qa` before you run the tests")
+
+logging.info("Tests are running against Pantheon instance: %s", url)
 username = base.config_reader('login', 'username')
 auth = base.config_reader('login', 'password')
 headless = base.config_reader('test_mode', 'headless')

@@ -42,6 +42,9 @@ Make the appropriate changes to base URL,username and password fields in config.
 You can reach out to any of the contributors for the actual values to be used.
 By default, the tests will run in headless mode. If you choose to run otherwise, change the value to "no".
 
+* To run the test against QA env, set the environment variable appropriately.
+``` export PANTHEON_ENV=qa ```
+Acceptable values for PANTHEON_ENV variable are dev/qa/stage.
 
 * To execute the tests:
 ``` lcc run ```
