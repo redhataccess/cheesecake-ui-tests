@@ -69,7 +69,7 @@ def setup_test_repo():
 
     try:
         subprocess.check_call(
-            ('python3 ../pantheon.py --user={} --password={} push'.format(username, auth)), shell=True)
+            ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(username, auth, url)), shell=True)
     except subprocess.CalledProcessError as e:
         logging.info(
             "Test setup did not complete successfully, error encountered during 'pantheon push'")

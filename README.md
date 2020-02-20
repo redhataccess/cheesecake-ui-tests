@@ -3,6 +3,7 @@ UI tests for Pantheon v2 using Selenium + Python.
 
 ## Pre-requisites
 python3
+google chrome (not chromium)
 
 ## Setup
 Install and create virtualenv (This step should be executed only when setting up the project for the first time)
