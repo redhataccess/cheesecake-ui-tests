@@ -1,4 +1,4 @@
-lemoncheesecake[slack]
+lemoncheesecake
 selenium
 webdriver-manager
 git-python
