@@ -12,7 +12,7 @@ sys.path.append("..")
 
 SUITE = {
     "description": "Git import for authenticated user",
-    "rank": "2"
+    "rank": "6"
 }
 git_import_repo_URL = base.config_reader(
     'git_import_test_repo', 'git_import_repo_url')

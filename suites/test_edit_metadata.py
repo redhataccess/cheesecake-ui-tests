@@ -43,7 +43,6 @@ def edit_metadata_blank_data(driver):
     check_that("Warning displayed", utilities.get_text_by_css(driver, locators.WARNING_ALERT_CSS),
                contains_string(constants.edit_metadata_modal_warning))
 
-
 @lcc.test("Verify that warning should be displayed on Edit Metadata modal when URL fragment field is blank")
 def edit_metadata_empty_url_fragment(driver):
     display_module_page.reset_edit_metadata_from(driver)

@@ -11,7 +11,7 @@ sys.path.append("..")
 
 SUITE = {
     "description": "Create a new product and versions",
-    "rank": "6"
+    "rank": "2"
 }
 
 product_name = constants.new_product_name + utilities.generate_random_string(4)
@@ -79,9 +79,11 @@ def create_product_versions(driver):
     driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).send_keys(constants.product_version_1)
     driver.find_element_by_xpath(locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH).click()
     driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
+    time.sleep(2)
     driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).send_keys(constants.product_version_2)
     driver.find_element_by_xpath(locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH).click()
     driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
+    time.sleep(2)
     driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).send_keys(constants.product_version_3)
     driver.find_element_by_xpath(locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH).click()
     driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
