@@ -40,7 +40,7 @@ unpublished_module = "Assembly 1"
 unpublished_module_preview_text = "Released content version not found for module"
 delete_confirmation_modal_title = "Confirmation"
 module_metadata_warning_title = "Module Versions"
-module_metadata_warning = "Empty Product info. Please edit metadata before publishing"
+module_metadata_warning = "Module failed to publish. Check the following:\nAre you logged in as a publisher?\nDoes the module have all required metadata?"
 
 # Create Product Versions
 product_version_1 = "1"
