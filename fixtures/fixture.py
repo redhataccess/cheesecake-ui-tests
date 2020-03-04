@@ -86,12 +86,12 @@ def setup(setup_test_repo):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         driver = webdriver.Chrome(
-            ChromeDriverManager().install(),
+            ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
             chrome_options=options)
         logging.info(
             "Chrome driver has been initialised successfully in headless mode")
     else:
-        driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install())
         logging.info("Chrome driver has been initialised successfully")
 
     driver.maximize_window()

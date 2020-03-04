@@ -1,6 +1,6 @@
 lemoncheesecake
 selenium
-webdriver-manager
+webdriver_manager
 git-python
 requests
 pyyaml
