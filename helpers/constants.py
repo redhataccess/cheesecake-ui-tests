@@ -22,7 +22,7 @@ view_on_portal_page_url = "https://access.qa.redhat.com/topics/en-us/"
 module_to_be_published = "Assembly 2"
 edit_metadata_modal_title = "Edit Metadata"
 edit_metadata_modal_warning = "All fields are required."
-product_name = "test"
+product_name = "test_product"
 product_version = "1"
 use_case = "Install"
 url_fragment = "test_url_fragment"
@@ -30,9 +30,10 @@ success_message = "Update Successful!"
 
 # Create new product constants
 new_product_name = "A Test Product RH_"
-new_product_description = "Test Product Description"
+new_product_description = "Test"
 blank_product_name_warning = "A Product name is required"
 duplicate_product_name_warning = "Duplicated Product name"
+# new_product_name_1 = "test_product"
 
 # Constants for future use
 published_module = "Assembly 3"

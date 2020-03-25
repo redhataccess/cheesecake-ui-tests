@@ -67,7 +67,6 @@ def view_on_portal_link_test(driver):
     utilities.switch_to_latest_tab(driver)
     check_that("View on Portal URL path", driver.current_url,
                contains_string(constants.view_on_portal_page_url))
-    print(driver.current_url[42:])
     module_id_regex = re.compile(
         r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
     check_that("View on Portal URL id",

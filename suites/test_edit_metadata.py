@@ -29,7 +29,7 @@ def edit_metadata_blank_data(driver):
     # Click on the title if it is displayed on the first page
     try:
         utilities.click_element_by_link_text(
-            driver, constants.unpublished_module)
+            driver, constants.module_to_be_published)
     # If the title is not found on the first page, search for the title and then click
     except TimeoutException as e:
         search_page.search_for_module_and_click(
