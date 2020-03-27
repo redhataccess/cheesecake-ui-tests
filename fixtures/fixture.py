@@ -39,6 +39,8 @@ logging.info("Tests are running against Pantheon instance: %s", url)
 username = base.config_reader('login', 'username')
 auth = base.config_reader('login', 'password')
 headless = base.config_reader('test_mode', 'headless')
+uploader_username = base.config_reader('uploader', 'username')
+uploader_password = base.config_reader('uploader', 'password')
 
 
 @lcc.fixture(scope="pre_run")
@@ -69,7 +71,9 @@ def setup_test_repo():
 
     try:
         subprocess.check_call(
-            ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(username, auth, url)), shell=True)
+            ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
+                                                                                      uploader_password,
+                                                                                      url)), shell=True)
     except subprocess.CalledProcessError as e:
         logging.info(
             "Test setup did not complete successfully, error encountered during 'pantheon push'")

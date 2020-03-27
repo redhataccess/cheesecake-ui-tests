@@ -1,6 +1,10 @@
 [login]
-username=<Enter_username>
-password=<Enter_password>
+username=<Enter_username for pantheon2 login>
+password=<Enter_password for pantheon2 login>
+
+[uploader]
+username=<enter username for pantheon uploader>
+password=<enter password for pantheon uploader>
 
 [qa]
 base_url=https://qa.example.com/
