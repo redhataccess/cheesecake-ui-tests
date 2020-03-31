@@ -8,6 +8,7 @@ from pages import search_page
 from helpers import utilities
 from helpers import constants
 from helpers import locators
+from fixtures import fixture
 sys.path.append("..")
 
 SUITE = {
@@ -15,7 +16,7 @@ SUITE = {
     "rank": "5"
 }
 
-url = base.config_reader('qa', 'base_url')
+url = fixture.url
 
 
 @lcc.test("Verify that for authenticated user an unpublished module displays all expected fields")
@@ -71,6 +72,10 @@ def view_on_portal_link_test(driver):
         r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
     check_that("View on Portal URL id",
                driver.current_url[42:], match_pattern(module_id_regex))
-    check_that("Module content", utilities.find_element_by_css(
+    try:
+        check_that("Module content", utilities.find_element_by_css(
         driver, locators.MODULE_BODY_ON_PORTAL_CSS).is_displayed(), is_(True))
-    utilities.switch_to_first_tab(driver)
+    except TimeoutException as e:
+        raise e
+    finally:
+        utilities.switch_to_first_tab(driver)

@@ -42,7 +42,6 @@ auth = base.config_reader('login', 'password')
 headless = base.config_reader('test_mode', 'headless')
 uploader_username = base.config_reader('uploader', 'username')
 uploader_password = base.config_reader('uploader', 'password')
-product_name = constants.product_name
 
 
 @lcc.fixture(scope="pre_run")
@@ -81,30 +80,40 @@ def setup_test_repo():
             "Test setup did not complete successfully, error encountered during 'pantheon push'")
         raise e
 
+
 # Creates products and add version to it using api endpoint
 @lcc.fixture(scope="session")
 def setup_test_products():
     lcc.log_info("Creating test product")
-    path_to_product_node = url + "content/products/" + product_name
+    path_to_product_node = url + "content/products/" + constants.product_name_uri
     lcc.log_info(
         "Test Product node being created at: %s" % path_to_product_node)
-    body_product = "name={0}&description={1}&sling%3AresourceType=pantheon%2Fproduct&jcr%3AprimaryType=pant%3Aproduct&locale=en-US&url={2}".format(
-        product_name, constants.new_product_description, product_name).encode()
-    header = {'Content-Type':'application/x-www-form-urlencoded'}
+
+    create_product_payload = {"name": constants.product_name,
+              "description": "AT test product description",
+              "sling:resourceType": "pantheon/product",
+              "jcr:primaryType": "pant:product",
+              "locale": "en-US",
+              "url": constants.product_name_uri}
+
     # Hit the api for create product
-    response = requests.post(path_to_product_node, data=body_product, auth=(username, auth), headers=header)
+    response = requests.post(path_to_product_node, data=create_product_payload, auth=(username, auth))
     check_that("The Product was created successfully",
-               response.status_code, equal_to(201))
+               response.status_code, any_of(equal_to(201), equal_to(200)))
     lcc.log_info("Creating version for the above product")
-    product_version = constants.product_version
-    path_to_version = path_to_product_node + "/versions/{}" .format(product_version)
-    lcc.log_info("Test version being created: %s" % path_to_version)
-    body_version = "name={0}&sling%3AresourceType=pantheon%2FproductVersion&jcr%3AprimaryType=pant%3AproductVersion"\
-        .format(product_version).encode()
+
+    path_to_version = path_to_product_node + "/versions/{}" .format(constants.product_version)
+    lcc.log_info("Product version being created for the above product: %s" % path_to_version)
+
+    create_version_payload = {"name": constants.product_version,
+                              "sling:resourceType": "pantheon/productVersion",
+                              "jcr:primaryType": "pant:productVersion"}
+
+
     # Hit the api for create version for the above product
-    response = requests.post(path_to_version, data=body_version, auth=(username, auth), headers=header)
+    response = requests.post(path_to_version, data=create_version_payload, auth=(username, auth))
     check_that("The Product version was created successfully",
-               response.status_code, equal_to(201))
+               response.status_code, any_of(equal_to(201), equal_to(200)))
 
 
 @lcc.fixture(names=("driver", "driver_obj"), scope="session")
@@ -138,11 +147,10 @@ def setup(setup_test_repo, setup_test_products):
     lcc.log_info("Deleting the test-repo from QA env...")
     path_to_repo = url + "content/repositories/" + test_repo_name
     lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
-    header = {
-        'content-type': "application/x-www-form-urlencoded"
-    }
-    body = "%3Aoperation=delete"
-    response = requests.post(path_to_repo, data=body, auth=(username, auth), headers=header)
+
+    body = {":operation": "delete"}
+    response = requests.post(path_to_repo, data=body, auth=(username, auth))
+
     check_that("The test repo was deleted successfully",
                response.status_code, equal_to(200))
     path_to_git_repo = url + "content/repositories/" + git_import_repo
@@ -156,10 +164,14 @@ def setup(setup_test_repo, setup_test_products):
         equal_to(200))
     # Deletes the products created using api endpoint
     lcc.log_info("Deleting test products created on QA...")
-    body = "%3Aoperation=delete"
-    path_to_new_product_node = url + "content/products/" + product_name
+
+    body = {":operation": "delete"}
+    path_to_new_product_node = url + "content/products/" + constants.product_name_uri
+
     lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
-    response1 = requests.post(path_to_new_product_node, data=body, auth=(username, auth), headers=header)
+
+    response1 = requests.post(path_to_new_product_node, data=body, auth=(username, auth))
+
     check_that("Test product version created was deleted successfully",
                response1.status_code, equal_to(200))
     lcc.log_info("Closing the browser window...")
