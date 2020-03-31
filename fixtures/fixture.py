@@ -1,7 +1,7 @@
 import lemoncheesecake.api as lcc
 import git
 import os
-import shutil
+import shutil, time
 import logging
 import requests
 import subprocess
@@ -101,7 +101,7 @@ def setup_test_products():
     check_that("The Product was created successfully",
                response.status_code, any_of(equal_to(201), equal_to(200)))
     lcc.log_info("Creating version for the above product")
-
+    time.sleep(5)
     path_to_version = path_to_product_node + "/versions/{}" .format(constants.product_version)
     lcc.log_info("Product version being created for the above product: %s" % path_to_version)
 
@@ -153,27 +153,25 @@ def setup(setup_test_repo, setup_test_products):
 
     check_that("The test repo was deleted successfully",
                response.status_code, equal_to(200))
-    path_to_git_repo = url + "content/repositories/" + git_import_repo
-    lcc.log_info("Test repo node being deleted at: %s" % path_to_git_repo)
-    response_git_delete = requests.post(
-        path_to_git_repo, data=body, auth=(
-            username, auth))
-    check_that(
-        "The git import test repo was deleted successfully from backend",
-        response_git_delete.status_code,
-        equal_to(200))
-    # Deletes the products created using api endpoint
-    lcc.log_info("Deleting test products created on QA...")
+    time.sleep(10)
 
+    path_to_git_repo = url + "content/repositories/" + git_import_repo
+    lcc.log_info("Test repo node used for git import functionality being deleted at: %s" % path_to_git_repo)
+    response_git_delete = requests.post(path_to_git_repo, data=body, auth=(username, auth))
+    check_that(
+        "The git import test repo was deleted successfully from backend", response_git_delete.status_code, equal_to(200))
+    time.sleep(10)
+    # Deletes the products created using api endpoint
+
+    lcc.log_info("Deleting test products created.. ")
     body = {":operation": "delete"}
     path_to_new_product_node = url + "content/products/" + constants.product_name_uri
-
     lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
 
     response1 = requests.post(path_to_new_product_node, data=body, auth=(username, auth))
-
     check_that("Test product version created was deleted successfully",
                response1.status_code, equal_to(200))
+
     lcc.log_info("Closing the browser window...")
     driver.close()
     driver.quit()
