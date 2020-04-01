@@ -1,7 +1,7 @@
 import lemoncheesecake.api as lcc
 import git
 import os
-import shutil
+import shutil, time
 import logging
 import requests
 import subprocess
@@ -11,6 +11,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from lemoncheesecake.matching import *
 from pages import login_page
+from helpers import constants
 
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
@@ -80,8 +81,43 @@ def setup_test_repo():
         raise e
 
 
+# Creates products and add version to it using api endpoint
+@lcc.fixture(scope="session")
+def setup_test_products():
+    lcc.log_info("Creating test product")
+    path_to_product_node = url + "content/products/" + constants.product_name_uri
+    lcc.log_info(
+        "Test Product node being created at: %s" % path_to_product_node)
+
+    create_product_payload = {"name": constants.product_name,
+              "description": "AT test product description",
+              "sling:resourceType": "pantheon/product",
+              "jcr:primaryType": "pant:product",
+              "locale": "en-US",
+              "url": constants.product_name_uri}
+
+    # Hit the api for create product
+    response = requests.post(path_to_product_node, data=create_product_payload, auth=(username, auth))
+    check_that("The Product was created successfully",
+               response.status_code, any_of(equal_to(201), equal_to(200)))
+    lcc.log_info("Creating version for the above product")
+    time.sleep(5)
+    path_to_version = path_to_product_node + "/versions/{}" .format(constants.product_version)
+    lcc.log_info("Product version being created for the above product: %s" % path_to_version)
+
+    create_version_payload = {"name": constants.product_version,
+                              "sling:resourceType": "pantheon/productVersion",
+                              "jcr:primaryType": "pant:productVersion"}
+
+
+    # Hit the api for create version for the above product
+    response = requests.post(path_to_version, data=create_version_payload, auth=(username, auth))
+    check_that("The Product version was created successfully",
+               response.status_code, any_of(equal_to(201), equal_to(200)))
+
+
 @lcc.fixture(names=("driver", "driver_obj"), scope="session")
-def setup(setup_test_repo):
+def setup(setup_test_repo, setup_test_products):
     lcc.log_info("Initialising the webdriver object, opening the browser...")
     # Initialise the global webdriver, open the browser and maximise the
     # browser window
@@ -111,19 +147,31 @@ def setup(setup_test_repo):
     lcc.log_info("Deleting the test-repo from QA env...")
     path_to_repo = url + "content/repositories/" + test_repo_name
     lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
+
     body = {":operation": "delete"}
     response = requests.post(path_to_repo, data=body, auth=(username, auth))
+
     check_that("The test repo was deleted successfully",
                response.status_code, equal_to(200))
+    time.sleep(10)
+
     path_to_git_repo = url + "content/repositories/" + git_import_repo
-    lcc.log_info("Test repo node being deleted at: %s" % path_to_git_repo)
-    response_git_delete = requests.post(
-        path_to_git_repo, data=body, auth=(
-            username, auth))
+    lcc.log_info("Test repo node used for git import functionality being deleted at: %s" % path_to_git_repo)
+    response_git_delete = requests.post(path_to_git_repo, data=body, auth=(username, auth))
     check_that(
-        "The git import test repo was deleted successfully from backend",
-        response_git_delete.status_code,
-        equal_to(200))
+        "The git import test repo was deleted successfully from backend", response_git_delete.status_code, equal_to(200))
+    time.sleep(10)
+    # Deletes the products created using api endpoint
+
+    lcc.log_info("Deleting test products created.. ")
+    body = {":operation": "delete"}
+    path_to_new_product_node = url + "content/products/" + constants.product_name_uri
+    lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
+
+    response1 = requests.post(path_to_new_product_node, data=body, auth=(username, auth))
+    check_that("Test product version created was deleted successfully",
+               response1.status_code, equal_to(200))
+
     lcc.log_info("Closing the browser window...")
     driver.close()
     driver.quit()
