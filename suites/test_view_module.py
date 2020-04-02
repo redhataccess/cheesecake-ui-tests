@@ -20,6 +20,7 @@ url = fixture.url
 
 
 @lcc.test("Verify that for authenticated user an unpublished module displays all expected fields")
+@lcc.depends_on('test_publish_module.publish_module')
 def authenticated_user_view_unpublished_module(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
@@ -43,6 +44,7 @@ def authenticated_user_view_unpublished_module(driver):
 
 
 @lcc.test("Verify that for authenticated user a published module displays all expected fields")
+@lcc.depends_on('test_publish_module.publish_module')
 def authenticated_user_view_published_module(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
@@ -62,6 +64,7 @@ def authenticated_user_view_published_module(driver):
 
 
 @lcc.test("Verify that view on portal link navigates to correct page and verify its content")
+@lcc.depends_on('test_publish_module.publish_module')
 def view_on_portal_link_test(driver):
     utilities.click_element_by_css_selector(
         driver, locators.VIEW_ON_PORTAL_LINK_CSS)
@@ -70,10 +73,11 @@ def view_on_portal_link_test(driver):
                contains_string(constants.view_on_portal_page_url))
     module_id_regex = re.compile(
         r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
+    current__module_id = driver.current_url.split("/topics/en-us/")[1]
     check_that("View on Portal URL id",
-               driver.current_url[42:], match_pattern(module_id_regex))
+               current__module_id, match_pattern(module_id_regex))
     try:
-        check_that("Module content", utilities.find_element_by_css(
+        check_that("Module content displayed on the Customer Portal", utilities.find_element_by_css(
         driver, locators.MODULE_BODY_ON_PORTAL_CSS).is_displayed(), is_(True))
     except TimeoutException as e:
         raise e
