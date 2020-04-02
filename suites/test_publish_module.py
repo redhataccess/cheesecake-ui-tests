@@ -2,7 +2,7 @@ import sys
 from helpers import base
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 from pages import search_page
 from helpers import utilities
 from helpers import constants
@@ -23,7 +23,9 @@ def no_product_info_publish_module(driver):
         utilities.click_element_by_link_text(
             driver, constants.unpublished_module)
     # If the title is not found on the first page, search for the title and then click
-    except TimeoutException as e:
+    except (TimeoutException, StaleElementReferenceException) as e:
+        lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
+        lcc.log_info(e)
         search_page.search_for_module_and_click(
             driver, constants.unpublished_module)
     utilities.click_element_by_css_selector(
@@ -37,6 +39,7 @@ def no_product_info_publish_module(driver):
 
 
 @lcc.test("Verify that user is able to successfully publish module with product metadata added")
+@lcc.depends_on('test_edit_metadata.edit_metadata_successfully')
 def publish_module(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
@@ -44,7 +47,9 @@ def publish_module(driver):
         utilities.click_element_by_link_text(
             driver, constants.module_to_be_published)
     # If the title is not found on the first page, search for the title and then click
-    except TimeoutException as e:
+    except (TimeoutException, StaleElementReferenceException) as e:
+        lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
+        lcc.log_info(e)
         search_page.search_for_module_and_click(
             driver, constants.module_to_be_published)
     utilities.wait(5)

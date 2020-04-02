@@ -60,8 +60,12 @@ DELETE_SUCCESS_MODAL_OK_XPATH = "//button[contains(text(),'OK')]"
 MODULE_LIST = "div#data-rows"
 CHECKBOX_BY_TITLE = "//a[contains(text(), 'module_title_placeholder')]/../..//preceding-sibling::div[@class='pf-c-check checkbox']"
 MODULES_WITH_SOURCE_NAME = "//span[contains(text(),'{}')]"
+MODULES_WITH_CURRENT_DATE = "//span[contains(text(),'{}')]"
 SEARCH_BOX_ID = "searchFilterInput"
-SEARCH_BUTTON_CSS = "button.pf-c-button.pf-m-control:nth-child(2)"
+SEARCH_BUTTON_CSS = "input#searchFilterInput+button.pf-c-button.pf-m-control"
+SORT_BY_DROPDOWN_CSS = "select#sortForm"
+SORT_ORDER_BUTTON_CSS = "select#sortForm+button.pf-c-button.pf-m-control"
+MODULE_TITLE_CSS = "div.pf-c-data-list__cell.pf-m-flex-2 a"
 
 # New Product page
 PRODUCT_NAME_TEXTBOX_ID = "product-name"

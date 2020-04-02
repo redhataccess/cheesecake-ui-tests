@@ -6,6 +6,10 @@ password=<Enter_password for pantheon2 login>
 username=<enter username for pantheon uploader>
 password=<enter password for pantheon uploader>
 
+[admin_login]
+username=<enter admin username required for teardown operations>
+password=<enter admin password required for teardown operations>
+
 [qa]
 base_url=https://qa.example.com/
 

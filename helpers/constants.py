@@ -1,14 +1,26 @@
 # Git import constants
-git_import_branch="master"
+# git_import_branch="master"
+git_import_branch="pantheon2_changes"
 git_import_submitted_modal_title="Request submitted."
-# This count specifies the number of modules being imported from 'git_import_repo_url'
-# which is being used to verify if git import functionality imported all the modules successfully.
-# You will have to change this number if you change the default repo used.
-git_import_repo_modules_count=10
+# List of titles imported using git import
+# Will need to be changed if using a different repo for testing git import
+imported_titles_list = [
+    "Stopping containers",
+    "Starting containers",
+    "Saving and importing images",
+    "Removing Images",
+    "Pulling images from registries",
+    "Listing images",
+    "Inspecting remote images",
+    "Inspecting local images",
+    "Running containers",
+    "Running containers without Docker"
+]
 git_import_last_module_uploaded = "Stopping containers"
 repo_url_empty_warning_message = "A repository url is required."
 invalid_git_repo_url = "_)(*&^%$#@!"
 repo_url_invalid_error_message = "The repository entered does not look like a git repo."
+sort_by_upload_date = "Uploaded date"
 
 # View module constants
 path_to_module_to_be_published = "repositories/pantheon-v2-test-repo/docs/assembly-2.adoc"

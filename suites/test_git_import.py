@@ -42,17 +42,11 @@ def git_import(driver):
     git_import_page.import_git_repo(
         driver, git_import_repo_URL, constants.git_import_branch)
     utilities.verify_and_accept_confirmation_modal(
-        driver, locators.GIT_IMPORT_REQUEST_SUBMITTED_TITLE, constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
+        driver, locators.GIT_IMPORT_REQUEST_SUBMITTED_TITLE,
+        constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
     utilities.wait(30)
     utilities.page_reload(driver)
-    try:
-        search_page.wait_for_module_to_load(
-            driver, constants.git_import_last_module_uploaded)
-    except TimeoutException as e:
-        utilities.wait(15)
-        utilities.page_reload(driver)
-        search_page.wait_for_module_to_load(
-            driver, constants.git_import_last_module_uploaded)
+    titles = search_page.get_list_of_recent_modules(driver)
+    check_that("Count of modules uploaded using git import", len(titles), equal_to(len(constants.imported_titles_list)))
+    check_that("List of modules uploaded using git import", titles, equal_to(constants.imported_titles_list))
 
-    check_that("All modules are imported", search_page.count_of_modules_with_the_source_name(
-        driver, git_import_repo_Name), equal_to(constants.git_import_repo_modules_count))

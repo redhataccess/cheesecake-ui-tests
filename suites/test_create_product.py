@@ -7,6 +7,7 @@ from helpers import locators
 import helpers.base as base
 import time
 import requests
+from fixtures import fixture
 sys.path.append("..")
 
 SUITE = {
@@ -15,9 +16,9 @@ SUITE = {
 }
 
 product_name = constants.new_product_name + utilities.generate_random_string(4)
-url = base.config_reader('qa', 'base_url')
-username = base.config_reader('login', 'username')
-auth = base.config_reader('login', 'password')
+url = fixture.url
+username = fixture.username
+auth = fixture.auth
 
 
 @lcc.test('Verify that Warning is displayed when no product name is being entered')
@@ -105,6 +106,6 @@ def teardown_suite():
     path_to_product_node = url + "content/products/" + product_name_node
     lcc.log_info("Test Product node being deleted at: %s" % path_to_product_node)
     body = {":operation": "delete"}
-    response = requests.post(path_to_product_node, data=body, auth=(username, auth))
+    response = requests.post(path_to_product_node, data=body, auth=(fixture.admin_username, fixture.admin_auth))
     check_that("The Product created was deleted successfully",
                response.status_code, equal_to(200))
