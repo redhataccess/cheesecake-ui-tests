@@ -1,7 +1,7 @@
 import sys
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 from pages import search_page
 from pages import display_module_page
 from helpers import utilities
@@ -27,13 +27,15 @@ SUITE = {
 def edit_metadata_blank_data(driver):
     utilities.click_element_by_link_text(driver, "Search")
     # Click on the title if it is displayed on the first page
+    utilities.wait(5)
     try:
         utilities.click_element_by_link_text(
             driver, constants.module_to_be_published)
     # If the title is not found on the first page, search for the title and then click
-    except TimeoutException as e:
-        search_page.search_for_module_and_click(
-            driver, constants.module_to_be_published)
+    except (TimeoutException, StaleElementReferenceException) as e:
+        lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
+        lcc.log_info(e)
+        search_page.search_for_module_and_click(driver, constants.module_to_be_published)
     # utilities.switch_to_latest_tab(driver)
     utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_DROPDOWN_CSS)
     utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_BUTTON_CSS)

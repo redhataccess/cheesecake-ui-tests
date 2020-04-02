@@ -42,6 +42,8 @@ auth = base.config_reader('login', 'password')
 headless = base.config_reader('test_mode', 'headless')
 uploader_username = base.config_reader('uploader', 'username')
 uploader_password = base.config_reader('uploader', 'password')
+admin_username = base.config_reader('admin_login', 'username')
+admin_auth = base.config_reader('admin_login', 'password')
 
 
 @lcc.fixture(scope="pre_run")
@@ -142,6 +144,7 @@ def setup(setup_test_repo, setup_test_products):
     login_page.login(driver)
     # the global driver object can be used globally in the tests.
     yield driver
+
     # This block of code is the teardown method which deletes the repository
     # created and closes the browser window.
     lcc.log_info("Deleting the test-repo from QA env...")
@@ -149,7 +152,7 @@ def setup(setup_test_repo, setup_test_products):
     lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
 
     body = {":operation": "delete"}
-    response = requests.post(path_to_repo, data=body, auth=(username, auth))
+    response = requests.post(path_to_repo, data=body, auth=(admin_username, admin_auth))
 
     check_that("The test repo was deleted successfully",
                response.status_code, equal_to(200))
@@ -157,7 +160,7 @@ def setup(setup_test_repo, setup_test_products):
 
     path_to_git_repo = url + "content/repositories/" + git_import_repo
     lcc.log_info("Test repo node used for git import functionality being deleted at: %s" % path_to_git_repo)
-    response_git_delete = requests.post(path_to_git_repo, data=body, auth=(username, auth))
+    response_git_delete = requests.post(path_to_git_repo, data=body, auth=(admin_username, admin_auth))
     check_that(
         "The git import test repo was deleted successfully from backend", response_git_delete.status_code, equal_to(200))
     time.sleep(10)
@@ -168,7 +171,7 @@ def setup(setup_test_repo, setup_test_products):
     path_to_new_product_node = url + "content/products/" + constants.product_name_uri
     lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
 
-    response1 = requests.post(path_to_new_product_node, data=body, auth=(username, auth))
+    response1 = requests.post(path_to_new_product_node, data=body, auth=(admin_username, admin_auth))
     check_that("Test product version created was deleted successfully",
                response1.status_code, equal_to(200))
 
