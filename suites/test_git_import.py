@@ -1,23 +1,24 @@
 import sys
 from helpers import base
-from selenium.common.exceptions import TimeoutException
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 from pages import git_import_page
-from pages import search_page
 from helpers import utilities
 from helpers import constants
 from helpers import locators
+import requests
+from fixtures import fixture
 sys.path.append("..")
 
 SUITE = {
     "description": "Git import for authenticated user",
     "rank": "6"
 }
-git_import_repo_URL = base.config_reader(
-    'git_import_test_repo', 'git_import_repo_url')
-git_import_repo_Name = base.config_reader(
-    'git_import_test_repo', 'git_import_repo_name')
+git_import_repo_URL = base.config_reader('git_import_test_repo', 'git_import_repo_url')
+git_import_repo_Name = base.config_reader('git_import_test_repo', 'git_import_repo_name')
+git_import_repo_branch = base.config_reader('git_import_test_repo', 'git_import_repo_branch')
+number_of_modules = base.config_reader('git_import_test_repo', 'number_of_modules_imported')
+module_title_prefix = constants.module_title_prefix
 
 
 @lcc.test("Verify that warning message should be displayed when repository URL is empty")
@@ -32,7 +33,7 @@ def git_import_for_empty_git_repo(driver):
 @lcc.test("Verify that error message should be displayed when repository url has invalid")
 def git_import_for_invalid_git_repo_url(driver):
     git_import_page.import_git_repo(
-        driver, constants.invalid_git_repo_url, constants.git_import_branch)
+        driver, constants.invalid_git_repo_url, git_import_repo_branch)
     check_that("Invalid git repo url error message", utilities.get_text_by_css(
         driver, locators.REPO_URL_INVALID_ERROR_CSS), contains_string(constants.repo_url_invalid_error_message))
 
@@ -40,19 +41,25 @@ def git_import_for_invalid_git_repo_url(driver):
 @lcc.test("Verify that user should be able to upload module using git import")
 def git_import(driver):
     git_import_page.import_git_repo(
-        driver, git_import_repo_URL, constants.git_import_branch)
+        driver, git_import_repo_URL, git_import_repo_branch)
     utilities.verify_and_accept_confirmation_modal(
-        driver, locators.GIT_IMPORT_REQUEST_SUBMITTED_TITLE, constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
+        driver, locators.GIT_IMPORT_REQUEST_SUBMITTED_TITLE,
+        constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
     utilities.wait(30)
     utilities.page_reload(driver)
-    try:
-        search_page.wait_for_module_to_load(
-            driver, constants.git_import_last_module_uploaded)
-    except TimeoutException as e:
-        utilities.wait(15)
-        utilities.page_reload(driver)
-        search_page.wait_for_module_to_load(
-            driver, constants.git_import_last_module_uploaded)
-
-    check_that("All modules are imported", search_page.count_of_modules_with_the_source_name(
-        driver, git_import_repo_Name), equal_to(constants.git_import_repo_modules_count))
+    search_url = fixture.url + 'modules.json?search=' + module_title_prefix
+    lcc.log_info("Git import functionality verified using endpoint: %s" % search_url)
+    imported_modules_request = requests.get(search_url)
+    imported_modules = imported_modules_request.json()
+    total_modules = imported_modules["size"]
+    lcc.log_info("Number of modules listed with the similar title name: %s" % str(total_modules))
+    lcc.log_info("Capturing the number of modules uploaded from the repo: %s ..." % git_import_repo_Name)
+    results = imported_modules["results"]
+    imported_modules_array = []
+    for result in results:
+        if result["pant:transientSourceName"] == git_import_repo_Name:
+            imported_modules_array.append(result["jcr:title"])
+    lcc.log_info("Modules imported successfully via git import: %s with title prefix" % str(imported_modules_array))
+    lcc.log_info("Number of modules imported successfully from repo: %s is %s" % (git_import_repo_URL,
+                                                                                  str(len(imported_modules_array))))
+    check_that("Count of modules uploaded using git import", len(imported_modules_array), equal_to(int(number_of_modules)))

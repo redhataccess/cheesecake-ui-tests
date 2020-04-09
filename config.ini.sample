@@ -32,4 +32,5 @@ repo_name=<Repository name as mentioned in pantheon2.yml in the above test repo>
 [git_import_test_repo]
 git_import_repo_url=<URL for test repo to be used, this is a required value for the tests to execute>
 git_import_repo_name=<Repository name as mentioned in pantheon2.yml in the above test repo>
-
+git_import_repo_branch=<specify the branch name from which you want to import, eg. master>
+number_of_modules_imported=<specify the known number of modules you are uploading, eg. 10>

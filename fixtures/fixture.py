@@ -18,9 +18,7 @@ logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
 test_repo_URL = base.config_reader('test_repo', 'test_repo_url')
 test_repo_name = base.config_reader('test_repo', 'repo_name')
-git_import_repo = base.config_reader(
-    'git_import_test_repo',
-    'git_import_repo_name')
+git_import_repo = base.config_reader('git_import_test_repo', 'git_import_repo_name')
 
 # setting the appropriate URL value from env variable
 env = os.environ['PANTHEON_ENV']
@@ -153,7 +151,6 @@ def setup(setup_test_repo, setup_test_products):
 
     body = {":operation": "delete"}
     response = requests.post(path_to_repo, data=body, auth=(admin_username, admin_auth))
-
     check_that("The test repo was deleted successfully",
                response.status_code, equal_to(200))
     time.sleep(10)
