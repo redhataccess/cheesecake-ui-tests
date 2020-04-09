@@ -1,7 +1,6 @@
 import sys
 from helpers import locators
 from helpers import utilities
-from helpers import constants
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -14,20 +13,22 @@ def wait_for_module_to_load(driver, title):
     WebDriverWait(driver, 20).until(
         ec.presence_of_element_located((By.LINK_TEXT, title)))
 
+
 # Search for a module by title and click on it
 def search_for_module_and_click(driver, title):
     utilities.enter_text_by_id(driver, locators.SEARCH_BOX_ID, title)
     utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
     utilities.click_element_by_link_text(driver, title)
 
-def get_list_of_recent_modules(driver):
+
+# this method will wait for the last known module to show up on the UI in the list of modules
+# and then get you the list of top 10 modules showing up on the UI.
+def get_list_of_recent_modules(driver, last_known_module_uploaded):
     try:
-        wait_for_module_to_load(
-            driver, constants.git_import_last_module_uploaded)
+        wait_for_module_to_load(driver, last_known_module_uploaded)
     except TimeoutException as e:
         utilities.wait(15)
-        wait_for_module_to_load(
-            driver, constants.git_import_last_module_uploaded)
+        wait_for_module_to_load(driver, last_known_module_uploaded)
     titles_list = driver.find_elements_by_css_selector(locators.MODULE_TITLE_CSS)
     imported_titles = []
     for t in titles_list[:10]:

@@ -18,9 +18,7 @@ logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
 test_repo_URL = base.config_reader('test_repo', 'test_repo_url')
 test_repo_name = base.config_reader('test_repo', 'repo_name')
-git_import_repo = base.config_reader(
-    'git_import_test_repo',
-    'git_import_repo_name')
+git_import_repo = base.config_reader('git_import_test_repo', 'git_import_repo_name')
 
 # setting the appropriate URL value from env variable
 env = os.environ['PANTHEON_ENV']
