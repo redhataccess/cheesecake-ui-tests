@@ -1,10 +1,13 @@
 import sys
 from helpers import locators
 from helpers import utilities
+import lemoncheesecake.api as lcc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
+import lemoncheesecake.api as lcc
+
 sys.path.append("..")
 
 
@@ -16,10 +19,13 @@ def wait_for_module_to_load(driver, title):
 
 # Search for a module by title and click on it
 def search_for_module_and_click(driver, title):
-    utilities.enter_text_by_id(driver, locators.SEARCH_BOX_ID, title)
-    utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
-    utilities.click_element_by_link_text(driver, title)
-
+    try:
+        utilities.enter_text_by_id(driver, locators.SEARCH_BOX_ID, title)
+        utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
+        utilities.click_element_by_link_text(driver, title)
+    except TimeoutException as e:
+        lcc.log_info("It appears that the module was not found, please check your test data.")
+        raise e
 
 # this method will wait for the last known module to show up on the UI in the list of modules
 # and then get you the list of top 10 modules showing up on the UI.
@@ -34,5 +40,21 @@ def get_list_of_recent_modules(driver, last_known_module_uploaded):
     for t in titles_list[:10]:
         imported_titles.append(t.text)
     return imported_titles
+
+# Filter the modules listed on the search page by module type
+def filter_by_module_type(driver, module_type):
+    utilities.wait(2)
+    utilities.select_value_from_dropdown(driver, locators.MODULE_TYPE_DROPDOWN_CSS, module_type)
+    utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
+    utilities.wait(3)
+
+# Returns a list of module types of the modules currently listed on the search page
+def get_all_module_types_on_page(driver):
+    list = driver.find_elements_by_css_selector(locators.MODULE_TYPE_LIST_CSS)
+    type_array = []
+    for i in list:
+        type_array.append(i.text)
+    return (type_array)
+
 
 

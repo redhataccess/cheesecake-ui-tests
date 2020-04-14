@@ -2,9 +2,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from lemoncheesecake.matching import *
-from selenium.webdriver.support.ui import Select
 import lemoncheesecake.api as lcc
-from datetime import datetime
+from selenium.webdriver.support.ui import Select
+from helpers.constants import *
+import requests
 import random
 import string
 import time
@@ -152,24 +153,3 @@ def generate_random_string(string_length):
     letters = string.ascii_lowercase
     random_string = ''.join(random.choice(letters) for i in range(string_length))
     return random_string
-
-def get_current_date_time(now_time):
-    # datetime object containing current date and time
-    print ("now =", now_time)
-    dt_string = now_time.strftime("%b %d, %Y %H:%M")
-    print ("date and time =", dt_string)
-    return dt_string
-
-def get_current_time_plus_one(time):
-    min_plus_one = str(time.minute + 1)
-    print ("min = ", min_plus_one)
-    dt_string_plus1 = time.strftime("%b %d, %Y %H:") + min_plus_one
-    print ("plus one =", dt_string_plus1)
-    return dt_string_plus1
-
-def get_current_time_minus_one(time):
-    min_minus_one = str(time.minute - 1)
-    print ("min = ", min_minus_one)
-    dt_string_minus1 = time.strftime("%b %d, %Y %H:") + min_minus_one
-    print ("minus one =", dt_string_minus1)
-    return dt_string_minus1

@@ -4,3 +4,4 @@ webdriver_manager
 git-python
 requests
 pyyaml
+urllib3
