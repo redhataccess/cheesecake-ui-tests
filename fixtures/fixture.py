@@ -1,7 +1,7 @@
 import lemoncheesecake.api as lcc
 import git
 import os
-import shutil, time
+import shutil, time, datetime
 import logging
 import requests
 import subprocess
@@ -57,7 +57,8 @@ def setup_test_repo():
     repo = git.Repo.init(project_dir_git)
     origin = repo.create_remote('origin', test_repo_URL)
     origin.fetch()
-    origin.pull(origin.refs[0].remote_head)
+    #origin.pull(origin.refs[0].remote_head)
+    origin.pull('master')
 
     logging.info("Installing the Pantheon uploader script..")
     try:
@@ -75,6 +76,8 @@ def setup_test_repo():
             ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
                                                                                       uploader_password,
                                                                                       url)), shell=True)
+        os.mkdir('screenshots')
+        os.chdir('screenshots')
     except subprocess.CalledProcessError as e:
         logging.info(
             "Test setup did not complete successfully, error encountered during 'pantheon push'")

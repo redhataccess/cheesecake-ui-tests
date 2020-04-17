@@ -7,12 +7,13 @@ from pages import display_module_page
 from helpers import utilities
 from helpers import constants
 from helpers import locators
+from helpers.base_screenshot import Screenshot
 sys.path.append("..")
 
-SUITE = {
-    "description": "Edit metadata for a module",
-    "rank": "3"
-}
+# SUITE = {
+#     "description": "Edit metadata for a module",
+#     "rank": "3"
+# }
 
 # Test flow for the suite:
 # 1. With all the fields on edit metadata modal blank click on submit
@@ -23,89 +24,88 @@ SUITE = {
 # 6. Populate all the fields on edit metadata with valid data and click on submit
 
 
-@lcc.test("Verify that warning should be displayed on Edit Metadata modal when no data is entered")
-def edit_metadata_blank_data(driver):
-    utilities.click_element_by_link_text(driver, "Search")
-    # Click on the title if it is displayed on the first page
-    utilities.wait(5)
-    try:
-        utilities.click_element_by_link_text(
-            driver, constants.module_to_be_published)
-    # If the title is not found on the first page, search for the title and then click
-    except (TimeoutException, StaleElementReferenceException) as e:
-        lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
-        lcc.log_info(e)
-        search_page.search_for_module_and_click(driver, constants.module_to_be_published)
-    # utilities.switch_to_latest_tab(driver)
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_DROPDOWN_CSS)
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_BUTTON_CSS)
-    check_that("Edit metadata modal title", utilities.get_text_by_css(driver, locators.EDIT_METADATA_MODAL_TITLE_CSS),
-               contains_string(constants.edit_metadata_modal_title))
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_SAVE_CSS)
-    check_that("Warning displayed", utilities.get_text_by_css(driver, locators.WARNING_ALERT_CSS),
-               contains_string(constants.edit_metadata_modal_warning))
+@lcc.suite("Suite: Edit metadata for a module", rank="3")
+class test_edit_metadata(Screenshot):
+    driver = lcc.inject_fixture("driver_obj")
 
-@lcc.test("Verify that warning should be displayed on Edit Metadata modal when URL fragment field is blank")
-def edit_metadata_empty_url_fragment(driver):
-    display_module_page.reset_edit_metadata_from(driver)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
-    # utilities.enter_text_by_css_selector(driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_SAVE_CSS)
-    check_that("Warning displayed", utilities.get_text_by_css(driver, locators.WARNING_ALERT_CSS),
-               contains_string(constants.edit_metadata_modal_warning))
+    @lcc.test("Verify that warning should be displayed on Edit Metadata modal when no data is entered")
+    def edit_metadata_blank_data(self):
+        utilities.click_element_by_link_text(self.driver, "Search")
+        # Click on the title if it is displayed on the first page
+        utilities.wait(5)
+        try:
+            utilities.click_element_by_link_text(
+                self.driver, constants.module_to_be_published)
+        # If the title is not found on the first page, search for the title and then click
+        except (TimeoutException, StaleElementReferenceException) as e:
+            lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
+            #lcc.log_info(str(e))
+            search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
+        # utilities.switch_to_latest_tab(self.driver)
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_DROPDOWN_CSS)
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_BUTTON_CSS)
+        check_that("Edit metadata modal title", utilities.get_text_by_css(self.driver, locators.EDIT_METADATA_MODAL_TITLE_CSS),
+                   contains_string(constants.edit_metadata_modal_title))
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_SAVE_CSS)
+        check_that("Warning displayed", utilities.get_text_by_css(self.driver, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.edit_metadata_modal_warning))
 
+    @lcc.test("Verify that warning should be displayed on Edit Metadata modal when URL fragment field is blank")
+    def edit_metadata_empty_url_fragment(self):
+        display_module_page.reset_edit_metadata_from(self.driver)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
+        # utilities.enter_text_by_css_selector(self.driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_SAVE_CSS)
+        check_that("Warning displayed", utilities.get_text_by_css(self.driver, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.edit_metadata_modal_warning))
 
-@lcc.test("Verify that warning should be displayed on Edit Metadata modal when Product name field is blank")
-def edit_metadata_empty_productname(driver):
-    display_module_page.reset_edit_metadata_from(driver)
-    # utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
-    # utilities.select_value_from_dropdown(driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
-    utilities.enter_text_by_css_selector(driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_SAVE_CSS)
-    check_that("Warning displayed", utilities.get_text_by_css(driver, locators.WARNING_ALERT_CSS),
-               contains_string(constants.edit_metadata_modal_warning))
+    @lcc.test("Verify that warning should be displayed on Edit Metadata modal when Product name field is blank")
+    def edit_metadata_empty_productname(self):
+        display_module_page.reset_edit_metadata_from(self.driver)
+        # utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
+        # utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
+        utilities.enter_text_by_css_selector(self.driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_SAVE_CSS)
+        check_that("Warning displayed", utilities.get_text_by_css(self.driver, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.edit_metadata_modal_warning))
 
+    @lcc.test("Verify that warning should be displayed on Edit Metadata modal when Product version field is blank")
+    def edit_metadata_empty_version(self):
+        display_module_page.reset_edit_metadata_from(self.driver)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
+        # utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
+        utilities.enter_text_by_css_selector(self.driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_SAVE_CSS)
+        check_that("Warning displayed", utilities.get_text_by_css(self.driver, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.edit_metadata_modal_warning))
 
-@lcc.test("Verify that warning should be displayed on Edit Metadata modal when Product version field is blank")
-def edit_metadata_empty_version(driver):
-    display_module_page.reset_edit_metadata_from(driver)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
-    # utilities.select_value_from_dropdown(driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
-    utilities.enter_text_by_css_selector(driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_SAVE_CSS)
-    check_that("Warning displayed", utilities.get_text_by_css(driver, locators.WARNING_ALERT_CSS),
-               contains_string(constants.edit_metadata_modal_warning))
+    @lcc.test("Verify that warning should be displayed on Edit Metadata modal when Usecase field is blank")
+    def edit_metadata_empty_usecase(self):
+        display_module_page.reset_edit_metadata_from(self.driver)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
+        # utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
+        utilities.enter_text_by_css_selector(self.driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_SAVE_CSS)
+        check_that("Warning displayed", utilities.get_text_by_css(self.driver, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.edit_metadata_modal_warning))
 
-
-@lcc.test("Verify that warning should be displayed on Edit Metadata modal when Usecase field is blank")
-def edit_metadata_empty_usecase(driver):
-    display_module_page.reset_edit_metadata_from(driver)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
-    # utilities.select_value_from_dropdown(driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
-    utilities.enter_text_by_css_selector(driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_SAVE_CSS)
-    check_that("Warning displayed", utilities.get_text_by_css(driver, locators.WARNING_ALERT_CSS),
-               contains_string(constants.edit_metadata_modal_warning))
-
-
-@lcc.test("Verify that user should be able to add product metadata successfully")
-def edit_metadata_successfully(driver):
-    display_module_page.reset_edit_metadata_from(driver)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
-    utilities.select_value_from_dropdown(driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
-    utilities.enter_text_by_css_selector(driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
-    utilities.click_element_by_css_selector(driver, locators.EDIT_METADATA_SAVE_CSS)
-    check_that("Success message displayed",
-               utilities.get_text_by_css(driver, locators.UPDATE_SUCCESS_MESSAGE_CSS),
-               contains_string(constants.success_message))
-    check_that("Product name reflected on displayed module page", utilities.get_text_by_css(driver, locators.PRODUCT_INFO_CSS),
-               contains_string(constants.product_name))
-    check_that("Product version reflected on displayed module page",
-               utilities.get_text_by_css(driver, locators.PRODUCT_INFO_CSS), contains_string(constants.product_version))
-
+    @lcc.test("Verify that user should be able to add product metadata successfully")
+    def edit_metadata_successfully(self):
+        display_module_page.reset_edit_metadata_from(self.driver)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_NAME_DROPDOWN_CSS, constants.product_name)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_VERSION_DROPDOWN_CSS, constants.product_version)
+        utilities.select_value_from_dropdown(self.driver, locators.PRODUCT_USECASE_DROPDOWN_CSS, constants.use_case)
+        utilities.enter_text_by_css_selector(self.driver, locators.PRODUCT_URLFRAGMENT_CSS, constants.url_fragment)
+        utilities.click_element_by_css_selector(self.driver, locators.EDIT_METADATA_SAVE_CSS)
+        check_that("Success message displayed",
+                   utilities.get_text_by_css(self.driver, locators.UPDATE_SUCCESS_MESSAGE_CSS),
+                   contains_string(constants.success_message))
+        check_that("Product name reflected on displayed module page", utilities.get_text_by_css(self.driver, locators.PRODUCT_INFO_CSS),
+                   contains_string(constants.product_name))
+        check_that("Product version reflected on displayed module page",
+                   utilities.get_text_by_css(self.driver, locators.PRODUCT_INFO_CSS), contains_string(constants.product_version))
