@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
+import lemoncheesecake.api as lcc
+
 sys.path.append("..")
 
 
@@ -16,10 +18,13 @@ def wait_for_module_to_load(driver, title):
 
 # Search for a module by title and click on it
 def search_for_module_and_click(driver, title):
-    utilities.enter_text_by_id(driver, locators.SEARCH_BOX_ID, title)
-    utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
-    utilities.click_element_by_link_text(driver, title)
-
+    try:
+        utilities.enter_text_by_id(driver, locators.SEARCH_BOX_ID, title)
+        utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
+        utilities.click_element_by_link_text(driver, title)
+    except TimeoutException as e:
+        lcc.log_info("It appears that the module was not found, please check your test data.")
+        raise e
 
 # this method will wait for the last known module to show up on the UI in the list of modules
 # and then get you the list of top 10 modules showing up on the UI.
