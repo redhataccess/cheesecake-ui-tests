@@ -31,10 +31,17 @@ UPDATE_SUCCESS_MESSAGE_CSS = "div.pf-c-alert.pf-m-success div.pf-c-alert__descri
 PRODUCT_INFO_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.pf-c-data-list__item-content div.pf-c-data-list__cell.pf-m-flex-2 span"
 COPY_URL_LINK_CSS = "a#permanentURL"
 VIEW_ON_PORTAL_LINK_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(4) span:nth-child(1) a"
+UPLOADED_DATE_MODULE_PAGE_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.pf-c-data-list__item-content div.pf-c-data-list__cell:nth-child(3)"
+PUBLISHED_DATE_MODULE_PAGE_CSS = "div.pf-c-data-list__item-row:nth-child(2) div div.pf-c-data-list__cell:nth-child(2) span"
 
 # Customer portal
 MODULE_BODY_ON_PORTAL_CSS = "article#rhdocs"
 MODULE_TITLE_ON_PORTAL_CSS= "header#rhdocs-header"
+PRODUCT_NAME_CSS = "span.rhdocs-product-name"
+PRODUCT_VERSION_CSS = "span.rhdocs-product-version"
+UPDATED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-updated-date"
+PUBLISHED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-published-date"
+MODULE_NOT_FOUND_CSS = "div.fcc_module_body"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
