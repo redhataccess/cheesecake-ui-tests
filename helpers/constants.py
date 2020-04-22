@@ -33,6 +33,7 @@ new_product_name = "A Test Product RH_"
 new_product_description = "Test Description"
 blank_product_name_warning = "A Product name is required"
 duplicate_product_name_warning = "Duplicated Product name"
+module_not_found = "Module not found"
 
 
 # Constants for future use
