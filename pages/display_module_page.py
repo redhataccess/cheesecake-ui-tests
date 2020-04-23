@@ -38,3 +38,4 @@ def add_metadata_and_publish(driver):
     utilities.wait(2)
     utilities.click_element_by_css_selector(driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
     utilities.page_reload(driver)
+    utilities.wait(5)

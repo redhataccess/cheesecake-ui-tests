@@ -10,9 +10,12 @@ sort_by_upload_date = "Uploaded date"
 
 
 # View module constants
-path_to_module_to_be_published = "repositories/uploader-sample-repo-pantheon2/modules/submodules/submodules1/concept_explanation-of-ranks-in-metadata-server-configuration.adoc"
-module_display_page_path_unpublished = "pantheon/#/repositories/uploader-sample-repo-pantheon2/modules/submodules/submodules1/procedure_creating-ceph-file-systems.adoc"
-module_display_page_path_after_published = "pantheon/#/repositories/uploader-sample-repo-pantheon2/modules/submodules/submodules1/concept_explanation-of-ranks-in-metadata-server-configuration.adoc"
+path_to_module_to_be_published = "repositories/uploader-sample-repo-pantheon2/modules/submodules/submodules1/" \
+                                 "concept_explanation-of-ranks-in-metadata-server-configuration.adoc"
+module_display_page_path_unpublished = "pantheon/#/repositories/uploader-sample-repo-pantheon2/modules/submodules/" \
+                                       "submodules1/procedure_creating-ceph-file-systems.adoc"
+module_display_page_path_after_published = "pantheon/#/repositories/uploader-sample-repo-pantheon2/modules/submodules/" \
+                                           "submodules1/concept_explanation-of-ranks-in-metadata-server-configuration.adoc"
 view_on_portal_link = "View on Customer Portal"
 copy_url_link = "Copy permanent URL"
 view_on_portal_page_url = "/topics/en-us/"
