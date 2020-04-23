@@ -84,7 +84,6 @@ class test_publish_module(Screenshot):
         published_date_module_page_txt = (utilities.get_text_by_css(
             self.driver, locators.PUBLISHED_DATE_MODULE_PAGE_CSS)).rstrip('\n Version 1')
         lcc.log_info("captured published date from module info page : " + published_date_module_page_txt)
-        # print("captured published date from module info page : " + published_date_module_page_txt)
         test_publish_module.published_date_module_page = datetime.datetime.strptime(
             published_date_module_page_txt, "%a %b %d %Y %H:%M:%S %Z%z")
         test_publish_module.published_date_module_page = datetime.datetime.strftime(
