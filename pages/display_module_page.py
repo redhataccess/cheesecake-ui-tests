@@ -2,6 +2,7 @@ from helpers import utilities
 from helpers import locators
 from helpers import constants
 import lemoncheesecake.api as lcc
+from lemoncheesecake.matching import *
 import urllib.parse as urllib
 import sys
 sys.path.append("..")
@@ -37,5 +38,8 @@ def add_metadata_and_publish(driver):
                                                 constants.use_case, constants.url_fragment)
     utilities.wait(2)
     utilities.click_element_by_css_selector(driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
+    utilities.wait(3)
     utilities.page_reload(driver)
+    utilities.wait(3)
+    assert_that("Button contains text", utilities.get_text_by_css(driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Unpublish"))
     utilities.wait(5)

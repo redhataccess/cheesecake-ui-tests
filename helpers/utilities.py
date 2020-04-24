@@ -116,7 +116,7 @@ def get_text_by_xpath(driver, locator):
 
 
 def get_text_by_css(driver, locator):
-    text = driver.find_element_by_css_selector(locator).text
+    text = find_element_by_css(driver, locator).text
     return text
 
 
