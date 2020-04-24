@@ -62,8 +62,8 @@ class test_view_module(Screenshot):
                 self.driver, constants.module_to_be_published)
         utilities.find_element_by_css(
             self.driver, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
-        # check_that("URL", driver.current_url,
-        #            contains_string(url + constants.module_display_page_path_published))
+        check_that("URL", self.driver.current_url,
+                   contains_string(url + constants.module_display_page_path_after_published))
         check_that("Button", utilities.get_text_by_css(
             self.driver, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS), contains_string("View"))
         check_that("Button", utilities.get_text_by_css(

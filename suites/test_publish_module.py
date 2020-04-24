@@ -74,8 +74,7 @@ class test_publish_module(Screenshot):
         # get UPLOADED date in variable and covert into desired format- (DD Month YYYY)
         uploaded_date_module_page_txt = (utilities.get_text_by_css(
             self.driver, locators.UPLOADED_DATE_MODULE_PAGE_CSS))
-        lcc.log_info("captured uploaded date from module info page..")
-        print("captured uploaded date from module info page : " + uploaded_date_module_page_txt)
+        lcc.log_info("captured uploaded date from module info page : " + uploaded_date_module_page_txt)
         test_publish_module.uploaded_date_module_page = datetime.datetime.strptime(
             uploaded_date_module_page_txt, "%a %b %d %Y %H:%M:%S %Z%z")
         test_publish_module.uploaded_date_module_page = datetime.datetime.strftime(
@@ -84,8 +83,7 @@ class test_publish_module(Screenshot):
         # get published date in variable and convert into desired format-(DD Month YYYY)
         published_date_module_page_txt = (utilities.get_text_by_css(
             self.driver, locators.PUBLISHED_DATE_MODULE_PAGE_CSS)).rstrip('\n Version 1')
-        lcc.log_info("captured published date from module info page..")
-        print("captured published date from module info page : " + published_date_module_page_txt)
+        lcc.log_info("captured published date from module info page : " + published_date_module_page_txt)
         test_publish_module.published_date_module_page = datetime.datetime.strptime(
             published_date_module_page_txt, "%a %b %d %Y %H:%M:%S %Z%z")
         test_publish_module.published_date_module_page = datetime.datetime.strftime(

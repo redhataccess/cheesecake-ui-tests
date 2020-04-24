@@ -1,6 +1,7 @@
 import sys
 from helpers import locators
 from helpers import utilities
+import lemoncheesecake.api as lcc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -39,5 +40,21 @@ def get_list_of_recent_modules(driver, last_known_module_uploaded):
     for t in titles_list[:10]:
         imported_titles.append(t.text)
     return imported_titles
+
+# Filter the modules listed on the search page by module type
+def filter_by_module_type(driver, module_type):
+    utilities.wait(2)
+    utilities.select_value_from_dropdown(driver, locators.MODULE_TYPE_DROPDOWN_CSS, module_type)
+    utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
+    utilities.wait(3)
+
+# Returns a list of module types of the modules currently listed on the search page
+def get_all_module_types_on_page(driver):
+    list = driver.find_elements_by_css_selector(locators.MODULE_TYPE_LIST_CSS)
+    type_array = []
+    for i in list:
+        type_array.append(i.text)
+    return (type_array)
+
 
 
