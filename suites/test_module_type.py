@@ -10,6 +10,7 @@ from helpers import utilities
 from helpers import constants
 from helpers import locators
 from fixtures import fixture
+from selenium.webdriver.common.by import By
 sys.path.append("..")
 
 # SUITE = {
@@ -55,7 +56,7 @@ class test_module_type(Screenshot):
     @lcc.test(
         "Verify module type: CONCEPT shows correctly when mentioned inside asccidoc file as ':pantheon-module-type: CONCEPT'")
     def verify_module_type_from_backend_module_type_inside_file_con(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
         search_page.filter_by_module_type(self.driver, "Concept")
         open_module_display_page(self.driver, constants.con_module_title1)
         verify_module_type_from_backend(self.driver, "Concept")
@@ -85,7 +86,7 @@ class test_module_type(Screenshot):
     @lcc.test(
         "Verify module type: PROCEDURE shows correctly when mentioned inside asccidoc file as ':pantheon-module-type: PROCEDURE'")
     def verify_module_type_from_backend_module_type_inside_file_proc(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
         search_page.filter_by_module_type(self.driver, "Procedure")
         open_module_display_page(self.driver, constants.proc_module_title1)
         verify_module_type_from_backend(self.driver, "Procedure")
@@ -114,14 +115,14 @@ class test_module_type(Screenshot):
     @lcc.test(
         "Verify module type: REFERENCE shows correctly when mentioned inside asccidoc file as ':pantheon-module-type: REFERENCE'")
     def verify_module_type_from_backend_module_type_inside_file_ref(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
         search_page.filter_by_module_type(self.driver, "Reference")
         open_module_display_page(self.driver, constants.ref_module_title1)
         verify_module_type_from_backend(self.driver, "Reference")
 
     @lcc.test("Verify module with invalid type defined")
     def verify_no_module_type(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
         try:
             search_page.search_for_module_and_click(self.driver, constants.no_module_type_title)
         except (TimeoutException, StaleElementReferenceException) as e:
@@ -135,7 +136,7 @@ class test_module_type(Screenshot):
         path = path_to_adoc_file + constants.path_for_module_type
         response = requests.get(url + path)
         check_that("Module type node in backend", response.status_code, equal_to(404))
-        module_type_on_display_page = utilities.get_text_by_css(self.driver, locators.VIEW_MODULE_TYPE_CSS)
+        module_type_on_display_page = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.VIEW_MODULE_TYPE_CSS)
         check_that("Module type displayed on UI ", module_type_on_display_page.upper(), equal_to("-"))
 
 # Helper methods for actual tests
@@ -144,7 +145,7 @@ class test_module_type(Screenshot):
 # This method will click on given title to open the module display page for it
 def open_module_display_page(driver, title):
     try:
-        utilities.click_element_by_link_text(driver, title)
+        utilities.click_element(driver, By.LINK_TEXT, title)
     # If the title is not found on the first page, search for the title and then click
     except (TimeoutException, StaleElementReferenceException) as e:
         lcc.log_error("Module not listed on listed in the results after applying module type filter.")
@@ -165,7 +166,7 @@ def verify_module_type_from_backend(driver, module_type):
 
 # This method will verify the module type shown for the module, user is currently landed on
 def verify_module_type_from_UI(driver, module_type):
-    module_type_on_display_page = utilities.get_text_by_css(driver, locators.VIEW_MODULE_TYPE_CSS)
+    module_type_on_display_page = utilities.get_text(driver, By.CSS_SELECTOR, locators.VIEW_MODULE_TYPE_CSS)
     lcc.log_info("Verifying that the module type is displayed on the UI as: %s " % module_type)
     check_that("Module type displayed on UI ", module_type_on_display_page.upper(),
                equal_to(module_type.upper()))
@@ -175,7 +176,7 @@ def verify_module_type_from_UI(driver, module_type):
 def verify_module_type_after_publishing(driver, module_type):
     lcc.log_info("Verifying if module type persists after publishing")
     display_module_page.add_metadata_and_publish(driver)
-    module_type_on_display_page_again = utilities.get_text_by_css(driver, locators.VIEW_MODULE_TYPE_CSS)
+    module_type_on_display_page_again = utilities.get_text(driver, By.CSS_SELECTOR, locators.VIEW_MODULE_TYPE_CSS)
     lcc.log_warning("This is expected to fail until CCS-3552 is fixed!!!")
     check_that("Module type displayed on UI after publishing", module_type_on_display_page_again.upper(),
                equal_to(module_type.upper()))
@@ -184,7 +185,7 @@ def verify_module_type_after_publishing(driver, module_type):
 # This method navigates to the search page, filters the modules by given module type
 # and verifies that module type of all the modules listed after the filter is applied = given module type
 def verify_filter_by_module_type(driver, module_type):
-    utilities.click_element_by_link_text(driver, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+    utilities.click_element(driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
     lcc.log_info("Verifying filter by module type: %s " % module_type)
     search_page.filter_by_module_type(driver, module_type)
     module_type_list = search_page.get_all_module_types_on_page(driver)

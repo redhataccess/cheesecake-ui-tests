@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
 import lemoncheesecake.api as lcc
 
 sys.path.append("..")
@@ -13,16 +14,17 @@ sys.path.append("..")
 
 # Wait until the module with given title is displayed
 def wait_for_module_to_load(driver, title):
-    WebDriverWait(driver, 20).until(
-        ec.presence_of_element_located((By.LINK_TEXT, title)))
+    utilities.wait_for_element(driver, By.LINK_TEXT, title)
+    # WebDriverWait(driver, 20).until(
+    #     ec.presence_of_element_located((By.LINK_TEXT, title)))
 
 
 # Search for a module by title and click on it
 def search_for_module_and_click(driver, title):
     try:
-        utilities.enter_text_by_id(driver, locators.SEARCH_BOX_ID, title)
-        utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
-        utilities.click_element_by_link_text(driver, title)
+        utilities.enter_text(driver, By.ID, locators.SEARCH_BOX_ID, title)
+        utilities.click_element(driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
+        utilities.click_element(driver, By.LINK_TEXT, title)
     except TimeoutException as e:
         lcc.log_info("It appears that the module was not found, please check your test data.")
         raise e
@@ -44,8 +46,8 @@ def get_list_of_recent_modules(driver, last_known_module_uploaded):
 # Filter the modules listed on the search page by module type
 def filter_by_module_type(driver, module_type):
     utilities.wait(2)
-    utilities.select_value_from_dropdown(driver, locators.MODULE_TYPE_DROPDOWN_CSS, module_type)
-    utilities.click_element_by_css_selector(driver, locators.SEARCH_BUTTON_CSS)
+    utilities.select_value_from_dropdown(driver, By.CSS_SELECTOR, locators.MODULE_TYPE_DROPDOWN_CSS, module_type)
+    utilities.click_element(driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
     utilities.wait(3)
 
 # Returns a list of module types of the modules currently listed on the search page

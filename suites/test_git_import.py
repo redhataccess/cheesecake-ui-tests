@@ -9,6 +9,7 @@ from helpers import locators
 import requests
 from fixtures import fixture
 from helpers.base_screenshot import Screenshot
+from selenium.webdriver.common.by import By
 sys.path.append("..")
 
 # SUITE = {
@@ -28,18 +29,20 @@ class test_git_import(Screenshot):
     
     @lcc.test("Verify that warning message should be displayed when repository URL is empty")
     def git_import_for_empty_git_repo(self):
-        utilities.click_element_by_link_text(
-            self.driver, locators.MENU_GIT_IMPORT_LINK_TEXT)
+        utilities.click_element(
+            self.driver, By.LINK_TEXT, locators.MENU_GIT_IMPORT_LINK_TEXT)
         git_import_page.import_git_repo(self.driver, None, None)
-        check_that("Empty git repo url warning message", utilities.get_text_by_css(
-            self.driver, locators.WARNING_ALERT_CSS), contains_string(constants.repo_url_empty_warning_message))
+        check_that("Empty git repo url warning message",
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.repo_url_empty_warning_message))
     
     @lcc.test("Verify that error message should be displayed when repository url has invalid")
     def git_import_for_invalid_git_repo_url(self):
         git_import_page.import_git_repo(
             self.driver, constants.invalid_git_repo_url, git_import_repo_branch)
-        check_that("Invalid git repo url error message", utilities.get_text_by_css(
-            self.driver, locators.REPO_URL_INVALID_ERROR_CSS), contains_string(constants.repo_url_invalid_error_message))
+        check_that("Invalid git repo url error message",
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.REPO_URL_INVALID_ERROR_CSS),
+                   contains_string(constants.repo_url_invalid_error_message))
     
     @lcc.test("Verify that user should be able to upload modules successfully using git import")
     def git_import_for_sample_repo(self):
