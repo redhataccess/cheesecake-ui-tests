@@ -22,7 +22,6 @@ class test_login(Screenshot):
         # 'driver' param is the webdriver object that is being called from 'setup' fixture and used through the scope
         # of the session.
         username = base.config_reader('login', 'username')
-        #login_page.login(driver)
         logged_in_user = login_page.get_logged_in_username(self.driver)
         lcc.log_info("Logged in username: %s" % logged_in_user)
         assert_that("Logged in username is visible", logged_in_user,

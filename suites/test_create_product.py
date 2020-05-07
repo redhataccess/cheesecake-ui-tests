@@ -8,6 +8,7 @@ from helpers.base_screenshot import Screenshot
 import time
 import requests
 from fixtures import fixture
+from selenium.webdriver.common.by import By
 sys.path.append("..")
 
 # SUITE = {
@@ -27,22 +28,22 @@ class test_create_product(Screenshot):
 
     @lcc.test('Verify that Warning is displayed when no product name is being entered')
     def create_product_blank_name(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_PRODUCTS_LINK_TEXT)
-        utilities.click_element_by_link_text(self.driver, locators.MENU_NEW_PRODUCT_LINK_TEXT)
-        utilities.enter_text_by_id(self.driver, locators.PRODUCT_NAME_TEXTBOX_ID, "")
-        utilities.click_element_by_class_name(self.driver, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
-        check_that("Warning is displayed", utilities.get_text_by_css(self.driver, locators.WARNING_ALERT_CSS),
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCTS_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, "")
+        utilities.click_element(self.driver, By.CLASS_NAME, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
+        check_that("Warning is displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
                    contains_string(constants.blank_product_name_warning))
-        utilities.click_element_by_css_selector(self.driver, locators.CLOSE_WARNING_ALERT_CSS)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
 
     @lcc.test("Verify that the product is created successfully and listed in the Products list")
     def create_product(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_NEW_PRODUCT_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
 
         lcc.log_info("Product name input: %s " % product_name)
-        utilities.enter_text_by_id(self.driver, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
-        utilities.enter_text_by_id(self.driver, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
-        utilities.click_element_by_class_name(self.driver, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
+        utilities.click_element(self.driver, By.CLASS_NAME, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
         products = utilities.find_elements_by_id(self.driver, locators.PRODUCT_NAMES_LI_ID)
         lcc.log_info(str(len(products)))
         products_list = []
@@ -52,21 +53,22 @@ class test_create_product(Screenshot):
 
     @lcc.test("Verify that user is unable to create duplicate product names, Warning is displayed")
     def duplicate_product_name(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_NEW_PRODUCT_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
         lcc.log_info("Product name input: %s " % product_name)
-        utilities.enter_text_by_id(self.driver, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
-        utilities.enter_text_by_id(self.driver, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
-        utilities.click_element_by_class_name(self.driver, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
-        check_that("Duplicate Product warning is displayed", utilities.get_text_by_css(self.driver, locators.WARNING_ALERT_CSS),
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
+        utilities.click_element(self.driver, By.CLASS_NAME, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
+        check_that("Duplicate Product warning is displayed",
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
                    contains_string(constants.duplicate_product_name_warning))
-        utilities.click_element_by_css_selector(self.driver, locators.CLOSE_WARNING_ALERT_CSS)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
 
     @lcc.test("Verify that user is able to create versions of the above product")
     def create_product_versions(self):
-        utilities.click_element_by_link_text(self.driver, locators.MENU_PRODUCT_LISTING_LINK_TEXT)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCT_LISTING_LINK_TEXT)
         # User clicks on 'Product details' button for the product created above.
         lcc.log_info("Product name to add versions for: %s " % product_name)
-        time.sleep(10)
+        utilities.wait(10)
         products = utilities.find_elements_by_class_name(self.driver, locators.PRODUCT_NAMES_LIST_CLASS_NAME)
         lcc.log_info("Number of products found in the list %s" % str(len(products)))
         for product in products:
@@ -78,19 +80,19 @@ class test_create_product(Screenshot):
                 break
 
         # User adds versions to the 'Add Product versions' and verifies if the versions were added successfully.
-        self.driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).send_keys(constants.product_version_1)
-        self.driver.find_element_by_xpath(locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH).click()
-        self.driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        time.sleep(5)
-        self.driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).send_keys(constants.product_version_2)
-        self.driver.find_element_by_xpath(locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH).click()
-        self.driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        time.sleep(5)
-        self.driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).send_keys(constants.product_version_3)
-        self.driver.find_element_by_xpath(locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH).click()
-        self.driver.find_element_by_id(locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        time.sleep(10)
-        versions_ul = self.driver.find_element_by_class_name(locators.PRODUCT_VERSIONS_UL_CLASS_NAME)
+        utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_1)
+        utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
+        utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
+        utilities.wait(5)
+        utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_2)
+        utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
+        utilities.find_element(self.driver, By.ID,locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
+        utilities.wait(5)
+        utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_3)
+        utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
+        utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
+        utilities.wait(10)
+        versions_ul = utilities.find_element(self.driver, By.CLASS_NAME, locators.PRODUCT_VERSIONS_UL_CLASS_NAME)
         versions_list = versions_ul.find_elements_by_tag_name(locators.PRODUCT_VERSIONS_LI_TAG_NAME)
         versions = []
         for version in versions_list:
