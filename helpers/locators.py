@@ -43,6 +43,7 @@ PRODUCT_VERSION_CSS = "span.rhdocs-product-version"
 UPDATED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-updated-date"
 PUBLISHED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-published-date"
 MODULE_NOT_FOUND_CSS = "div.fcc_module_body"
+MODULE_FOUND_ID = "rhdocs"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"

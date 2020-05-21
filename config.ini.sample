@@ -22,6 +22,9 @@ base_url=https://stage.example.com/
 [prod]
 base_url=https://prod.example.com/
 
+[proxy]
+proxy_server=<proxy server url>
+
 [test_mode]
 headless=yes  #If you don't want your tests to run in headless mode, change the value to 'no'.
 
