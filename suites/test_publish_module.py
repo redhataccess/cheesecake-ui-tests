@@ -4,7 +4,7 @@ import time
 
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 
 from helpers import constants
 from helpers import locators
@@ -143,17 +143,25 @@ class test_publish_module(Screenshot):
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
         time.sleep(5)
         utilities.switch_to_latest_tab(self.driver)
-        if utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_NOT_FOUND_CSS) == constants.module_not_found:
-            lcc.log_info("module not found on customer portal ..")
-        else:
-            # adding checks to verify product name,version,updated and published date on customer portal
-            check_that("Product name reflected on customer portal", utilities.get_text(
-                self.driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_CSS), contains_string(constants.product_name.upper()))
-            check_that("Product version reflected on customer portal", utilities.get_text(
-                self.driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_CSS), contains_string(constants.product_version))
-            check_that("updated date reflected on customer portal", test_publish_module.uploaded_date_module_page,
-                       equal_to(test_publish_module.updated_date_view_page))
-            check_that("published date reflected on customer portal", test_publish_module.published_date_module_page,
-                       equal_to(test_publish_module.published_date_view_page))
+        try:
+            # Trying to look for element that contains the module body <article> </article>
+            utilities.find_element(self.driver, By.ID, locators.MODULE_FOUND_ID)
+
+            if utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_NOT_FOUND_CSS) == constants.module_not_found:
+                lcc.log_info("Module not found on customer portal ..")
+            else:
+                # adding checks to verify product name,version,updated and published date on customer portal
+                check_that("Product name reflected on customer portal", utilities.get_text(
+                    self.driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_CSS), contains_string(constants.product_name.upper()))
+                check_that("Product version reflected on customer portal", utilities.get_text(
+                    self.driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_CSS), contains_string(constants.product_version))
+                check_that("updated date reflected on customer portal", test_publish_module.uploaded_date_module_page,
+                           equal_to(test_publish_module.updated_date_view_page))
+                check_that("published date reflected on customer portal", test_publish_module.published_date_module_page,
+                           equal_to(test_publish_module.published_date_view_page))
+        except (NoSuchElementException, TimeoutException) as e:
+            lcc.log_info("Some problem accessing the Customer Portal, please check.")
+            raise e
+        finally:
             self.driver.close()
             utilities.switch_to_first_tab(self.driver)

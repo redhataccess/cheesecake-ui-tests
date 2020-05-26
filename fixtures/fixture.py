@@ -42,6 +42,7 @@ uploader_username = base.config_reader('uploader', 'username')
 uploader_password = base.config_reader('uploader', 'password')
 admin_username = base.config_reader('admin_login', 'username')
 admin_auth = base.config_reader('admin_login', 'password')
+proxy_url = base.config_reader('proxy', 'proxy_server')
 
 
 @lcc.fixture(scope="pre_run")
@@ -128,13 +129,17 @@ def setup(setup_test_repo, setup_test_products):
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
+        options.add_argument('--proxy-server=%s' % proxy_url)
         driver = webdriver.Chrome(
             ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
             chrome_options=options)
         logging.info(
             "Chrome driver has been initialised successfully in headless mode")
     else:
-        driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install())
+        options = Options()
+        options.add_argument('--proxy-server=%s' % proxy_url)
+        driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
+                                  chrome_options=options)
         logging.info("Chrome driver has been initialised successfully")
 
     driver.maximize_window()
