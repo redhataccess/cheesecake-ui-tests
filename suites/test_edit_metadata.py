@@ -24,6 +24,7 @@ sys.path.append("..")
 # 5. Populate all the fields on edit metadata modal except usecase and click on submit
 # 6. Populate all the fields on edit metadata with valid data and click on submit
 
+
 @lcc.suite("Suite: Edit metadata for a module", rank="3")
 class test_edit_metadata(Screenshot):
     driver = lcc.inject_fixture("driver_obj")

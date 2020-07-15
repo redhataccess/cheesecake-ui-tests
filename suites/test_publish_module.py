@@ -15,12 +15,10 @@ from selenium.webdriver.common.by import By
 
 sys.path.append("..")
 
-
 # SUITE = {
 #     "description": "Publish module test",
 #     "rank": "4"
 # }
-
 
 @lcc.suite("Suite: Publish module test", rank="4")
 class test_publish_module(Screenshot):

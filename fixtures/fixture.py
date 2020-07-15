@@ -7,8 +7,11 @@ import requests
 import subprocess
 import helpers.base as base
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
+#from webdriver_manager.chrome import ChromeDriverManager
+#from selenium.webdriver.chrome.options import Options
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.options import Options
+
 from lemoncheesecake.matching import *
 from pages import login_page
 from helpers import constants
@@ -130,21 +133,27 @@ def setup(setup_test_repo, setup_test_products):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--proxy-server=%s' % proxy_url)
-        driver = webdriver.Chrome(
-            ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
-            chrome_options=options)
+        options.add_argument('--proxy-auto-detect')
+        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+        # driver = webdriver.Chrome(
+        #     ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
+        #     chrome_options=options)
         logging.info(
-            "Chrome driver has been initialised successfully in headless mode")
+            "Webdriver has been initialised successfully in headless mode")
     else:
         options = Options()
         options.add_argument('--proxy-server=%s' % proxy_url)
-        driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
-                                  chrome_options=options)
-        logging.info("Chrome driver has been initialised successfully")
+        options.add_argument('--proxy-auto-detect')
+        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+
+        # driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
+        #                           chrome_options=options)
+        logging.info("Webdriver has been initialised successfully")
 
     driver.maximize_window()
     driver.implicitly_wait(15)
     driver.get(url)
+    lcc.log_info(driver.current_url)
     # login to Pantheon v2
     lcc.log_info("Log in to Pantheon v2 using credentials")
     login_page.login(driver)
