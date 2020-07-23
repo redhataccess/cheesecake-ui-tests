@@ -21,7 +21,7 @@ url = fixture.url
 
 
 @lcc.suite("Suite: Module view page checks for unpublished modules and already published.", rank="5")
-class test_view_module(Screenshot):
+class test_module_details_page(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
     @lcc.test("Verify that for authenticated user, unpublished module displays all expected checks: Preview, ability to"
