@@ -32,15 +32,14 @@ class test_publish_module(Screenshot):
     def no_product_info_publish_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         # Click on the title if it is displayed on the first page
+        utilities.wait(5)
         try:
-            utilities.click_element(
-                self.driver, By.LINK_TEXT, constants.unpublished_module)
+            utilities.click_element(self.driver, By.LINK_TEXT, constants.unpublished_module)
         # If the title is not found on the first page, search for the title and then click
-        except (TimeoutException, StaleElementReferenceException) as e:
+        except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
             lcc.log_info(e)
-            search_page.search_for_module_and_click(
-                self.driver, constants.unpublished_module)
+            search_page.search_for_module_and_click(self.driver, constants.unpublished_module)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
         check_that("Warning alert contains title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
@@ -60,7 +59,7 @@ class test_publish_module(Screenshot):
         try:
             utilities.click_element(self.driver, By.LINK_TEXT, constants.module_to_be_published)
         # If the title is not found on the first page, search for the title and then click
-        except (TimeoutException, StaleElementReferenceException) as e:
+        except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
             lcc.log_info(e)
             search_page.search_for_module_and_click(

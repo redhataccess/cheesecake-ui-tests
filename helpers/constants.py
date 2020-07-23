@@ -10,19 +10,20 @@ sort_by_upload_date = "Uploaded date"
 
 
 # View module constants
-path_to_module_to_be_published = "repositories/uploader-sample-repo-pantheon2/modules/submodules/submodules1/" \
-                                 "concept_explanation-of-ranks-in-metadata-server-configuration.adoc"
-module_display_page_path_unpublished = "pantheon/#/repositories/uploader-sample-repo-pantheon2/modules/submodules/" \
-                                       "submodules1/procedure_creating-ceph-file-systems.adoc"
-module_display_page_path_after_published = "pantheon/#/repositories/uploader-sample-repo-pantheon2/modules/submodules/" \
-                                           "submodules1/concept_explanation-of-ranks-in-metadata-server-configuration.adoc"
+path_to_module_to_be_published = "/uploader-sample-repo-pantheon2/entities/modules/cockpit/con_pretty-host-name-in-the-web-console.adoc"
+    # "repositories/rhel-8-docs-nmath-test/entities/enterprise/modules/upgrades-and-differences/ref_audit.adoc"
+module_display_page_path_unpublished = "pantheon/#/repositories/uploader-sample-repo-pantheon2/entities/modules/core-services/con_host-name.adoc?variant=variant1-uploader"
+#"pantheon/#/repositories/rhel-8-docs-nmath-test/entities/enterprise/modules/upgrades-and-differences/ref_moved-packages.adoc"
+module_display_page_path_after_published = "pantheon/#/repositories/uploader-sample-repo-pantheon2/entities/modules/cockpit/con_pretty-host-name-in-the-web-console.adoc?variant=variant1-uploader"
+    #"pantheon/#/repositories/rhel-8-docs-nmath-test/entities/enterprise/modules/upgrades-and-differences/ref_audit.adoc?variant=rhel83"
 view_on_portal_link = "View on Customer Portal"
 copy_url_link = "Copy permanent URL"
 view_on_portal_page_url = "/topics/en-us/"
 
 
 # Edit metadata constants
-module_to_be_published = "AT via uploader | Explanation of Ranks in Metadata Server Configuration"
+module_to_be_published = "AT via uploader | Pretty host name in the web console"
+    # "Audit"
 edit_metadata_modal_title = "Edit Metadata"
 edit_metadata_modal_warning = "All fields are required."
 product_name = "AT Product Test"
@@ -45,8 +46,10 @@ module_not_found = "Module not found"
 
 
 # Constants for future use
-published_module = "AT via uploader | Software repositories for fast-forward upgrades"
-unpublished_module = "AT via uploader | Creating the Ceph File Systems"
+published_module = "AT via uploader | Setting the host name using the web console"
+# "Changes in core cryptographic components"
+unpublished_module = "AT via uploader | Host name"
+    # "Moved packages"
 unpublished_module_preview_text = "Released content version not found for module"
 delete_confirmation_modal_title = "Confirmation"
 module_metadata_warning_title = "Module Versions"
@@ -54,14 +57,22 @@ module_metadata_warning = "Module failed to publish. Check the following:\nAre y
                           "\nDoes the module have all required metadata?"
 
 # Module type constants
-ref_module_title = "AT via uploader | Cost model terminology"
-ref_module_title1 = "AT via uploader | Tag specifications by source type"
-proc_module_title = "AT via uploader | Activating AWS tags for cost management"
-proc_module_title1 = "AT via uploader | Adding a role"
-con_module_title = "AT via uploader | About cost management"
-con_module_title1 = "AT via uploader | What is a cost model?"
-no_module_type_title = "AT via uploader | Viewing previous data export requests"
-path_for_module_type = "/en_US/1/metadata/pant:moduleType"
+ref_module_title = "AT via uploader | Installation terminology"
+    # "New packages"
+ref_module_title1 = "AT via uploader | Add-ons for the RHEL 8 web console"
+    # "OpenSCAP"
+proc_module_title = "AT via uploader | Setting the host name using the web console"
+# "Connecting to the web console from a remote machine"
+proc_module_title1 = "AT via uploader | Connecting to the web console from a remote machine"
+# "Installing the web console"
+con_module_title = "AT via uploader | Supported architectures"
+    # "Pretty host name in the web console"
+con_module_title1 = "AT via uploader | Host name"
+    # "What is the RHEL web console"
+no_module_type_title = "AT via uploader | Setting the host name using the web console"
+    # "What is the RHEL web console"
+path_for_module_type = "/en_US/variants/variant1-uploader/draft/metadata"
+    # "/en_US/variants/rhel83/draft/metadata"
 
 # Create Product Versions
 product_version_1 = "1"

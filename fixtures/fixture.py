@@ -62,7 +62,7 @@ def setup_test_repo():
     origin = repo.create_remote('origin', test_repo_URL)
     origin.fetch()
     #origin.pull(origin.refs[0].remote_head)
-    origin.pull('master')
+    origin.pull('assemblies-2')
 
     logging.info("Installing the Pantheon uploader script..")
     try:
