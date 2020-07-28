@@ -5,3 +5,4 @@ git-python
 requests
 pyyaml
 urllib3
+polling2

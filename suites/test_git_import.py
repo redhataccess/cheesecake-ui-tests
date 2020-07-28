@@ -10,6 +10,8 @@ import requests
 from fixtures import fixture
 from helpers.base_screenshot import Screenshot
 from selenium.webdriver.common.by import By
+from polling2 import poll
+
 sys.path.append("..")
 
 # SUITE = {
@@ -53,11 +55,17 @@ class test_git_import(Screenshot):
             constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
         utilities.wait(30)
         utilities.page_reload(self.driver)
-        search_url = fixture.url + 'modules.json?search=' + module_title_prefix
+        search_url = fixture.url + 'pantheon/internal/modules.json?search=' + module_title_prefix
         lcc.log_info("Git import functionality verified using endpoint: %s" % search_url)
+        lcc.log_info("Trying to poll the endpoint until we get the required number of search results as"
+                     " per the test data ...")
+        poll(lambda: requests.get(search_url).json()["size"] == 9, step=5, timeout=120)
+
         imported_modules_request = requests.get(search_url)
         imported_modules = imported_modules_request.json()
+        lcc.log_info(str(imported_modules))
         total_modules = imported_modules["size"]
+
         lcc.log_info("Number of modules listed with the similar title name: %s" % str(total_modules))
         lcc.log_info("Capturing the number of modules uploaded from the repo: %s ..." % git_import_repo_Name)
         results = imported_modules["results"]
