@@ -29,13 +29,12 @@ class test_view_module(Screenshot):
     @lcc.depends_on('test_publish_module.publish_module')
     def authenticated_user_view_unpublished_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        # Click on the title if it is displayed on the first page
-        try:
-            utilities.click_element(self.driver, By.LINK_TEXT, constants.unpublished_module)
-        # If the title is not found on the first page, search for the title and then click
-        except TimeoutException as e:
-            search_page.search_for_module_and_click(
-                self.driver, constants.unpublished_module)
+        # # Click on the title if it is displayed on the first page
+        # try:
+        #     utilities.click_element(self.driver, By.LINK_TEXT, constants.unpublished_module)
+        # # If the title is not found on the first page, search for the title and then click
+        # except TimeoutException as e:
+        search_page.search_for_module_and_click(self.driver, constants.unpublished_module)
         check_that("URL", self.driver.current_url, contains_string(url+constants.module_display_page_path_unpublished))
         check_that("Button",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS),
@@ -55,13 +54,13 @@ class test_view_module(Screenshot):
     @lcc.depends_on('test_publish_module.publish_module')
     def authenticated_user_view_published_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        # Click on the title if it is displayed on the first page
-        try:
-            utilities.click_element(self.driver, By.LINK_TEXT, constants.module_to_be_published)
-        # If the title is not found on the first page, search for the title and then click
-        except TimeoutException as e:
-            search_page.search_for_module_and_click(
-                self.driver, constants.module_to_be_published)
+        # # Click on the title if it is displayed on the first page
+        # try:
+        #     utilities.click_element(self.driver, By.LINK_TEXT, constants.module_to_be_published)
+        # # If the title is not found on the first page, search for the title and then click
+        # except TimeoutException as e:
+        search_page.search_for_module_and_click(
+            self.driver, constants.module_to_be_published)
         utilities.find_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
         check_that("URL", self.driver.current_url,
                    contains_string(url + constants.module_display_page_path_after_published))
@@ -74,8 +73,10 @@ class test_view_module(Screenshot):
     @lcc.test("Verify that 'View on Customer Portal' link navigates to correct page and verify the presence of content")
     @lcc.depends_on('test_publish_module.publish_module')
     def view_on_portal_link_test(self):
+        utilities.wait(5)
         utilities.click_element(
             self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
+        utilities.wait(5)
         utilities.switch_to_latest_tab(self.driver)
         check_that("View on Portal URL path", self.driver.current_url,
                    contains_string(constants.view_on_portal_page_url))

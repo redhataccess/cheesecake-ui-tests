@@ -12,8 +12,10 @@ LOGGED_IN_USER_PARTIAL_TEXT = "Log Out"
 
 # Display module page
 MODULE_DISPLAY_TITLE_CSS = "div.pf-c-content h1"
-MODULE_DISPLAY_PUBLISH_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
-MODULE_DISPLAY_UNPUBLISH_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
+MODULE_DISPLAY_PUBLISH_BUTTON_CSS = "div.pf-c-data-list__cell button.pf-c-button.pf-m-primary"
+    # "button.pf-c-button.pf-m-primary"
+MODULE_DISPLAY_UNPUBLISH_BUTTON_CSS = "div.pf-c-data-list__cell button.pf-c-button.pf-m-primary"
+    # "button.pf-c-button.pf-m-primary"
 MODULE_DISPLAY_PREVIEW_BUTTON_CSS = "button.pf-c-button.pf-m-secondary"
 MODULE_DISPLAY_PUBLISH_STATUS_XPATH = "//div[contains(text(),'Not published')]"
 MODULE_METADATA_WARNING_CSS = "div.pf-c-alert__description"
@@ -36,7 +38,7 @@ UPLOADED_DATE_MODULE_PAGE_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.p
 PUBLISHED_DATE_MODULE_PAGE_CSS = "div.pf-c-data-list__item-row:nth-child(2) div div.pf-c-data-list__cell:nth-child(2) span"
 
 # Customer portal
-MODULE_BODY_ON_PORTAL_CSS = "article#rhdocs"
+MODULE_BODY_ON_PORTAL_CSS = "cp-documentation#rhdocs"
 MODULE_TITLE_ON_PORTAL_CSS= "header#rhdocs-header"
 PRODUCT_NAME_CSS = "span.rhdocs-product-name"
 PRODUCT_VERSION_CSS = "span.rhdocs-product-version"

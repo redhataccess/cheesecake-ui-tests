@@ -21,7 +21,9 @@ sys.path.append("..")
 #   Carryout the following tests:
 #      - Filter modules by the module type and verify all the modules with the expected module type are listed
 #      - Verify module type saved in the backend is correct using the api endpoint
-#      - Verify module type shown on the module display page is as expected
+#       Failing due to CCS-3734
+#      - Verify module type shown on the module details page is as expected
+#       Failing due to CCS-3552
 #      - Verify module type persists after publishing the module
 #      - Verify that file containing invalid module type, the module type data does not get added
 
@@ -145,9 +147,10 @@ class test_module_type(Screenshot):
 # This method will click on given title to open the module display page for it
 def open_module_display_page(driver, title):
     try:
+        utilities.wait(3)
         utilities.click_element(driver, By.LINK_TEXT, title)
     # If the title is not found on the first page, search for the title and then click
-    except (TimeoutException, StaleElementReferenceException) as e:
+    except:
         lcc.log_error("Module not listed on listed in the results after applying module type filter.")
         lcc.log_info("Searching for the module title now...")
         search_page.search_for_module_and_click(driver, title)
@@ -161,11 +164,12 @@ def verify_module_type_from_backend(driver, module_type):
     response = requests.get(url + path)
     lcc.log_info("Verifying the response at endpoint: %s " % path)
     check_that("Module type saved in the backend", response.text.upper(),
-               equal_to(module_type.upper()))
+               contains_string(module_type.upper()))
 
 
 # This method will verify the module type shown for the module, user is currently landed on
 def verify_module_type_from_UI(driver, module_type):
+    lcc.log_warning("This is expected to fail until CCS-3734 is fixed!!!")
     module_type_on_display_page = utilities.get_text(driver, By.CSS_SELECTOR, locators.VIEW_MODULE_TYPE_CSS)
     lcc.log_info("Verifying that the module type is displayed on the UI as: %s " % module_type)
     check_that("Module type displayed on UI ", module_type_on_display_page.upper(),

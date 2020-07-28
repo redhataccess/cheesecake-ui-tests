@@ -32,14 +32,16 @@ class test_edit_metadata(Screenshot):
     @lcc.test("Verify that warning should be displayed on Edit Metadata modal when no data is entered")
     def edit_metadata_blank_data(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        # Click on the title if it is displayed on the first page
+        # # Click on the title if it is displayed on the first page
         utilities.wait(5)
-        try:
-            utilities.click_element(self.driver, By.LINK_TEXT, constants.module_to_be_published)
-        # If the title is not found on the first page, search for the title and then click
-        except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
-            lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
-            search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
+        # try:
+        #     utilities.click_element(self.driver, By.LINK_TEXT, constants.module_to_be_published)
+        # # If the title is not found on the first page, search for the title and then click
+        # # except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
+        # except:
+        #     lcc.log_info("Unexpected error:", sys.exc_info()[0])
+        #     # lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
+        search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_DROPDOWN_CSS)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_BUTTON_CSS)
         check_that("Edit metadata modal title",
