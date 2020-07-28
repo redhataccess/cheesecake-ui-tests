@@ -20,7 +20,7 @@ sys.path.append("..")
 #     "rank": "4"
 # }
 
-@lcc.suite("Suite: Publish module test", rank="4")
+@lcc.suite("Suite: Publish module test", rank="5")
 class test_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     uploaded_date_module_page = ""

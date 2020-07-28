@@ -25,7 +25,7 @@ number_of_modules = base.config_reader('git_import_test_repo', 'number_of_module
 module_title_prefix = constants.module_title_prefix
 
 
-@lcc.suite("Suite: Git import functionality", rank="6")
+@lcc.suite("Suite: Git import functionality", rank="3")
 class test_git_import(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     

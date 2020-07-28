@@ -20,7 +20,7 @@ sys.path.append("..")
 url = fixture.url
 
 
-@lcc.suite("Suite: Module view page checks for unpublished modules and already published.", rank="5")
+@lcc.suite("Suite: Module view page checks for unpublished modules and already published.", rank="6")
 class test_view_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
