@@ -7,9 +7,10 @@ import requests
 import subprocess
 import helpers.base as base
 from selenium import webdriver
-#from webdriver_manager.chrome import ChromeDriverManager
-#from selenium.webdriver.chrome.options import Options
-from webdriver_manager.firefox import GeckoDriverManager
+# from selenium.webdriver import DesiredCapabilities
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+# from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.options import Options
 
 from lemoncheesecake.matching import *
@@ -134,20 +135,21 @@ def setup(setup_test_repo, setup_test_products):
         options.add_argument('--no-sandbox')
         options.add_argument('--proxy-server=%s' % proxy_url)
         options.add_argument('--proxy-auto-detect')
-        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
-        # driver = webdriver.Chrome(
-        #     ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
-        #     chrome_options=options)
+        # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+        driver = webdriver.Chrome(
+            ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
+            chrome_options=options)
         logging.info(
             "Webdriver has been initialised successfully in headless mode")
     else:
         options = Options()
         options.add_argument('--proxy-server=%s' % proxy_url)
         options.add_argument('--proxy-auto-detect')
-        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+        # caps = DesiredCapabilities.FIREFOX.copy()
+        # caps["marionette"] = False
+        # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options, capabilities=caps)
 
-        # driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),
-        #                           chrome_options=options)
+        driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),chrome_options=options)
         logging.info("Webdriver has been initialised successfully")
 
     driver.maximize_window()

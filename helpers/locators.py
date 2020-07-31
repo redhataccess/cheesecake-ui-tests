@@ -38,12 +38,17 @@ UPLOADED_DATE_MODULE_PAGE_CSS = "div.pf-c-data-list__item-row:nth-child(2) div.p
 PUBLISHED_DATE_MODULE_PAGE_CSS = "div.pf-c-data-list__item-row:nth-child(2) div div.pf-c-data-list__cell:nth-child(2) span"
 
 # Customer portal
-MODULE_BODY_ON_PORTAL_CSS = "cp-documentation#rhdocs"
+MODULE_BODY_ON_PORTAL_CSS = "div.fcc_module_body cp-documentation"
+MODULE_BODY_ON_PREVIEW_CSS = "cp-documentation"
 MODULE_TITLE_ON_PORTAL_CSS= "header#rhdocs-header"
 PRODUCT_NAME_CSS = "span.rhdocs-product-name"
+PRODUCT_NAME_ON_PREVIEW_CSS = "div#wrapper div#content header ul li span.rhdocs-product-name"
 PRODUCT_VERSION_CSS = "span.rhdocs-product-version"
+PRODUCT_VERSION_ON_PREVIEW_CSS = "div#wrapper div#content header ul li span.rhdocs-product-version"
 UPDATED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-updated-date"
+UPDATED_DATE_ON_PREVIEW_CSS = "div#content header ul li.rh-docs-details-item.rhdocs-updated-date"
 PUBLISHED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-published-date"
+PUBLISHED_DATE_ON_PREVIEW_CSS = "div#content header ul li.rh-docs-details-item.rhdocs-published-date"
 MODULE_NOT_FOUND_CSS = "div.fcc_module_body"
 MODULE_FOUND_ID = "rhdocs"
 
@@ -85,7 +90,7 @@ MODULE_TYPE_LIST_CSS = "div#data-rows div.pf-c-data-list__item-content div.pf-c-
 # New Product page
 PRODUCT_NAME_TEXTBOX_ID = "product-name"
 PRODUCT_DESCRIPTION_TEXTBOX_ID = "product-description"
-SAVE_PRODUCT_BUTTON_CLASS_NAME = "pf-c-button.pf-m-primary"
+SAVE_PRODUCT_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
 
 # Product Listing page
 PRODUCT_LIST_UL_CLASS_NAME = "pf-c-data-list"

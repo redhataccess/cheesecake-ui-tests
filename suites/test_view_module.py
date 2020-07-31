@@ -9,6 +9,7 @@ from helpers import utilities
 from helpers import constants
 from helpers import locators
 from fixtures import fixture
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.common.by import By
 sys.path.append("..")
 
@@ -78,6 +79,7 @@ class test_view_module(Screenshot):
             self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
         utilities.wait(5)
         utilities.switch_to_latest_tab(self.driver)
+        utilities.wait(7)
         check_that("View on Portal URL path", self.driver.current_url,
                    contains_string(constants.view_on_portal_page_url))
         module_id_regex = re.compile(
@@ -86,10 +88,14 @@ class test_view_module(Screenshot):
         check_that("View on Portal URL id",
                    current__module_id, match_pattern(module_id_regex))
         try:
-            check_that("Module content displayed on the Customer Portal", utilities.find_element(
-                self.driver, By.CSS_SELECTOR, locators.MODULE_BODY_ON_PORTAL_CSS).is_displayed(), is_(True))
-        except TimeoutException as e:
-            raise e
+            utilities.wait(6)
+            content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_ON_PORTAL_CSS)
+            # content_body_on_portal = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.MODULE_BODY_ON_PORTAL_CSS)
+            check_that("Module content displayed on the Customer Portal", content_body_on_portal.is_displayed(),
+                       is_(True))
+        except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
+            lcc.log_error("Error finding element!!!")
+            lcc.log_error(e)
         finally:
             self.driver.close()
             utilities.switch_to_first_tab(self.driver)
