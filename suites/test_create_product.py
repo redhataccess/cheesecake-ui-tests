@@ -31,7 +31,7 @@ class test_create_product(Screenshot):
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCTS_LINK_TEXT)
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, "")
-        utilities.click_element(self.driver, By.CLASS_NAME, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
         check_that("Warning is displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
                    contains_string(constants.blank_product_name_warning))
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
@@ -43,7 +43,7 @@ class test_create_product(Screenshot):
         lcc.log_info("Product name input: %s " % product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
-        utilities.click_element(self.driver, By.CLASS_NAME, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
         products = utilities.find_elements_by_id(self.driver, locators.PRODUCT_NAMES_LI_ID)
         lcc.log_info(str(len(products)))
         products_list = []
@@ -57,7 +57,7 @@ class test_create_product(Screenshot):
         lcc.log_info("Product name input: %s " % product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
-        utilities.click_element(self.driver, By.CLASS_NAME, locators.SAVE_PRODUCT_BUTTON_CLASS_NAME)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
         check_that("Duplicate Product warning is displayed",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
                    contains_string(constants.duplicate_product_name_warning))

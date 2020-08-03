@@ -8,16 +8,18 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 import random
 import string
 import time
+from polling2 import poll
 
 
 def wait_for_element(driver, locator_type, locator_value):
     try:
-        wait = WebDriverWait(driver, 30)
+        wait = WebDriverWait(driver, 45)
         element = wait.until(
             ec.visibility_of_element_located((locator_type, locator_value)))
     except TimeoutException or StaleElementReferenceException as e:
         lcc.log_error(str(e))
-        raise NoSuchElementException("Element not displayed on page for the locator::" + locator_type + "->" + locator_value)
+        raise NoSuchElementException(
+            "Element not displayed on page for the locator::" + locator_type + "->" + locator_value)
     else:
         return element
 
@@ -105,3 +107,18 @@ def generate_random_string(string_length):
     letters = string.ascii_lowercase
     random_string = ''.join(random.choice(letters) for i in range(string_length))
     return random_string
+
+def get_shadow_root(driver, shadow_root_parent):
+    # wait(15)
+    try:
+        shadow_host = poll(lambda: driver.find_element_by_css_selector(shadow_root_parent), step=1, timeout=20)
+    except (TimeoutException, NoSuchElementException) as e:
+        lcc.log_error(e)
+    else:
+        root_ele = driver.execute_script("return arguments[0].shadowRoot", shadow_host)
+        return root_ele
+
+def find_shadow_dom_element (driver,locator, shadow_root_parent):
+    shadow_root = get_shadow_root(driver, shadow_root_parent)
+    element = shadow_root.find_element_by_css_selector(locator)
+    return element
