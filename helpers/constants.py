@@ -36,6 +36,13 @@ default_use_case = "Select Use Case"
 default_product_name = "Select a Product"
 default_product_version = "Select a Version"
 
+#constants for search modules
+module_to_search = "AT via uploader | Pretty host name"
+asian_char_module = "安装术语"
+random_string_search = "abcdefg"
+body_of_module_search = "search for body of the module"
+no_module_found = "No modules found with your search"
+
 
 # Create new product constants
 new_product_name = "A Test Product RH_"

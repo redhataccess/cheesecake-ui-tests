@@ -51,6 +51,7 @@ PUBLISHED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-published-date"
 PUBLISHED_DATE_ON_PREVIEW_CSS = "div#content header ul li.rh-docs-details-item.rhdocs-published-date"
 MODULE_NOT_FOUND_CSS = "div.fcc_module_body"
 MODULE_FOUND_ID = "rhdocs"
+SEARCH_BODY_ON_PREVIEW_CSS = "#rhdocs-preamble > section > p:nth-child(2)"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
@@ -86,6 +87,9 @@ MODULE_TITLE_CSS = "div.pf-c-data-list__cell.pf-m-flex-2 a"
 MODULE_TYPE_DROPDOWN_CSS = "#moduleTypeForm"
 FIRST_MODULE_LISTED_CSS = "div#data-rows:nth-child(3) div div.pf-c-data-list__cell a"
 MODULE_TYPE_LIST_CSS = "div#data-rows div.pf-c-data-list__item-content div.pf-c-data-list__cell:nth-child(4) span"
+SEARCH_MODULE_XPATH = "//div[@class='pf-c-data-list__cell pf-m-flex-2']/a"
+NO_MODULE_FOUND_CSS = "h4.pf-c-alert__title"
+CANCEL_BUTTON_XPATH = "//div[@class='pf-c-alert__action']/button"
 
 # New Product page
 PRODUCT_NAME_TEXTBOX_ID = "product-name"
