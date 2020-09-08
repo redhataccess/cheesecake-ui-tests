@@ -44,8 +44,8 @@ class test_view_module(Screenshot):
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS),
                    contains_string("Preview"))
         check_that("Publish status",
-                   utilities.get_text(self.driver, By.XPATH, locators.MODULE_DISPLAY_PUBLISH_STATUS_XPATH),
-                   contains_string("Not published"))
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_STATUS_CSS),
+                   contains_string("--"))
         check_that("Module display page title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_TITLE_CSS),
                    contains_string(constants.unpublished_module))
@@ -66,7 +66,7 @@ class test_view_module(Screenshot):
         check_that("URL", self.driver.current_url,
                    contains_string(url + constants.module_display_page_path_after_published))
         check_that("Button", utilities.get_text(
-            self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS), contains_string("View"))
+            self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS), contains_string("Preview"))
         check_that("Button", utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Unpublish"))
         # Add a check that the Published column contains some Published time.
@@ -74,20 +74,20 @@ class test_view_module(Screenshot):
     @lcc.test("Verify that 'View on Customer Portal' link navigates to correct page and verify the presence of content")
     @lcc.depends_on('test_publish_module.publish_module')
     def view_on_portal_link_test(self):
-        utilities.wait(5)
-        utilities.click_element(
-            self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
-        utilities.wait(5)
-        utilities.switch_to_latest_tab(self.driver)
-        utilities.wait(7)
-        check_that("View on Portal URL path", self.driver.current_url,
-                   contains_string(constants.view_on_portal_page_url))
-        module_id_regex = re.compile(
-            r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
-        current__module_id = self.driver.current_url.split("/topics/en-us/")[1]
-        check_that("View on Portal URL id",
-                   current__module_id, match_pattern(module_id_regex))
         try:
+            utilities.wait(5)
+            utilities.click_element(
+                self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
+            utilities.wait(5)
+            utilities.switch_to_latest_tab(self.driver)
+            utilities.wait(7)
+            check_that("View on Portal URL path", self.driver.current_url,
+                       contains_string(constants.view_on_portal_page_url))
+            module_id_regex = re.compile(
+                r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
+            current__module_id = self.driver.current_url.split("/topics/en-us/")[1]
+            check_that("View on Portal URL id",
+                   current__module_id, match_pattern(module_id_regex))
             utilities.wait(6)
             content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_ON_PORTAL_CSS)
             # content_body_on_portal = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.MODULE_BODY_ON_PORTAL_CSS)

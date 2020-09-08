@@ -43,6 +43,8 @@ class test_create_product(Screenshot):
         lcc.log_info("Product name input: %s " % product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_URL_FRAGMENT_TEXTBOX_ID,
+                             constants.new_product_url_fragment)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
         products = utilities.find_elements_by_id(self.driver, locators.PRODUCT_NAMES_LI_ID)
         lcc.log_info(str(len(products)))
@@ -57,6 +59,8 @@ class test_create_product(Screenshot):
         lcc.log_info("Product name input: %s " % product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID, constants.new_product_description)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_URL_FRAGMENT_TEXTBOX_ID,
+                             constants.new_product_url_fragment)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
         check_that("Duplicate Product warning is displayed",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
@@ -81,17 +85,23 @@ class test_create_product(Screenshot):
 
         # User adds versions to the 'Add Product versions' and verifies if the versions were added successfully.
         utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_1)
+        utilities.enter_text(self.driver,By.ID,locators.PRODUCT_VERSION_URL_FRAGMENT_ID,
+                             constants.product_version_url_fragment_1)
         utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
         utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        utilities.wait(5)
+        utilities.wait(2)
         utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_2)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_VERSION_URL_FRAGMENT_ID,
+                             constants.product_version_url_fragment_2)
         utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
         utilities.find_element(self.driver, By.ID,locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        utilities.wait(5)
+        utilities.wait(2)
         utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_3)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_VERSION_URL_FRAGMENT_ID,
+                             constants.product_version_url_fragment_3)
         utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
         utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        utilities.wait(10)
+        utilities.wait(2)
         versions_ul = utilities.find_element(self.driver, By.CLASS_NAME, locators.PRODUCT_VERSIONS_UL_CLASS_NAME)
         versions_list = versions_ul.find_elements_by_tag_name(locators.PRODUCT_VERSIONS_LI_TAG_NAME)
         versions = []
