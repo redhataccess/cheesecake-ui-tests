@@ -136,7 +136,7 @@ def setup(setup_test_repo, setup_test_products):
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
-        #options.add_argument('--window-size=1920,1080')
+        options.add_argument('--window-size=1920,1080')
         # options.add_argument('--proxy-server=%s' % proxy_url)
         # options.add_argument('--proxy-auto-detect')
         # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
@@ -146,7 +146,7 @@ def setup(setup_test_repo, setup_test_products):
     else:
         options = Options()
         options.add_argument('--proxy-server=%s' % proxy_url)
-        options.add_argument('--proxy-auto-detect')
+        #options.add_argument('--proxy-auto-detect')
         # caps = DesiredCapabilities.FIREFOX.copy()
         # caps["marionette"] = False
         # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options, capabilities=caps)

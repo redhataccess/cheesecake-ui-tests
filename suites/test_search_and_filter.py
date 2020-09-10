@@ -17,7 +17,7 @@ from pages import search_page
 sys.path.append("..")
 
 
-@lcc.suite("Suite: Tests for all the search and filter functionality", rank="8")
+@lcc.suite("Suite: Tests for all the search and filter functionality", rank="7")
 class test_search_and_filter(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -44,6 +44,7 @@ class test_search_and_filter(Screenshot):
         utilities.click_element(self.driver, By.XPATH, locators.CANCEL_BUTTON_XPATH)
         utilities.wait(2)
 
+    @lcc.disabled
     @lcc.test("verify that the search results for asian characters such as '安装术语' should give accurate results.")
     def search_for_module_with_asian_chars(self):
         utilities.find_elements_by_id(self.driver, locators.SEARCH_BOX_ID).clear()

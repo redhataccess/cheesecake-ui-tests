@@ -42,8 +42,9 @@ class test_edit_metadata(Screenshot):
         #     lcc.log_info("Unexpected error:", sys.exc_info()[0])
         #     # lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
         search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_DROPDOWN_CSS)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_BUTTON_CSS)
+        # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_DROPDOWN_CSS)
+        # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_BUTTON_CSS)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.ADD_METADATA_BUTTON_CSS)
         check_that("Edit metadata modal title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_MODAL_TITLE_CSS),
                    contains_string(constants.edit_metadata_modal_title))
@@ -52,6 +53,7 @@ class test_edit_metadata(Screenshot):
                    contains_string(constants.edit_metadata_modal_warning))
         utilities.wait(2)
 
+    @lcc.disabled
     @lcc.test("Verify that warning should be displayed on Edit Metadata modal when URL fragment field is blank")
     def edit_metadata_empty_url_fragment(self):
         display_module_page.reset_edit_metadata_from(self.driver)
