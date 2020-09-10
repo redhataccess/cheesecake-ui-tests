@@ -138,22 +138,31 @@ class test_module_type(Screenshot):
         path = path_to_adoc_file + constants.path_for_module_type
         response = requests.get(url + path)
         check_that("Module type node in backend", response.status_code, equal_to(404))
-        module_type_on_display_page = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.VIEW_MODULE_TYPE_CSS)
-        check_that("Module type displayed on UI ", module_type_on_display_page.upper(), equal_to("-"))
 
 # Helper methods for actual tests
 
 
 # This method will click on given title to open the module display page for it
 def open_module_display_page(driver, title):
-    try:
+    # try:
+    #     utilities.wait(3)
+    #     utilities.click_element(driver, By.LINK_TEXT, title)
+    # # If the title is not found on the first page, search for the title and then click
+    # except:
+    #     lcc.log_info("Module not listed on listed in the results after applying module type filter.")
+    #     lcc.log_info("Searching for the module title now...")
+    #     search_page.search_for_module_and_click(driver, title)
+
+    if title in driver.page_source:
         utilities.wait(3)
         utilities.click_element(driver, By.LINK_TEXT, title)
-    # If the title is not found on the first page, search for the title and then click
-    except:
-        lcc.log_error("Module not listed on listed in the results after applying module type filter.")
+    else:
+        # If the title is not found on the first page, search for the title and then click
+        lcc.log_info("Module not listed on listed in the results after applying module type filter.")
         lcc.log_info("Searching for the module title now...")
         search_page.search_for_module_and_click(driver, title)
+
+
 
 
 # This method will verify the module type from the backend for the module user is currently landed on
@@ -161,8 +170,9 @@ def verify_module_type_from_backend(driver, module_type):
     # Once landed on the module display page, get path to adoc from the module display page url
     path_to_adoc_file = display_module_page.get_path_to_adoc(driver)
     path = path_to_adoc_file + constants.path_for_module_type
-    response = requests.get(url + path)
-    lcc.log_info("Verifying the response at endpoint: %s " % path)
+    req = url+path.strip()
+    response = requests.get(req)
+    lcc.log_info("Verifying the response at endpoint: %s " % req)
     check_that("Module type saved in the backend", response.text.upper(),
                contains_string(module_type.upper()))
 

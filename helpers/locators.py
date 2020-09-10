@@ -34,7 +34,7 @@ UPDATE_SUCCESS_MESSAGE_CSS = "div.pf-c-alert.pf-m-success div.pf-c-alert__descri
 PRODUCT_INFO_CSS = "section.pf-c-page__main-section.pf-m-light div.pf-l-level:nth-child(6)>div:nth-child(1)"
 COPY_URL_LINK_CSS = "a#permanentURL"
 VIEW_ON_PORTAL_LINK_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(3) span:nth-child(1) a"
-VIEW_MODULE_TYPE_CSS = "div.pf-c-data-list__item-row:nth-child(2) div div.pf-c-data-list__cell:nth-child(4) span"
+VIEW_MODULE_TYPE_CSS = "div.pf-l-level:nth-child(6) div:nth-child(3) > div.pf-c-content"
 UPLOADED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(4) span"
 PUBLISHED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(5) span"
 

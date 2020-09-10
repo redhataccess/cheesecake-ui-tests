@@ -27,8 +27,9 @@ def fill_edit_metadata_form(driver, product_name, product_version, usecase, url_
 def get_path_to_adoc(driver):
     url = driver.current_url
     temp = urllib.urlparse(url).fragment
+    temp = temp.strip("/module")
     path = temp.split('?')[0]
-    path = "content"+path
+    path = "content/"+path
     return path
 
 # Adds metadata to the module which is currently open and publishes it
