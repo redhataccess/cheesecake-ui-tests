@@ -50,6 +50,7 @@ new_product_description = "Test Description"
 blank_product_name_warning = "Fields indicated by * are mandatory"
 duplicate_product_name_warning = "Duplicated Product name"
 module_not_found = "Module not found"
+version_url_fragment_warning = "Allowed input for ulrFragment: alphanumeric, hyphen, period and underscore"
 new_product_url_fragment = "Test UrlFragment"
 
 

@@ -36,6 +36,21 @@ class test_create_product(Screenshot):
                    contains_string(constants.blank_product_name_warning))
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
 
+    @lcc.test("Verify that Warning is displayed when no url fragment is entered")
+    def create_product_blank_url_fragment(self):
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
+
+        lcc.log_info("Product name input: %s " % product_name)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_NAME_TEXTBOX_ID, product_name)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_DESCRIPTION_TEXTBOX_ID,
+                             constants.new_product_description)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_URL_FRAGMENT_TEXTBOX_ID, "")
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
+        check_that("Warning is displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.blank_product_name_warning))
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
+
+
     @lcc.test("Verify that the product is created successfully and listed in the Products list")
     def create_product(self):
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
@@ -67,8 +82,8 @@ class test_create_product(Screenshot):
                    contains_string(constants.duplicate_product_name_warning))
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
 
-    @lcc.test("Verify that user is able to create versions of the above product")
-    def create_product_versions(self):
+    @lcc.test("Verify that blank product gives error message")
+    def blank_product_versions(self):
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCT_LISTING_LINK_TEXT)
         # User clicks on 'Product details' button for the product created above.
         lcc.log_info("Product name to add versions for: %s " % product_name)
@@ -83,6 +98,26 @@ class test_create_product(Screenshot):
                 product.find_element_by_class_name(locators.PRODUCT_DETAILS_BUTTON_CLASS_NAME).click()
                 break
 
+        #Verify blank product version and url fragment
+        utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, "")
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_VERSION_URL_FRAGMENT_ID, "")
+        utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
+        check_that("Warning is displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.blank_product_name_warning))
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
+
+    @lcc.test("Verify that invalid product version url_fragment gives error")
+    def invalid_product_version_url_fragment(self):
+        #Verify invalid input for url fragment
+        utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_1)
+        utilities.enter_text(self.driver, By.ID, locators.PRODUCT_VERSION_URL_FRAGMENT_ID, "#")
+        check_that("Warning is displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
+                   contains_string(constants.version_url_fragment_warning))
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_WARNING_ALERT_CSS)
+        utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, "")
+
+    @lcc.test("Verify that user is able to create versions of the above product")
+    def create_product_versions(self):
         # User adds versions to the 'Add Product versions' and verifies if the versions were added successfully.
         utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_1)
         utilities.enter_text(self.driver,By.ID,locators.PRODUCT_VERSION_URL_FRAGMENT_ID,
