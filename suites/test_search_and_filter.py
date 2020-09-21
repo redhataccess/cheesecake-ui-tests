@@ -13,6 +13,7 @@ from fixtures import fixture
 from selenium.webdriver.common.by import By
 
 from pages import search_page
+from suites.test_module_type import verify_filter_by_content_type
 
 sys.path.append("..")
 
@@ -77,3 +78,25 @@ class test_search_and_filter(Screenshot):
         utilities.wait(2)
         self.driver.close()
         utilities.switch_to_first_tab(self.driver)
+
+    @lcc.test("Verify that product and version filter works as expected")
+    def select_product_and_version_filter(self):
+        utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+        utilities.wait(2)
+        utilities.select_value_from_dropdown(self.driver, By.CSS_SELECTOR, locators.SELECT_PRODUCT_NAME_CSS,
+                                             constants.product_name)
+        utilities.select_value_from_dropdown(self.driver, By.CSS_SELECTOR, locators.SELECT_PRODUCT_VERSION_CSS,
+                                             constants.product_version)
+        lcc.log_info("product and version selected and displayed on search page")
+        utilities.find_element(self.driver, By.XPATH, locators.PRODUCT_FILTER_DISPLAY_XPATH).is_displayed()
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
+        utilities.wait(2)
+        utilities.click_element(self.driver, By.XPATH, locators.SEARCH_MODULE_XPATH)
+        utilities.wait(2)
+        check_that("verify that 'filter by product and version' functionality filters results correctly",
+                   utilities.get_text(self.driver, By.XPATH, locators.PRODUCT_VERSION_DISPLAY_PAGE_XPATH),
+                   contains_string("AT Product Test 1"))
+
+    @lcc.test("Verify that 'Filter by content Type': Assembly functionality filters results correctly")
+    def select_content_type_filter(self):
+        verify_filter_by_content_type(self.driver, "Assembly")

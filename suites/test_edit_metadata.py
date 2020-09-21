@@ -44,7 +44,7 @@ class test_edit_metadata(Screenshot):
         search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
         # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_DROPDOWN_CSS)
         # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_BUTTON_CSS)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.ADD_METADATA_BUTTON_CSS)
+        utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
         check_that("Edit metadata modal title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_MODAL_TITLE_CSS),
                    contains_string(constants.edit_metadata_modal_title))
