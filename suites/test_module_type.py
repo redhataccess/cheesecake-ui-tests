@@ -35,12 +35,12 @@ class test_module_type(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
     @lcc.test("Verify that 'Filter by Module Type': CONCEPT functionality filters results correctly")
-    def verify_filter_by_module_type_concept(self):
-        verify_filter_by_module_type(self.driver, "Concept")
+    def verify_filter_by_content_type_concept(self):
+        verify_filter_by_content_type(self.driver, "Concept")
 
     @lcc.test(
         "Verify module type: CONCEPT is shown correctly when added as filename 'con_file.adoc' verified using the api")
-    @lcc.depends_on("test_module_type.verify_filter_by_module_type_concept")
+    @lcc.depends_on("test_module_type.verify_filter_by_content_type_concept")
     def verify_module_type_from_backend_module_type_in_filename_con(self):
         open_module_display_page(self.driver, constants.con_module_title)
         verify_module_type_from_backend(self.driver, "Concept")
@@ -64,12 +64,12 @@ class test_module_type(Screenshot):
         verify_module_type_from_backend(self.driver, "Concept")
 
     @lcc.test("Verify that 'Filter by Module Type': PROCEDURE functionality filters results correctly")
-    def verify_filter_by_module_type_procedure(self):
-        verify_filter_by_module_type(self.driver, "Procedure")
+    def verify_filter_by_content_type_procedure(self):
+        verify_filter_by_content_type(self.driver, "Procedure")
 
     @lcc.test(
         "Verify module type: PROCEDURE is shown correctly when added as filename 'proc_file.adoc' verified using the api")
-    @lcc.depends_on("test_module_type.verify_filter_by_module_type_procedure")
+    @lcc.depends_on("test_module_type.verify_filter_by_content_type_procedure")
     def verify_module_type_from_backend_module_type_in_filename_proc(self):
         open_module_display_page(self.driver, constants.proc_module_title)
         verify_module_type_from_backend(self.driver, "Procedure")
@@ -94,12 +94,12 @@ class test_module_type(Screenshot):
         verify_module_type_from_backend(self.driver, "Procedure")
 
     @lcc.test("Verify that 'Filter by Module Type': REFERENCE functionality filters results correctly")
-    def verify_filter_by_module_type_reference(self):
-        verify_filter_by_module_type(self.driver, "Reference")
+    def verify_filter_by_content_type_reference(self):
+        verify_filter_by_content_type(self.driver, "Reference")
 
     @lcc.test(
         "Verify module type: REFERENCE is shown correctly when added as filename 'ref_file.adoc' verified using the api")
-    @lcc.depends_on("test_module_type.verify_filter_by_module_type_reference")
+    @lcc.depends_on("test_module_type.verify_filter_by_content_type_reference")
     def verify_module_type_from_backend_module_type_in_filename_ref(self):
         open_module_display_page(self.driver, constants.ref_module_title)
         verify_module_type_from_backend(self.driver, "Reference")
@@ -198,7 +198,7 @@ def verify_module_type_after_publishing(driver, module_type):
 
 # This method navigates to the search page, filters the modules by given module type
 # and verifies that module type of all the modules listed after the filter is applied = given module type
-def verify_filter_by_module_type(driver, module_type):
+def verify_filter_by_content_type(driver, module_type):
     utilities.click_element(driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
     lcc.log_info("Verifying filter by module type: %s " % module_type)
     search_page.filter_by_module_type(driver, module_type)
