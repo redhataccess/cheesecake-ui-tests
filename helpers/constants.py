@@ -18,7 +18,7 @@ module_display_page_path_after_published = "pantheon/#/module/repositories/uploa
     #"pantheon/#/repositories/rhel-8-docs-nmath-test/entities/enterprise/modules/upgrades-and-differences/ref_audit.adoc?variant=rhel83"
 view_on_portal_link = "View on Customer Portal"
 copy_url_link = "Copy permanent URL"
-view_on_portal_page_url = "/en-us/topic"
+view_on_portal_page_url = "documentation/en-us/"
 
 
 # Edit metadata constants

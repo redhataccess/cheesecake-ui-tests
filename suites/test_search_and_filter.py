@@ -45,7 +45,7 @@ class test_search_and_filter(Screenshot):
         utilities.click_element(self.driver, By.XPATH, locators.CANCEL_BUTTON_XPATH)
         utilities.wait(2)
 
-    @lcc.disabled
+    @lcc.disabled()
     @lcc.test("verify that the search results for asian characters such as '安装术语' should give accurate results.")
     def search_for_module_with_asian_chars(self):
         utilities.find_elements_by_id(self.driver, locators.SEARCH_BOX_ID).clear()
@@ -62,22 +62,28 @@ class test_search_and_filter(Screenshot):
 
     @lcc.test("Verify search results from body of the module")
     def search_for_body_of_module(self):
-        utilities.find_elements_by_id(self.driver, locators.SEARCH_BOX_ID).clear()
-        utilities.enter_text(self.driver, By.ID, locators.SEARCH_BOX_ID, constants.body_of_module_search)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
-        utilities.wait(2)
-        utilities.click_element(self.driver, By.XPATH, locators.SEARCH_MODULE_XPATH)
-        utilities.wait(2)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS)
-        utilities.wait(2)
-        utilities.switch_to_latest_tab(self.driver)
-        body_of_module_on_preview = utilities.find_shadow_dom_element(self.driver,locators.SEARCH_BODY_ON_PREVIEW_CSS,
-                                                                      locators.MODULE_BODY_ON_PREVIEW_CSS).text
-        check_that("content of module is displayed", body_of_module_on_preview,
-                   contains_string(constants.body_of_module_search))
-        utilities.wait(2)
-        self.driver.close()
-        utilities.switch_to_first_tab(self.driver)
+        try:
+            utilities.find_elements_by_id(self.driver, locators.SEARCH_BOX_ID).clear()
+            utilities.enter_text(self.driver, By.ID, locators.SEARCH_BOX_ID, constants.body_of_module_search)
+            utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
+            utilities.wait(2)
+            utilities.click_element(self.driver, By.XPATH, locators.SEARCH_MODULE_XPATH)
+            utilities.wait(2)
+            utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS)
+            utilities.wait(2)
+            utilities.switch_to_latest_tab(self.driver)
+            body_of_module_on_preview = utilities.find_shadow_dom_element(self.driver,locators.SEARCH_BODY_ON_PREVIEW_CSS,
+                                                                          locators.MODULE_BODY_ON_PREVIEW_CSS).text
+            check_that("content of module is displayed", body_of_module_on_preview,
+                       contains_string(constants.body_of_module_search))
+            utilities.wait(2)
+        except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
+            lcc.log_error("Error finding element: %s" % e)
+            lcc.log_error(e)
+        finally:
+            self.driver.close()
+            utilities.switch_to_first_tab(self.driver)
+
 
     @lcc.test("Verify that product and version filter works as expected")
     def select_product_and_version_filter(self):

@@ -166,33 +166,61 @@ def setup(setup_test_repo, setup_test_products):
 
     # This block of code is the teardown method which deletes the repository
     # created and closes the browser window.
-    lcc.log_info("Deleting the test-repo from QA env...")
-    path_to_repo = url + "content/repositories/" + test_repo_name
-    lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
 
-    body = {":operation": "delete"}
-    response = requests.post(path_to_repo, data=body, auth=(admin_username, admin_auth))
-    check_that("The test repo was deleted successfully",
-               response.status_code, equal_to(200))
-    time.sleep(10)
-
-    path_to_git_repo = url + "content/repositories/" + git_import_repo
-    lcc.log_info("Test repo node used for git import functionality being deleted at: %s" % path_to_git_repo)
-    response_git_delete = requests.post(path_to_git_repo, data=body, auth=(admin_username, admin_auth))
-    check_that(
-        "The git import test repo was deleted successfully from backend", response_git_delete.status_code, equal_to(200))
-    time.sleep(10)
-    # Deletes the products created using api endpoint
-
-    lcc.log_info("Deleting test products created.. ")
-    body = {":operation": "delete"}
-    path_to_new_product_node = url + "content/products/" + constants.product_name_uri
+    path_to_new_product_node = url + "bin/cpm/nodes/node.json/content/products/" + constants.product_name_uri
     lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
-
-    response1 = requests.post(path_to_new_product_node, data=body, auth=(admin_username, admin_auth))
+    response1 = requests.delete(path_to_new_product_node, auth=(admin_username, admin_auth))
+    print(str(response1.content))
     check_that("Test product version created was deleted successfully",
                response1.status_code, equal_to(200))
+    time.sleep(15)
+
+    # This block of code is the teardown method which deletes the repository uploaded for testing
+    lcc.log_info("Deleting the test-repo from QA env...")
+    path_to_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + test_repo_name
+    lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
+    time.sleep(15)
+    response = requests.delete(path_to_repo, auth=(admin_username, admin_auth))
+    check_that("The test repo was deleted successfully",
+               response.status_code, equal_to(200))
+    time.sleep(15)
+
+    # Deleting the git repo uploaded via git import in the test suite.
+    path_to_git_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + git_import_repo
+    lcc.log_info("Test repo node used for git import functionality being deleted at: %s" % path_to_git_repo)
+    response_git_delete = requests.delete(path_to_git_repo, auth=(admin_username, admin_auth))
+    print(str(response_git_delete.content))
+    check_that(
+        "The git import test repo was deleted successfully from backend", response_git_delete.status_code,
+        equal_to(200))
 
     lcc.log_info("Closing the browser window...")
     driver.close()
     driver.quit()
+
+    # lcc.log_info("Deleting the test-repo from QA env...")
+    # path_to_repo = url + "content/repositories/" + test_repo_name
+    # lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
+    #
+    # body = {":operation": "delete"}
+    # response = requests.post(path_to_repo, data=body, auth=(admin_username, admin_auth))
+    # check_that("The test repo was deleted successfully",
+    #            response.status_code, equal_to(200))
+    # time.sleep(10)
+    #
+    # path_to_git_repo = url + "content/repositories/" + git_import_repo
+    # lcc.log_info("Test repo node used for git import functionality being deleted at: %s" % path_to_git_repo)
+    # response_git_delete = requests.post(path_to_git_repo, data=body, auth=(admin_username, admin_auth))
+    # check_that(
+    #     "The git import test repo was deleted successfully from backend", response_git_delete.status_code, equal_to(200))
+    # time.sleep(10)
+    # # Deletes the products created using api endpoint
+    #
+    # lcc.log_info("Deleting test product created.. ")
+    # body = {":operation": "delete"}
+    # path_to_new_product_node = url + "content/products/" + constants.product_name_uri
+    # lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
+    #
+    # response1 = requests.post(path_to_new_product_node, data=body, auth=(admin_username, admin_auth))
+    # check_that("Test product version created was deleted successfully",
+    #            response1.status_code, equal_to(200))

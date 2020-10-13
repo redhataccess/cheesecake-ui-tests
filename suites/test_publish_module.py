@@ -64,6 +64,9 @@ class test_publish_module(Screenshot):
         utilities.wait(10)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
         utilities.wait(20)
+        # The page needs a refresh because of an existing bug about the "View on Customer Portal not appearing"
+        self.driver.refresh()
+        
         utilities.find_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
         check_that("Button contains text", utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Unpublish"))
