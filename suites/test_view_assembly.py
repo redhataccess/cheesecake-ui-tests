@@ -54,7 +54,7 @@ class test_view_assembly(Screenshot):
                    contains_string(constants.product_version))
         utilities.wait(2)
 
-    @lcc.test("Verify that user is able to publish module successfully")
+    @lcc.test("Verify that user is able to publish assembly successfully")
     def publish_assembly(self):
         # utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         # search_page.search_for_module_and_click(self.driver, constants.assembly_to_be_published)
@@ -69,42 +69,57 @@ class test_view_assembly(Screenshot):
         # Add a check that the Published column contains some Published time.
 
     @lcc.test("Verify contents of assembly preview in pantheon")
-    def preview_assembly(self):
-        # Get list of modules included
-        modules_included = utilities.find_elements_by_css_selector(self.driver, locators.MODULES_INCLUDED_LIST_CSS)
-        modules_count = len(modules_included)
-        module_titles = []
-        for i in range(modules_count):
-            module_titles.append(modules_included[i].text)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS)
-        print("Clicked preview")
-        utilities.wait(5)
-        utilities.switch_to_latest_tab(self.driver)
-        utilities.wait(7)
-        assembly_title = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.DOCUMENT_TITLE)
-        check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
-        product_name = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_ON_PREVIEW_CSS)
-        check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
-        product_version = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_ON_PREVIEW_CSS)
-        check_that("Product version reflected on view page", product_version,
-                   contains_string(constants.product_version))
-        image = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.IMAGE_CSS)
-        src = image.get_attribute("src")
-        imageasset = urlparse(src)
-        imageasset = imageasset.path.split("/")[2]
-        cmd = "echo " + imageasset + "|base64 -d"
-        try:
-            # subprocess.check_call(cmd, shell=True)
-            path = subprocess.getoutput(cmd)
-            print(path)
-        except subprocess.CalledProcessError as e:
-            logging.error("Unable to decode imageasset")
-            raise e
-        image_file = "/content/repositories/"+ constants.test_repo_name +"/entities/enterprise/assemblies/images/" + constants.image_file_name
-        check_that("Path to image1", path, equal_to(image_file))
+    # 1. Verify assembly title is displayed as expected
+    # 2. Verify product name is displayed as expected
+    # 3. Verify product version is displayed as expected
+    # 4. Verify image path is resolved and contains expected value
+    # 5. Verify all included modules are displayed in assembly preview
 
-        assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
-        print(modules_count)
-        for i in range(modules_count):
-            check_that("Assembly body", assembly_body, contains_string(module_titles[i]))
+    def preview_assembly(self):
+        try:
+            # Get list of modules included
+            modules_included = utilities.find_elements_by_css_selector(self.driver, locators.MODULES_INCLUDED_LIST_CSS)
+            modules_count = len(modules_included)
+            module_titles = []
+            for i in range(modules_count):
+                module_titles.append(modules_included[i].text)
+            utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS)
+            print("Clicked preview")
+            utilities.wait(5)
+            utilities.switch_to_latest_tab(self.driver)
+            utilities.wait(7)
+            assembly_title = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.DOCUMENT_TITLE)
+            check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
+            product_name = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_ON_PREVIEW_CSS)
+            check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
+            product_version = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_ON_PREVIEW_CSS)
+            check_that("Product version reflected on view page", product_version,
+                       contains_string(constants.product_version))
+            image = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.IMAGE_CSS)
+            src = image.get_attribute("src")
+            imageasset = urlparse(src)
+            imageasset = imageasset.path.split("/")[2]
+            cmd = "echo " + imageasset + "|base64 -d"
+            try:
+                # subprocess.check_call(cmd, shell=True)
+                path = subprocess.getoutput(cmd)
+                print(path)
+            except subprocess.CalledProcessError as e:
+                logging.error("Unable to decode imageasset")
+                raise e
+            image_file = "/content/repositories/"+ constants.test_repo_name +"/entities/enterprise/assemblies/images/" + constants.image_file_name
+            check_that("Path to image1", path, equal_to(image_file))
+
+            assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
+            print(modules_count)
+            for i in range(modules_count):
+                check_that("Assembly body", assembly_body, contains_string(module_titles[i]))
+
+        except Exception as e:
+            lcc.log_error(e)
+
+        finally:
+            self.driver.close()
+            utilities.switch_to_first_tab(self.driver)
+
 
