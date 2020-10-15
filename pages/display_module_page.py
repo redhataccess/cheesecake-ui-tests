@@ -22,6 +22,7 @@ def fill_edit_metadata_form(driver, product_name, product_version, usecase, url_
     utilities.select_value_from_dropdown(driver, By.CSS_SELECTOR, locators.PRODUCT_USECASE_DROPDOWN_CSS, usecase)
     utilities.enter_text(driver, By.CSS_SELECTOR, locators.PRODUCT_URLFRAGMENT_CSS, url_fragment)
     utilities.click_element(driver, By.CSS_SELECTOR, locators.EDIT_METADATA_SAVE_CSS)
+    utilities.wait(2)
 
 # Returns path to the adoc file from the display module page url for that module
 def get_path_to_adoc(driver):
@@ -35,13 +36,11 @@ def get_path_to_adoc(driver):
 # Adds metadata to the module which is currently open and publishes it
 def add_metadata_and_publish(driver):
     lcc.log_info("Added following product information to the module::\nProduct name:" +constants.product_name+"\nProduct version:"+constants.product_version+"\nUse case:"+constants.use_case+"\nURL fragment:"+constants.url_fragment)
-    utilities.click_element(driver, By.CSS_SELECTOR, locators.EDIT_METADATA_DROPDOWN_CSS)
-    utilities.click_element(driver, By.CSS_SELECTOR, locators.EDIT_METADATA_BUTTON_CSS)
+    utilities.click_element(driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
     fill_edit_metadata_form(driver, constants.product_name, constants.product_version,
                                                 constants.use_case, constants.url_fragment)
-    utilities.wait(2)
     utilities.click_element(driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
-    utilities.wait(3)
+    utilities.wait(10)
     utilities.page_reload(driver)
     utilities.wait(3)
     assert_that("Button contains text", utilities.get_text(driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Unpublish"))
