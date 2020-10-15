@@ -123,20 +123,20 @@ class test_create_product(Screenshot):
         utilities.enter_text(self.driver,By.ID,locators.PRODUCT_VERSION_URL_FRAGMENT_ID,
                              constants.product_version_url_fragment_1)
         utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
+        utilities.wait(3)
         utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        utilities.wait(2)
         utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_2)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_VERSION_URL_FRAGMENT_ID,
                              constants.product_version_url_fragment_2)
         utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
+        utilities.wait(3)
         utilities.find_element(self.driver, By.ID,locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        utilities.wait(2)
         utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version_3)
         utilities.enter_text(self.driver, By.ID, locators.PRODUCT_VERSION_URL_FRAGMENT_ID,
                              constants.product_version_url_fragment_3)
         utilities.click_element(self.driver, By.XPATH, locators.PRODUCT_VERSION_SAVE_BUTTON_XPATH)
+        utilities.wait(3)
         utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
-        utilities.wait(2)
         versions_ul = utilities.find_element(self.driver, By.CLASS_NAME, locators.PRODUCT_VERSIONS_UL_CLASS_NAME)
         versions_list = versions_ul.find_elements_by_tag_name(locators.PRODUCT_VERSIONS_LI_TAG_NAME)
         versions = []
