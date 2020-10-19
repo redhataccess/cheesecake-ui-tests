@@ -16,11 +16,7 @@ sys.path.append("..")
 from urllib.parse import urlparse
 import subprocess
 import logging
-
-# SUITE = {
-#     "description": "View assembly test",
-#     "rank": "9"
-# }
+from helpers import base
 
 url = fixture.url
 
@@ -35,8 +31,6 @@ class test_view_assembly(Screenshot):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         print("clicked on search")
         search_page.search_for_module_and_click(self.driver, constants.assembly_to_be_published)
-        # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_DROPDOWN_CSS)
-        # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_BUTTON_CSS)
         utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
         check_that("Edit metadata modal title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_MODAL_TITLE_CSS),
@@ -56,8 +50,6 @@ class test_view_assembly(Screenshot):
 
     @lcc.test("Verify that user is able to publish assembly successfully")
     def publish_assembly(self):
-        # utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        # search_page.search_for_module_and_click(self.driver, constants.assembly_to_be_published)
         utilities.wait(5)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
         check_that("URL", self.driver.current_url,
@@ -76,6 +68,7 @@ class test_view_assembly(Screenshot):
     # 5. Verify all included modules are displayed in assembly preview
 
     def preview_assembly(self):
+        test_repo_name = base.config_reader('test_repo', 'repo_name')
         try:
             # Get list of modules included
             modules_included = utilities.find_elements_by_css_selector(self.driver, locators.MODULES_INCLUDED_LIST_CSS)
@@ -84,15 +77,14 @@ class test_view_assembly(Screenshot):
             for i in range(modules_count):
                 module_titles.append(modules_included[i].text)
             utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS)
-            print("Clicked preview")
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
             assembly_title = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.DOCUMENT_TITLE)
             check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
-            product_name = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_ON_PREVIEW_CSS)
+            product_name = utilities.get_text(self.driver, By.CLASS_NAME, locators.PRODUCT_NAME_ON_PREVIEW_CLASS_NAME)
             check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
-            product_version = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_ON_PREVIEW_CSS)
+            product_version = utilities.get_text(self.driver, By.CLASS_NAME, locators.PRODUCT_VERSION_ON_PREVIEW_CLASS_NAME)
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
             image = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.IMAGE_CSS)
@@ -103,15 +95,14 @@ class test_view_assembly(Screenshot):
             try:
                 # subprocess.check_call(cmd, shell=True)
                 path = subprocess.getoutput(cmd)
-                print(path)
+                print("Image file path::", path)
+                image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/assemblies/images/" + constants.image_file_name
+                check_that("Path to image1", path, equal_to(image_file))
             except subprocess.CalledProcessError as e:
                 logging.error("Unable to decode imageasset")
-                raise e
-            image_file = "/content/repositories/"+ constants.test_repo_name +"/entities/enterprise/assemblies/images/" + constants.image_file_name
-            check_that("Path to image1", path, equal_to(image_file))
 
             assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
-            print(modules_count)
+            print("Number of modules included in the assembly::",modules_count)
             for i in range(modules_count):
                 check_that("Assembly body", assembly_body, contains_string(module_titles[i]))
 

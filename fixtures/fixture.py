@@ -137,7 +137,6 @@ def setup(setup_test_repo, setup_test_products):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--window-size=1920,1080')
-        options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         # options.add_argument('--proxy-server=%s' % proxy_url)
         # options.add_argument('--proxy-auto-detect')
