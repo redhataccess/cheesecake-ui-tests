@@ -23,14 +23,14 @@ def wait_for_search_results(driver):
 
 # Search for a module by title and click on it
 def search_for_module_and_click(driver, title):
-    # wait_for_search_results(driver)
+    wait_for_search_results(driver)
     lcc.log_info("Searching specific title....")
     try:
         utilities.enter_text(driver, By.ID, locators.SEARCH_BOX_ID, title)
         print("Entered text!")
         # utilities.wait(3)
         utilities.click_element(driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
-        utilities.wait(3)
+        # utilities.wait(3)
         wait_for_module_to_load(driver, title)
         utilities.click_element(driver, By.LINK_TEXT, title)
     except TimeoutException as e:
