@@ -35,6 +35,7 @@ VIEW_ON_PORTAL_LINK_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-ch
 VIEW_MODULE_TYPE_CSS = "div.pf-l-level:nth-child(6) div:nth-child(3) > div.pf-c-content"
 UPLOADED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(4) span"
 PUBLISHED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(5) span"
+MODULES_INCLUDED_LIST_CSS = "div.pf-c-content ul li a"
 
 # Customer portal
 MODULE_BODY_ON_PORTAL_CSS = "div.fcc_module_body cp-documentation"
@@ -88,6 +89,7 @@ SELECT_PRODUCT_NAME_CSS = "select#productForm"
 SELECT_PRODUCT_VERSION_CSS = "select#productVersionForm"
 PRODUCT_FILTER_DISPLAY_XPATH = "//div[@class='pf-c-chip-group pf-m-category']"
 PRODUCT_VERSION_DISPLAY_PAGE_XPATH = "//div[@class='pf-l-level'][5]//div[1]/div/p/span"
+SEARCH_RESULTS = "ul.pf-c-data-list"
 
 # New Product page
 PRODUCT_NAME_TEXTBOX_ID = "product_name_text"
@@ -108,3 +110,9 @@ NEW_PRODUCT_VERSION_TEXTBOX_ID = "new_version_name_text"
 PRODUCT_VERSIONS_UL_CLASS_NAME = "pf-c-list"
 PRODUCT_VERSIONS_LI_TAG_NAME = "li"
 PRODUCT_VERSION_URL_FRAGMENT_ID = "url_fragment_text"
+
+#PReview
+DOCUMENT_TITLE = "header#rhdocs-header h1"
+IMAGE_CSS = "span.image img"
+ASSEMBLY_BODY_CSS = "div.rhdocs"
+ASSEMBLY_BODY_PREVIEW_CSS = "body cp-documentation"

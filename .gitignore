@@ -1,3 +1,13 @@
+.idea/
+.scannerwork/
+config.ini
+drivers.json
+drivers/
+pantheon.py
+report/
+reports/
+test-repo/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

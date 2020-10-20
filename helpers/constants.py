@@ -90,3 +90,8 @@ product_version_3 = "1.1"
 product_version_url_fragment_1 = "product_version_urlFragment1"
 product_version_url_fragment_2 = "product_version_urlFragment2"
 product_version_url_fragment_3 = "product_version_urlFragment3"
+
+# Assembly tests
+assembly_to_be_published = "AT via uploader assembly|Configuring the host name in the web console<a></a>"
+module_display_page_path_after_published = "pantheon/#/assembly/repositories/uploader-sample-repo-pantheon2/entities/enterprise/assemblies/assembly_configuring-the-host-name-in-the-web-console.adoc"
+image_file_name = "cockpit-hostname-pf4.png"
