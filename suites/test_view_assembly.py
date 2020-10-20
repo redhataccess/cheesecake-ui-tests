@@ -29,7 +29,6 @@ class test_view_assembly(Screenshot):
     def add_metadata(self):
         utilities.wait(5)
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        print("clicked on search")
         search_page.search_for_module_and_click(self.driver, constants.assembly_to_be_published)
         utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
         check_that("Edit metadata modal title",
@@ -99,10 +98,9 @@ class test_view_assembly(Screenshot):
                 image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/assemblies/images/" + constants.image_file_name
                 check_that("Path to image1", path, equal_to(image_file))
             except subprocess.CalledProcessError as e:
-                logging.error("Unable to decode imageasset")
+                lcc.log_info("Unable to decode imageasset")
 
             assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
-            print("Number of modules included in the assembly::",modules_count)
             for i in range(modules_count):
                 check_that("Assembly body", assembly_body, contains_string(module_titles[i]))
 
