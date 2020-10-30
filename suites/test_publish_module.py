@@ -53,7 +53,7 @@ class test_publish_module(Screenshot):
             utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
             utilities.wait(20)
             # The page needs a refresh because of an existing bug about the "View on Customer Portal not appearing"
-            self.driver.refresh()
+            # self.driver.refresh()
 
             utilities.find_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
             check_that("Button contains text", utilities.get_text(
@@ -102,20 +102,25 @@ class test_publish_module(Screenshot):
         utilities.switch_to_latest_tab(self.driver)
         utilities.wait(2)
         try:
-            product_name = utilities.find_element(self.driver, By.CLASS_NAME,
-                                                  locators.PRODUCT_NAME_ON_PREVIEW_CLASS_NAME).text
+            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
+                                                             locators.MODULE_BODY_ON_PREVIEW_CSS).text
             check_that("Product name reflected on view page", product_name,
                        contains_string(constants.product_name))
-            product_version = utilities.find_element(self.driver, By.CLASS_NAME,
-                                                     locators.PRODUCT_VERSION_ON_PREVIEW_CLASS_NAME).text
+            product_version = utilities.find_shadow_dom_element(self.driver,
+                                                                locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
+                                                                locators.MODULE_BODY_ON_PREVIEW_CSS).text
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            test_publish_module.updated_date_view_page = utilities.find_element(self.driver, By.CLASS_NAME,
-                                                    locators.UPDATED_DATE_ON_PREVIEW_CLASS_NAME).text.strip("Updated")
+            test_publish_module.updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
+                                                                                           locators.UPDATED_DATE_ON_PREVIEW_CSS,
+                                                                                           locators.MODULE_BODY_ON_PREVIEW_CSS).text.strip(
+                "Updated ")
             check_that("updated date reflected on view page", test_publish_module.updated_date_view_page,
                        contains_string(test_publish_module.uploaded_date_module_page))
-            test_publish_module.published_date_view_page = utilities.find_element(self.driver, By.CLASS_NAME,
-                                                locators.PUBLISHED_DATE_ON_PREVIEW_CLASS_NAME).text.strip("Published")
+            test_publish_module.published_date_view_page = utilities.find_shadow_dom_element(self.driver,
+                                                                                             locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
+                                                                                             locators.MODULE_BODY_ON_PREVIEW_CSS).text.strip(
+                "Published ")
             check_that("published date reflected on view page", test_publish_module.published_date_view_page,
                        contains_string(test_publish_module.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
@@ -128,29 +133,23 @@ class test_publish_module(Screenshot):
     @lcc.test("Verify product info on customer portal")
     def product_info_on_customer_portal(self):
         time.sleep(5)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
+        utilities.click_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
         time.sleep(5)
         utilities.switch_to_latest_tab(self.driver)
         utilities.wait(6)
         try:
-            # Trying to look for element that contains the module body <article> </article>
-            if utilities.get_text(self.driver, By.CLASS_NAME,
-                                  locators.MODULE_NOT_FOUND_CLASS_NAME) == constants.module_not_found:
-                lcc.log_info("Module not found on customer portal ..")
-            else:
-                # adding checks to verify product name,version,updated and published date on customer portal
-                product_name = utilities.find_element(self.driver, By.CLASS_NAME,
-                                                      locators.PRODUCT_NAME_ON_PREVIEW_CLASS_NAME).text
-                product_version = utilities.find_element(self.driver, By.CLASS_NAME,
-                                                         locators.PRODUCT_VERSION_ON_PREVIEW_CLASS_NAME).text
-                check_that("Product name reflected on customer portal", product_name,
-                           contains_string(constants.product_name.upper()))
-                check_that("Product version reflected on customer portal", product_version,
-                           contains_string(constants.product_version))
-                check_that("updated date reflected on customer portal", test_publish_module.updated_date_view_page,
-                           equal_to(test_publish_module.uploaded_date_module_page))
-                check_that("published date reflected on customer portal", test_publish_module.published_date_view_page,
-                           equal_to(test_publish_module.published_date_module_page))
+            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
+                                                             locators.MODULE_BODY_ON_PORTAL_CSS).text
+            product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
+                                                                locators.MODULE_BODY_ON_PORTAL_CSS).text
+            check_that("Product name reflected on customer portal", product_name,
+                       contains_string(constants.product_name))
+            check_that("Product version reflected on customer portal", product_version,
+                       contains_string(constants.product_version))
+            check_that("updated date reflected on customer portal", test_publish_module.updated_date_view_page,
+                       equal_to(test_publish_module.uploaded_date_module_page))
+            check_that("published date reflected on customer portal", test_publish_module.published_date_view_page,
+                       equal_to(test_publish_module.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_error("Some problem accessing the Customer Portal, please check.")
             lcc.log_error(e)

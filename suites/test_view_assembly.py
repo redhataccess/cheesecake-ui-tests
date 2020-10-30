@@ -79,14 +79,17 @@ class test_view_assembly(Screenshot):
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
-            assembly_title = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.DOCUMENT_TITLE)
+            assembly_title = utilities.find_shadow_dom_element(self.driver,locators.DOCUMENT_TITLE,
+                                                               locators.MODULE_BODY_ON_PREVIEW_CSS).text
             check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
-            product_name = utilities.get_text(self.driver, By.CLASS_NAME, locators.PRODUCT_NAME_ON_PREVIEW_CLASS_NAME)
+            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
+                                                             locators.MODULE_BODY_ON_PREVIEW_CSS).text
             check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
-            product_version = utilities.get_text(self.driver, By.CLASS_NAME, locators.PRODUCT_VERSION_ON_PREVIEW_CLASS_NAME)
+            product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
+                                                                locators.MODULE_BODY_ON_PREVIEW_CSS).text
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            image = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.IMAGE_CSS)
+            image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_ON_PREVIEW_CSS)
             src = image.get_attribute("src")
             imageasset = urlparse(src)
             imageasset = imageasset.path.split("/")[2]
