@@ -113,5 +113,3 @@ class test_view_assembly(Screenshot):
         finally:
             self.driver.close()
             utilities.switch_to_first_tab(self.driver)
-
-

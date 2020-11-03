@@ -81,11 +81,14 @@ class test_view_module(Screenshot):
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
+            lcc.log_info("Find the CP preview in the attachment below for debugging purposes")
+            self.driver.save_screenshot("cp_preview_module.png")
+            lcc.save_attachment_file("cp_preview_module.png")
             check_that("View on Portal URL path", self.driver.current_url,
                        contains_string(constants.view_on_portal_page_url))
             module_id_regex = re.compile(
                 r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
-            current__module_id = self.driver.current_url.split("/topics/en-us/")[1]
+            current__module_id = self.driver.current_url.split("/topic/")[1]
             check_that("View on Portal URL id",
                    current__module_id, match_pattern(module_id_regex))
             utilities.wait(6)

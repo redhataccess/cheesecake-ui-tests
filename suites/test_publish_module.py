@@ -136,6 +136,9 @@ class test_publish_module(Screenshot):
         utilities.click_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
         time.sleep(5)
         utilities.switch_to_latest_tab(self.driver)
+        lcc.log_info("Find the CP preview in the attachment below for debugging purposes")
+        self.driver.save_screenshot("cp_preview_.png")
+        lcc.save_attachment_file("cp_preview_.png")
         utilities.wait(6)
         try:
             product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
