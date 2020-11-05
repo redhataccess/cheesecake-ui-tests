@@ -30,6 +30,8 @@ class test_publish_module(Screenshot):
     published_date_module_page = ""
     updated_date_view_page = ""
     published_date_view_page = ""
+    product_name = ""
+    product_version = ""
 
     @lcc.test("Verify that warning is displayed for publish module with no product metadata")
     def no_product_info_publish_module(self):
@@ -102,24 +104,24 @@ class test_publish_module(Screenshot):
         utilities.switch_to_latest_tab(self.driver)
         utilities.wait(2)
         try:
-            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_ON_PREVIEW_CSS).text
-            check_that("Product name reflected on view page", product_name,
+            test_publish_module.product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_CSS,
+                                                             locators.MODULE_BODY_CSS).text
+            check_that("Product name reflected on view page", test_publish_module.product_name,
                        contains_string(constants.product_name))
-            product_version = utilities.find_shadow_dom_element(self.driver,
-                                                                locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_ON_PREVIEW_CSS).text
-            check_that("Product version reflected on view page", product_version,
+            test_publish_module.product_version = utilities.find_shadow_dom_element(self.driver,
+                                                                locators.PRODUCT_VERSION_CSS,
+                                                                locators.MODULE_BODY_CSS).text
+            check_that("Product version reflected on view page", test_publish_module.product_version,
                        contains_string(constants.product_version))
             test_publish_module.updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
-                                                                                           locators.UPDATED_DATE_ON_PREVIEW_CSS,
-                                                                                           locators.MODULE_BODY_ON_PREVIEW_CSS).text.strip(
+                                                                                           locators.UPDATED_DATE_CSS,
+                                                                                           locators.MODULE_BODY_CSS).text.strip(
                 "Updated ")
             check_that("updated date reflected on view page", test_publish_module.updated_date_view_page,
                        contains_string(test_publish_module.uploaded_date_module_page))
             test_publish_module.published_date_view_page = utilities.find_shadow_dom_element(self.driver,
-                                                                                             locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
-                                                                                             locators.MODULE_BODY_ON_PREVIEW_CSS).text.strip(
+                                                                                             locators.PUBLISHED_DATE_CSS,
+                                                                                             locators.MODULE_BODY_CSS).text.strip(
                 "Published ")
             check_that("published date reflected on view page", test_publish_module.published_date_view_page,
                        contains_string(test_publish_module.published_date_module_page))
@@ -141,18 +143,14 @@ class test_publish_module(Screenshot):
         lcc.save_attachment_file("cp_preview_.png")
         utilities.wait(6)
         try:
-            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_ON_PORTAL_CSS).text
-            product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_ON_PORTAL_CSS).text
-            check_that("Product name reflected on customer portal", product_name,
+            check_that("Product name reflected on customer portal", test_publish_module.product_name,
                        contains_string(constants.product_name))
-            check_that("Product version reflected on customer portal", product_version,
+            check_that("Product version reflected on customer portal", test_publish_module.product_version,
                        contains_string(constants.product_version))
             check_that("updated date reflected on customer portal", test_publish_module.updated_date_view_page,
-                       equal_to(test_publish_module.uploaded_date_module_page))
+                       contains_string(test_publish_module.uploaded_date_module_page))
             check_that("published date reflected on customer portal", test_publish_module.published_date_view_page,
-                       equal_to(test_publish_module.published_date_module_page))
+                       contains_string(test_publish_module.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_error("Some problem accessing the Customer Portal, please check.")
             lcc.log_error(e)
