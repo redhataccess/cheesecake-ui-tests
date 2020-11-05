@@ -21,7 +21,7 @@ sys.path.append("..")
 url = fixture.url
 
 
-@lcc.suite("Suite: Module view page checks for unpublished modules and already published.", rank="6")
+@lcc.suite("Suite: Module view page checks for unpublished modules and already published.", rank="5")
 class test_view_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -88,9 +88,9 @@ class test_view_module(Screenshot):
                        contains_string(constants.view_on_portal_page_url))
             module_id_regex = re.compile(
                 r'^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$')
-            current__module_id = self.driver.current_url.split("/topic/")[1]
+            current_module_id = self.driver.current_url.split("/topic/")[1]
             check_that("View on Portal URL id",
-                   current__module_id, match_pattern(module_id_regex))
+                       current_module_id, match_pattern(module_id_regex))
             utilities.wait(6)
             content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_ON_PORTAL_CSS)
             # content_body_on_portal = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.MODULE_BODY_ON_PORTAL_CSS)

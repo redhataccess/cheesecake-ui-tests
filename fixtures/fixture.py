@@ -9,10 +9,13 @@ import helpers.base as base
 from selenium import webdriver
 
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.options import Options as chrome_options
 
-# from webdriver_manager.firefox import GeckoDriverManager
-# from selenium.webdriver.firefox.options import Options
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.options import Options as ff_options
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+from selenium.webdriver.common.proxy import Proxy, ProxyType
 # from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 
@@ -55,41 +58,41 @@ proxy_url = base.config_reader('proxy', 'proxy_server')
 @lcc.fixture(scope="pre_run")
 def setup_test_repo():
     logging.info("Cloning a test repo from gitlab..")
-    project_dir_git = os.path.join(os.getcwd(), 'test-repo')
-
-    if os.path.isdir(project_dir_git):
-        shutil.rmtree(project_dir_git)
-
-    os.mkdir(project_dir_git)
-
-    repo = git.Repo.init(project_dir_git)
-    origin = repo.create_remote('origin', test_repo_URL)
-    origin.fetch()
-    #origin.pull(origin.refs[0].remote_head)
-    origin.pull('assemblies-2')
-
-    logging.info("Installing the Pantheon uploader script..")
-    try:
-        subprocess.check_call(
-            "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
-            shell=True)
-    except subprocess.CalledProcessError as e:
-        logging.error("Unable to install the uploader script")
-        raise e
-
-    os.chdir(project_dir_git)
-
-    try:
-        subprocess.check_call(
-            ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
-                                                                                      uploader_password,
-                                                                                      url)), shell=True)
-        os.mkdir('screenshots')
-        os.chdir('screenshots')
-    except subprocess.CalledProcessError as e:
-        logging.info(
-            "Test setup did not complete successfully, error encountered during 'pantheon push'")
-        raise e
+    # project_dir_git = os.path.join(os.getcwd(), 'test-repo')
+    #
+    # if os.path.isdir(project_dir_git):
+    #     shutil.rmtree(project_dir_git)
+    #
+    # os.mkdir(project_dir_git)
+    #
+    # repo = git.Repo.init(project_dir_git)
+    # origin = repo.create_remote('origin', test_repo_URL)
+    # origin.fetch()
+    # #origin.pull(origin.refs[0].remote_head)
+    # origin.pull('assemblies-2')
+    #
+    # logging.info("Installing the Pantheon uploader script..")
+    # try:
+    #     subprocess.check_call(
+    #         "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
+    #         shell=True)
+    # except subprocess.CalledProcessError as e:
+    #     logging.error("Unable to install the uploader script")
+    #     raise e
+    #
+    # os.chdir(project_dir_git)
+    #
+    # try:
+    #     subprocess.check_call(
+    #         ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
+    #                                                                                   uploader_password,
+    #                                                                                   url)), shell=True)
+    #     os.mkdir('screenshots')
+    #     os.chdir('screenshots')
+    # except subprocess.CalledProcessError as e:
+    #     logging.info(
+    #         "Test setup did not complete successfully, error encountered during 'pantheon push'")
+    #     raise e
 
 
 # Creates products and add version to it using api endpoint
@@ -132,29 +135,113 @@ def setup(setup_test_repo, setup_test_products):
     lcc.log_info("Initialising the webdriver object, opening the browser...")
     # Initialise the global webdriver, open the browser and maximise the
     # browser window
-    if headless == "yes":
-        options = Options()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--window-size=1920,1080')
-        options.add_argument('--disable-dev-shm-usage')
-        # options.add_argument('--proxy-server=%s' % proxy_url)
-        # options.add_argument('--proxy-auto-detect')
-        # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+    browser = base.config_reader('platform', 'browser')
+    if browser == "chrome":
+        if headless == "yes":
+            options = chrome_options()
+            options.add_argument('--headless')
+            options.add_argument('--no-sandbox')
+            options.add_argument('--window-size=1920,1080')
+            options.add_argument('--disable-dev-shm-usage')
+            lcc.log_info("Running in headless mode...")
+        else:
+            options = chrome_options()
+            options.add_argument('--proxy-server=%s' % proxy_url)
+            lcc.log_info("Running in UI mode...")
         driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(), chrome_options=options)
-        driver.maximize_window()
-        logging.info("Webdriver has been initialised successfully in headless mode...")
-    else:
-        options = Options()
-        options.add_argument('--proxy-server=%s' % proxy_url)
-        #options.add_argument('--proxy-auto-detect')
+    elif browser == "firefox":
         # caps = DesiredCapabilities.FIREFOX.copy()
-        # caps["marionette"] = False
-        # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options, capabilities=caps)
+        f_options = ff_options()
+        f_options.set_capability("marionette", False)
+        if headless == "yes":
+            f_options.add_argument('--headless')
+            f_options.add_argument('--no-sandbox')
+            f_options.add_argument('--window-size=1920,1080')
+            f_options.add_argument('--disable-dev-shm-usage')
+            lcc.log_info("Running in headless mode...")
+        else:
+            f_options.add_argument('--proxy-server=%s' % proxy_url)
+            lcc.log_info("Running in UI mode...")
+        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=f_options)
 
-        driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),chrome_options=options)
-        logging.info("Webdriver has been initialised successfully")
 
+
+    # if headless == "yes":
+    #     options = chrome_options()
+    #     options.add_argument('--headless')
+    #     options.add_argument('--no-sandbox')
+    #     options.add_argument('--window-size=1920,1080')
+    #     options.add_argument('--disable-dev-shm-usage')
+    #     # options.add_argument('--proxy-server=%s' % proxy_url)
+    #     # options.add_argument('--proxy-auto-detect')
+    #     # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+    #     lcc.log_info("Running in headless mode...")
+    # else:
+    #     prox = Proxy()
+    #     prox.proxy_type = ProxyType.MANUAL
+    #     prox.http_proxy = proxy_url
+    #     # options = chrome_options()
+    #     # options.add_argument('--proxy-server=%s' % proxy_url)
+    #     #options.add_argument('--proxy-auto-detect')
+    #     # caps = DesiredCapabilities.FIREFOX.copy()
+    #     # caps["marionette"] = False
+    #     # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options, capabilities=caps)
+    #
+    #     # driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(),chrome_options=options)
+    #
+    # browser = base.config_reader('platform', 'browser')
+    # if browser == 'chrome':
+    #     desired_cap = {
+    #         'bstack:options': {
+    #             "os": "OS X",
+    #             "osVersion": "Catalina",
+    #             "local": "false",
+    #             "seleniumVersion": "3.14.0",
+    #         },
+    #         "browserName": "Chrome",
+    #         "browserVersion": "latest",
+    #     }
+    #     prox.add_to_capabilities(desired_cap)
+    #     # driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(), chrome_options=options)
+    #     driver = webdriver.Remote(
+    #         command_executor='https://noopurmath1:GX55i5rZMcnCDJCJUQCx@hub-cloud.browserstack.com/wd/hub',
+    #         desired_capabilities=desired_cap)
+    # elif browser == 'firefox':
+    #     # driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+    #     desired_cap = {
+    #         'bstack:options': {
+    #             "os": "OS X",
+    #             "osVersion": "Catalina",
+    #             "local": "false",
+    #             "seleniumVersion": "3.14.0",
+    #         },
+    #         "browserName": "Firefox",
+    #         "browserVersion": "latest",
+    #     }
+    #     # driver = webdriver.Chrome(ChromeDriverManager(path=os.environ['PYTHONPATH']).install(), chrome_options=options)
+    #     driver = webdriver.Remote(
+    #         command_executor='https://noopurmath1:GX55i5rZMcnCDJCJUQCx@hub-cloud.browserstack.com/wd/hub',
+    #         desired_capabilities=desired_cap, options=ff_options)
+    # # elif browser == 'safari':
+    # #     prox = Proxy()
+    # #     prox.proxy_type = ProxyType.MANUAL
+    # #     prox.http_proxy = proxy_url
+    # #     desired_cap = {
+    # #         'bstack:options': {
+    # #             "os": "OS X",
+    # #             "osVersion": "Catalina",
+    # #             "local": "false",
+    # #             "seleniumVersion": "3.14.0",
+    # #         },
+    # #         "browserName": "Safari",
+    # #         "browserVersion": "13.0",
+    # #     }
+    # #     prox.add_to_capabilities(desired_cap)
+    # #     driver = webdriver.Remote(
+    # #         command_executor='https://noopurmath1:GX55i5rZMcnCDJCJUQCx@hub-cloud.browserstack.com/wd/hub',
+    # #         desired_capabilities=desired_cap)
+
+    lcc.log_info("Initialized webdriver")
     driver.maximize_window()
     driver.implicitly_wait(15)
     driver.get(url)

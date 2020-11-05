@@ -21,7 +21,7 @@ from helpers import base
 url = fixture.url
 
 
-@lcc.suite("Suite: Add metadata to assembly, publish assembly and view assembly content", rank="9")
+@lcc.suite("Suite: Add metadata to assembly, publish assembly and view assembly content", rank="6")
 class test_view_assembly(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -106,6 +106,9 @@ class test_view_assembly(Screenshot):
             assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
             for i in range(modules_count):
                 check_that("Assembly body", assembly_body, contains_string(module_titles[i]))
+
+            table = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_TABLE_CLASS_NAME)
+            check_that("Preview contains table", table.is_displayed(), is_true() )
 
         except Exception as e:
             lcc.log_error(e)

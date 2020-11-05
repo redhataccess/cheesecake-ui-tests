@@ -30,7 +30,7 @@ sys.path.append("..")
 url = fixture.url
 
 
-@lcc.suite("Suite: Tests for Module type(CONCEPT, PROCEDURE, REFERENCE) by filter and filename", rank="8")
+@lcc.suite("Suite: Tests for Module type(CONCEPT, PROCEDURE, REFERENCE) by filter and filename", rank="9")
 class test_module_type(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 

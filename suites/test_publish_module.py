@@ -23,7 +23,7 @@ sys.path.append("..")
 #     "rank": "4"
 # }
 
-@lcc.suite("Suite: Publish module test", rank="5")
+@lcc.suite("Suite: Publish module test", rank="4")
 class test_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     uploaded_date_module_page = ""
@@ -86,9 +86,10 @@ class test_publish_module(Screenshot):
             check_that("View on Portal URL path", self.driver.current_url,
                        contains_string(constants.view_on_portal_page_url))
             utilities.wait(6)
-            # module_element_display = utilities.find_element(self.driver, By.CSS_SELECTOR,
-            #                                                 locators.MODULE_BODY_ON_PORTAL_CSS).is_displayed()
-            # check_that("Module content displayed on the Customer Portal", module_element_display, is_(True))
+
+            module_element_display = utilities.find_element(self.driver, By.CSS_SELECTOR,
+                                                            locators.MODULE_BODY_ON_PORTAL_CSS).is_displayed()
+            check_that("Module content displayed on the Customer Portal", module_element_display, is_(True))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_error("Element could not be located!!!")
             lcc.log_error(e)
