@@ -92,7 +92,7 @@ class test_view_module(Screenshot):
             check_that("View on Portal URL id",
                    current__module_id, match_pattern(module_id_regex))
             utilities.wait(6)
-            content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_CSS)
+            content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_ON_PORTAL_CSS)
             # content_body_on_portal = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.MODULE_BODY_ON_PORTAL_CSS)
             check_that("Module content displayed on the Customer Portal", content_body_on_portal.is_displayed(),
                        is_(True))
