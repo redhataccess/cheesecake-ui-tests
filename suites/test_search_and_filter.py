@@ -74,7 +74,7 @@ class test_search_and_filter(Screenshot):
             utilities.switch_to_latest_tab(self.driver)
             body_of_module_on_preview = utilities.find_shadow_dom_element(self.driver,
                                                                           locators.SEARCH_BODY_ON_PREVIEW_CSS,
-                                                                          locators.MODULE_BODY_ON_PREVIEW_CSS).text
+                                                                          locators.MODULE_BODY_CSS).text
             check_that("content of module is displayed", body_of_module_on_preview,
                        contains_string(constants.body_of_module_search))
             utilities.wait(2)

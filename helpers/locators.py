@@ -12,9 +12,9 @@ LOGGED_IN_USER_PARTIAL_TEXT = "Log Out"
 
 # Display module page
 MODULE_DISPLAY_TITLE_CSS = "div.pf-l-level h1"
-MODULE_DISPLAY_PUBLISH_BUTTON_CSS = "div.pf-c-card__header div:nth-child(5) button"
+MODULE_DISPLAY_PUBLISH_BUTTON_ID = "publishButton"
     # "button.pf-c-button.pf-m-primary"
-MODULE_DISPLAY_UNPUBLISH_BUTTON_CSS = "div.pf-c-card__header div:nth-child(5) button"
+MODULE_DISPLAY_UNPUBLISH_BUTTON_ID = "unpublishButton"
     # "button.pf-c-button.pf-m-primary"
 MODULE_DISPLAY_PREVIEW_BUTTON_CSS = "div.pf-c-card__header div:nth-child(4) button"
 MODULE_DISPLAY_PUBLISH_STATUS_CSS = "div.pf-l-level:nth-child(6) div:nth-child(5) div.pf-c-content p span"
@@ -51,6 +51,10 @@ MODULE_NOT_FOUND_CLASS_NAME = "fcc_module_body"
 MODULE_FOUND_ID = "rhdocs"
 SEARCH_BODY_ON_PREVIEW_CSS = "section.sectionbody p:nth-child(2)"
 MODULE_BODY_ON_PREVIEW_CSS = "cp-documentation.PFElement"
+MODULE_BODY_CSS = "#doc-content"
+MODULE_TITLE_ON_PORTAL_CSS = "#rhdocs-header div h1"
+CP_PRODUCT_NAME_CSS = "span.rhdocs-product-name"
+CP_PRODUCT_VERSION_CSS = "span.rhdocs-product-version"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
@@ -100,6 +104,8 @@ PRODUCT_NAME_TEXTBOX_ID = "product_name_text"
 PRODUCT_DESCRIPTION_TEXTBOX_ID = "product_description_text"
 SAVE_PRODUCT_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
 PRODUCT_URL_FRAGMENT_TEXTBOX_ID = "product_url_fragment_text"
+NEW_PRODUCT_VERSION_TEXTBOX_ID = "new_version_name_text"
+PRODUCT_VERSION_URL_FRAGMENT_ID = "new_version_url_fragment"
 
 # Product Listing page
 PRODUCT_LIST_UL_CLASS_NAME = "pf-c-data-list"
@@ -107,13 +113,10 @@ PRODUCT_NAMES_LI_ID = "{data.name}"
 PRODUCT_NAMES_LIST_CLASS_NAME = "pf-c-data-list__item"
 PRODUCT_NAME_LI_DROPDOWN_CLASS_NAME = "pf-c-options-menu__toggle pf-m-plain"
 PRODUCT_DETAILS_BUTTON_CLASS_NAME = "pf-c-options-menu__menu-item"
-
-# Product Versions page
-PRODUCT_VERSION_SAVE_BUTTON_XPATH = '//button[text()="Save"]'
-NEW_PRODUCT_VERSION_TEXTBOX_ID = "new_version_name_text"
 PRODUCT_VERSIONS_UL_CLASS_NAME = "pf-c-list"
 PRODUCT_VERSIONS_LI_TAG_NAME = "li"
-PRODUCT_VERSION_URL_FRAGMENT_ID = "url_fragment_text"
+VERSION_URL_FRAGMENT_ID = "url_fragment_text"
+PRODUCT_VERSION_SAVE_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
 
 #PReview
 DOCUMENT_TITLE = "header#rhdocs-header h1"
