@@ -26,8 +26,8 @@ sys.path.append("..")
 @lcc.suite("Suite: Publish module test", rank="5")
 class test_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
-    # uploaded_date_module_page = ""
-    # published_date_module_page = ""
+    uploaded_date_module_page = ""
+    published_date_module_page = ""
     # updated_date_view_page = ""
     # published_date_view_page = ""
 
@@ -66,13 +66,13 @@ class test_publish_module(Screenshot):
                    contains_string(constants.view_on_portal_link))
 
         # get UPLOADED date in variable and covert into desired format- (DD Month YYYY)
-        test_publish_module.uploaded_date_module_page = (utilities.get_text(
+        self.uploaded_date_module_page = (utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.UPLOADED_DATE_MODULE_PAGE_CSS))
         lcc.log_info(
-            "captured uploaded date from module info page : " + test_publish_module.uploaded_date_module_page)
+            "captured uploaded date from module info page : " + self.uploaded_date_module_page)
 
         # get published date in variable and convert into desired format-(DD Month YYYY)
-        test_publish_module.published_date_module_page = (utilities.get_text(
+        self.published_date_module_page = (utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.PUBLISHED_DATE_MODULE_PAGE_CSS)).rstrip('\n Version released')
         lcc.log_info(
             "captured published date from module info page : " + test_publish_module.published_date_module_page)
@@ -85,10 +85,6 @@ class test_publish_module(Screenshot):
             utilities.wait(10)
             check_that("View on Portal URL path", self.driver.current_url,
                        contains_string(constants.view_on_portal_page_url))
-            utilities.wait(6)
-            # module_element_display = utilities.find_element(self.driver, By.CSS_SELECTOR,
-            #                                                 locators.MODULE_BODY_ON_PORTAL_CSS).is_displayed()
-            # check_that("Module content displayed on the Customer Portal", module_element_display, is_(True))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_error("Element could not be located!!!")
             lcc.log_error(e)
@@ -111,18 +107,25 @@ class test_publish_module(Screenshot):
                                                                 locators.MODULE_BODY_CSS).text
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            test_publish_module.updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
+            updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
                                                                                            locators.UPDATED_DATE_ON_PREVIEW_CSS,
                                                                                            locators.MODULE_BODY_CSS).text.strip(
                 "Updated ")
-            check_that("updated date reflected on view page", test_publish_module.updated_date_view_page,
-                       contains_string(test_publish_module.uploaded_date_module_page))
-            test_publish_module.published_date_view_page = utilities.find_shadow_dom_element(self.driver,
+            check_that("updated date reflected on view page", updated_date_view_page,
+                       contains_string(self.uploaded_date_module_page))
+            published_date_view_page = utilities.find_shadow_dom_element(self.driver,
                                                                                              locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
                                                                                              locators.MODULE_BODY_CSS).text.strip(
                 "Published ")
-            check_that("published date reflected on view page", test_publish_module.published_date_view_page,
-                       contains_string(test_publish_module.published_date_module_page))
+            check_that("published date reflected on view page", published_date_view_page,
+                       contains_string(self.published_date_module_page))
+            legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PREVIEW_CSS,
+                                                             locators.MODULE_BODY_CSS)
+            check_that("legal notice is displayed at the bottom of preview page", legal_notice.text,
+                       contains_string("Legal Notices for Trademarks"))
+            legal_notice_href = legal_notice.get_attribute("href")
+            check_that("verify legal notice link", legal_notice_href, contains_string(constants.legal_notice_link))
+
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_error("Element could not be located!!!")
             lcc.log_error(e)
@@ -138,10 +141,18 @@ class test_publish_module(Screenshot):
         utilities.switch_to_latest_tab(self.driver)
         utilities.wait(6)
         try:
-            check_that("updated date reflected on customer portal", test_publish_module.updated_date_view_page,
-                       equal_to(test_publish_module.uploaded_date_module_page))
-            check_that("published date reflected on customer portal", test_publish_module.published_date_view_page,
-                       equal_to(test_publish_module.published_date_module_page))
+            updated_date_on_portal = utilities.find_shadow_dom_element(self.driver,
+                                                                                           locators.UPDATED_DATE_ON_PORTAL_CSS,
+                                                                                           locators.MODULE_BODY_CSS).text.strip(
+                "Updated ")
+            check_that("updated date reflected on view page", updated_date_on_portal,
+                       contains_string(self.uploaded_date_module_page))
+            published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
+                                                                                             locators.PUBLISHED_DATE_ON_PORTAL_CSS,
+                                                                                             locators.MODULE_BODY_CSS).text.strip(
+                "Published ")
+            check_that("published date reflected on view page", published_date_on_portal,
+                       contains_string(self.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_error("Some problem accessing the Customer Portal, please check.")
             lcc.log_error(e)

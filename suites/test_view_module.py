@@ -137,6 +137,12 @@ class test_view_module(Screenshot):
             check_that("Product version displayed on Customer Portal",
                        utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_VERSION_CSS, locators.MODULE_BODY_CSS).text,
                        equal_to(constants.product_version))
+            legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PORTAL_CSS,
+                                                             locators.MODULE_BODY_CSS)
+            check_that("legal notice is displayed at the bottom of preview page", legal_notice.text,
+                       contains_string("Legal Notices for Trademarks"))
+            legal_notice_href = legal_notice.get_attribute("href")
+            check_that("verify legal notice link", legal_notice_href, contains_string(constants.legal_notice_link))
             image = utilities.find_shadow_dom_element(self.driver, locators.IMAGE_CSS, locators.MODULE_BODY_CSS)
             src = image.get_attribute("src")
             imageasset = urlparse(src)

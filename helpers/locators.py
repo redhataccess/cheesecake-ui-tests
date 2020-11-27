@@ -38,10 +38,8 @@ PUBLISHED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div
 MODULES_INCLUDED_LIST_CSS = "div.pf-c-content ul li a"
 
 # Customer portal
-MODULE_BODY_ON_PORTAL_CSS = "PFElement pfe-documentation--next-to-sidebar"
 MODULE_TITLE_ON_PORTAL_ID= "rhdocs-header"
 PRODUCT_NAME_ON_PREVIEW_CSS = "span.rhdocs-product-name"
-PRODUCT_VERSION_CSS = "span.rhdocs-product-version"
 PRODUCT_VERSION_ON_PREVIEW_CSS = "span.rhdocs-product-version"
 UPDATED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-updated-date"
 UPDATED_DATE_ON_PREVIEW_CSS = "li.rh-docs-details-item.rhdocs-updated-date"
@@ -55,6 +53,8 @@ MODULE_BODY_CSS = "#doc-content"
 MODULE_TITLE_ON_PORTAL_CSS = "#rhdocs-header div h1"
 CP_PRODUCT_NAME_CSS = "span.rhdocs-product-name"
 CP_PRODUCT_VERSION_CSS = "span.rhdocs-product-version"
+LEGAL_NOTICE_ON_PREVIEW_CSS = "a.rh-docs-legal-notice__link"
+LEGAL_NOTICE_ON_PORTAL_CSS = "a.rh-docs-legal-notice__link"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
