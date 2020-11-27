@@ -50,13 +50,13 @@ class test_view_assembly(Screenshot):
     @lcc.test("Verify that user is able to publish assembly successfully")
     def publish_assembly(self):
         utilities.wait(5)
-        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS)
+        utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         check_that("URL", self.driver.current_url,
                    contains_string(url + constants.module_display_page_path_after_published))
         check_that("Button", utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS), contains_string("Preview"))
         check_that("Button", utilities.get_text(
-            self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_BUTTON_CSS), contains_string("Unpublish"))
+            self.driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID), contains_string("Unpublish"))
         # Add a check that the Published column contains some Published time.
 
     @lcc.test("Verify contents of assembly preview in pantheon")
@@ -80,16 +80,16 @@ class test_view_assembly(Screenshot):
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
             assembly_title = utilities.find_shadow_dom_element(self.driver,locators.DOCUMENT_TITLE,
-                                                               locators.MODULE_BODY_ON_PREVIEW_CSS).text
+                                                               locators.MODULE_BODY_CSS).text
             check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
             product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_ON_PREVIEW_CSS).text
+                                                             locators.MODULE_BODY_CSS).text
             check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
             product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_ON_PREVIEW_CSS).text
+                                                                locators.MODULE_BODY_CSS).text
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_ON_PREVIEW_CSS)
+            image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_CSS)
             src = image.get_attribute("src")
             imageasset = urlparse(src)
             imageasset = imageasset.path.split("/")[2]

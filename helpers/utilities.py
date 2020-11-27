@@ -78,6 +78,11 @@ def wait(count):
 
 def switch_to_latest_tab(driver):
     driver.switch_to.window(driver.window_handles[1])
+    lcc.log_info("Find the CP preview in the attachment below for debugging purposes")
+    random = generate_random_string(3)
+    file_name = "cp_preview_" + random + ".png"
+    driver.save_screenshot(file_name)
+    lcc.save_attachment_file(file_name)
 
 
 def switch_to_first_tab(driver):
