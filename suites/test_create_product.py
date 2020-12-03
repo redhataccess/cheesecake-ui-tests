@@ -90,7 +90,7 @@ class test_create_product(Screenshot):
         utilities.enter_text(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID, constants.product_version)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
         utilities.wait(5)
-        products = utilities.find_elements_by_id(self.driver, locators.PRODUCT_NAMES_LI_ID)
+        products = utilities.find_elements_by_css_selector(self.driver, locators.PRODUCT_NAME_LIST_CSS)
         lcc.log_info(str(len(products)))
         products_list = []
         for product in products:

@@ -162,3 +162,20 @@ class test_view_module(Screenshot):
             self.driver.close()
             utilities.switch_to_first_tab(self.driver)
 
+    @lcc.test("verify attribute is resolving correctly on preview page")
+    def verify_attribute_text(self):
+        try:
+            utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+            search_page.search_for_module_and_click(self.driver, constants.search_module_with_attribute)
+            utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS)
+            utilities.wait(2)
+            utilities.switch_to_latest_tab(self.driver)
+            attribute_text = utilities.find_shadow_dom_element(self.driver, locators.ATTRIBUTE_ON_PREVIEW_CSS,
+                                                               locators.MODULE_BODY_CSS).text
+            check_that("verify attribute is resolving correctly on preview page", attribute_text,
+                       contains_string(constants.attribute))
+        except Exception as e:
+            lcc.log_info(e)
+        finally:
+            self.driver.close()
+            utilities.switch_to_first_tab(self.driver)

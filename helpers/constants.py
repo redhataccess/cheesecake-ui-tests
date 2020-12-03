@@ -65,6 +65,10 @@ module_metadata_warning_title = "Module Versions"
 module_metadata_warning = "Module failed to publish. Check the following:\nAre you logged in as a publisher?" \
                           "\nDoes the module have all required metadata?"
 
+#constants for verifying attributes
+search_module_with_attribute = "AT via uploader assembly|Introduction"
+attribute = "Red Hat Enterprise Linux 8"
+
 # Module type constants
 ref_module_title = "AT via uploader | Installation terminology"
     # "New packages"
