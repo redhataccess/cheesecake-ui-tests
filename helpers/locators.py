@@ -58,7 +58,8 @@ LEGAL_NOTICE_ON_PORTAL_CSS = "a.rh-docs-legal-notice__link"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
-MENU_PRODUCTS_LINK_TEXT = "Products"
+# MENU_PRODUCTS_LINK_TEXT = "Products"
+MENU_PRODUCTS_LINK_XPATH = "//button[contains(text(),'Products')]"
 MENU_NEW_PRODUCT_LINK_TEXT = "New Product"
 MENU_PRODUCT_LISTING_LINK_TEXT = "Product Listing"
 MENU_SEARCH_PAGE_LINK_TEXT = "Search"

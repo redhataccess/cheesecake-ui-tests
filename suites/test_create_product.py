@@ -27,7 +27,7 @@ class test_create_product(Screenshot):
 
     @lcc.test('Verify that Warning is displayed when no product name is being entered')
     def create_product_blank_name(self):
-        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCTS_LINK_TEXT)
+        utilities.click_element(self.driver, By.XPATH, locators.MENU_PRODUCTS_LINK_XPATH)
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SAVE_PRODUCT_BUTTON_CSS)
         check_that("Warning is displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
@@ -100,7 +100,7 @@ class test_create_product(Screenshot):
     @lcc.test("Verify that user is unable to create duplicate product names, Warning is displayed")
     def duplicate_product_name(self):
         # Navigate to New product page from Product listing page
-        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCTS_LINK_TEXT)
+        utilities.click_element(self.driver, By.XPATH, locators.MENU_PRODUCTS_LINK_XPATH)
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_NEW_PRODUCT_LINK_TEXT)
         lcc.log_info("Product name input: %s " % product_name)
         # Reload new product page to clear old values
@@ -140,7 +140,7 @@ class test_create_product(Screenshot):
 
     @lcc.test("Verify that blank product gives error message")
     def blank_product_versions(self):
-        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCTS_LINK_TEXT)
+        utilities.click_element(self.driver, By.XPATH, locators.MENU_PRODUCTS_LINK_XPATH)
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_PRODUCT_LISTING_LINK_TEXT)
         # User clicks on 'Product details' button for the product created above.
         lcc.log_info("Product name to add versions for: %s " % product_name)
