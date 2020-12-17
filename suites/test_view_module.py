@@ -126,8 +126,6 @@ class test_view_module(Screenshot):
             utilities.wait(6)
             content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_CSS)
             # Verify content displayed on CP
-            check_that("Module content displayed on the Customer Portal", content_body_on_portal.is_displayed(),
-                       is_(True))
             check_that("Module title is displayed",
                        utilities.find_shadow_dom_element(self.driver, locators.MODULE_TITLE_ON_PORTAL_CSS, locators.MODULE_BODY_CSS).text,
                        equal_to(constants.published_module))
@@ -152,6 +150,7 @@ class test_view_module(Screenshot):
                 # subprocess.check_call(cmd, shell=True)
                 path = subprocess.getoutput(cmd)
                 print("Image file path::", path)
+                print("File name::", constants.image_file_name)
                 # image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/modules/images/" + constants.image_file_name
                 check_that("Path to image1", path, contains_string(constants.image_file_name))
             except subprocess.CalledProcessError as e:
