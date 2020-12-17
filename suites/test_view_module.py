@@ -30,12 +30,13 @@ class test_view_module(Screenshot):
         utilities.wait(5)
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         search_page.search_for_module_and_click(self.driver, constants.published_module)
-        utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
-        display_module_page.fill_edit_metadata_form(self.driver, constants.product_name, constants.product_version,
-                                                    constants.use_case, constants.url_fragment)
-        # Publish module using api
-        utilities.wait(5)
-        utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
+        # utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
+        # display_module_page.fill_edit_metadata_form(self.driver, constants.product_name, constants.product_version,
+        #                                             constants.use_case, constants.url_fragment)
+        # # Publish module using api
+        # utilities.wait(5)
+        # utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
+        display_module_page.add_metadata_and_publish(self.driver)
         utilities.wait_for_element(self.driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID)
 
     @lcc.test("Verify that for authenticated user, unpublished module displays all expected checks: Preview, ability to"
@@ -126,8 +127,6 @@ class test_view_module(Screenshot):
             utilities.wait(6)
             content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_CSS)
             # Verify content displayed on CP
-            check_that("Module content displayed on the Customer Portal", content_body_on_portal.is_displayed(),
-                       is_(True))
             check_that("Module title is displayed",
                        utilities.find_shadow_dom_element(self.driver, locators.MODULE_TITLE_ON_PORTAL_CSS, locators.MODULE_BODY_CSS).text,
                        equal_to(constants.published_module))
@@ -152,6 +151,7 @@ class test_view_module(Screenshot):
                 # subprocess.check_call(cmd, shell=True)
                 path = subprocess.getoutput(cmd)
                 print("Image file path::", path)
+                print("File name::", constants.image_file_name)
                 # image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/modules/images/" + constants.image_file_name
                 check_that("Path to image1", path, contains_string(constants.image_file_name))
             except subprocess.CalledProcessError as e:
