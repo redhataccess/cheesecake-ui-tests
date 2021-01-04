@@ -9,6 +9,7 @@ from helpers import constants
 from helpers import locators
 from helpers.base_screenshot import Screenshot
 from selenium.webdriver.common.by import By
+from fixtures import fixture
 sys.path.append("..")
 
 # SUITE = {
@@ -49,16 +50,6 @@ class test_edit_metadata(Screenshot):
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_MODAL_TITLE_CSS),
                    contains_string(constants.edit_metadata_modal_title))
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_SAVE_CSS)
-        check_that("Warning displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
-                   contains_string(constants.edit_metadata_modal_warning))
-        utilities.wait(2)
-
-    @lcc.disabled
-    @lcc.test("Verify that warning should be displayed on Edit Metadata modal when URL fragment field is blank")
-    def edit_metadata_empty_url_fragment(self):
-        display_module_page.reset_edit_metadata_from(self.driver)
-        display_module_page.fill_edit_metadata_form(self.driver, constants.product_name, constants.product_version,
-                                                    constants.use_case, "")
         check_that("Warning displayed", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
                    contains_string(constants.edit_metadata_modal_warning))
         utilities.wait(2)

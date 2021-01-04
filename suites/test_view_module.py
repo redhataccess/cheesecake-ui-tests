@@ -30,12 +30,13 @@ class test_view_module(Screenshot):
         utilities.wait(5)
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         search_page.search_for_module_and_click(self.driver, constants.published_module)
-        utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
-        display_module_page.fill_edit_metadata_form(self.driver, constants.product_name, constants.product_version,
-                                                    constants.use_case, constants.url_fragment)
-        # Publish module using api
-        utilities.wait(5)
-        utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
+        # utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
+        # display_module_page.fill_edit_metadata_form(self.driver, constants.product_name, constants.product_version,
+        #                                             constants.use_case, constants.url_fragment)
+        # # Publish module using api
+        # utilities.wait(5)
+        # utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
+        display_module_page.add_metadata_and_publish(self.driver)
         utilities.wait_for_element(self.driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID)
 
     @lcc.test("Verify that for authenticated user, unpublished module displays all expected checks: Preview, ability to"

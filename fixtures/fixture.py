@@ -7,7 +7,7 @@ import requests
 import subprocess
 import helpers.base as base
 from selenium import webdriver
-
+from helpers import utilities
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
@@ -92,11 +92,15 @@ def setup_test_repo():
         raise e
 
 
+
+
 # Creates products and add version to it using api endpoint
 @lcc.fixture(scope="session")
 def setup_test_products():
-    lcc.log_info("Creating test product")
+    print("Created product::", constants.product_name_uri)
     path_to_product_node = url + "content/products/" + constants.product_name_uri
+    path_to_version = path_to_product_node + "/versions/{}".format(constants.product_version)
+    lcc.log_info("Creating test product")
     lcc.log_info(
         "Test Product node being created at: %s" % path_to_product_node)
 
@@ -105,7 +109,7 @@ def setup_test_products():
               "sling:resourceType": "pantheon/product",
               "jcr:primaryType": "pant:product",
               "locale": "en-US",
-              "url": constants.product_name_uri}
+              "urlFragment": constants.product_name_uri}
 
     # Hit the api for create product
     response = requests.post(path_to_product_node, data=create_product_payload, auth=(username, auth))
@@ -113,18 +117,29 @@ def setup_test_products():
                response.status_code, any_of(equal_to(201), equal_to(200)))
     lcc.log_info("Creating version for the above product")
     time.sleep(5)
-    path_to_version = path_to_product_node + "/versions/{}" .format(constants.product_version)
+
     lcc.log_info("Product version being created for the above product: %s" % path_to_version)
 
     create_version_payload = {"name": constants.product_version,
                               "sling:resourceType": "pantheon/productVersion",
-                              "jcr:primaryType": "pant:productVersion"}
+                              "jcr:primaryType": "pant:productVersion",
+                              "urlFragment": constants.product_version}
 
 
     # Hit the api for create version for the above product
     response = requests.post(path_to_version, data=create_version_payload, auth=(username, auth))
     check_that("The Product version was created successfully",
                response.status_code, any_of(equal_to(201), equal_to(200)))
+
+
+def get_product_id():
+    # Get ID of the product created
+    path_to_product_node = url + "content/products/" + constants.product_name_uri
+    path_to_version = path_to_product_node + "/versions/{}".format(constants.product_version)
+    path = path_to_version+".json"
+    response = requests.get(url=path, auth=(username, auth))
+    product_uuid = response.json()["jcr:uuid"]
+    return product_uuid
 
 
 @lcc.fixture(names=("driver", "driver_obj"), scope="session")
@@ -169,14 +184,6 @@ def setup(setup_test_repo, setup_test_products):
     # This block of code is the teardown method which deletes the repository
     # created and closes the browser window.
 
-    path_to_new_product_node = url + "bin/cpm/nodes/node.json/content/products/" + constants.product_name_uri
-    lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
-    response1 = requests.delete(path_to_new_product_node, auth=(admin_username, admin_auth))
-    print(str(response1.content))
-    check_that("Test product version created was deleted successfully",
-               response1.status_code, equal_to(200))
-    time.sleep(15)
-
     # This block of code is the teardown method which deletes the repository uploaded for testing
     lcc.log_info("Deleting the test-repo from QA env...")
     path_to_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + test_repo_name
@@ -195,6 +202,15 @@ def setup(setup_test_repo, setup_test_products):
     check_that(
         "The git import test repo was deleted successfully from backend", response_git_delete.status_code,
         equal_to(200))
+
+    # This block of code is the teardown method which deletes the product created for testing
+    path_to_new_product_node = url + "bin/cpm/nodes/node.json/content/products/" + constants.product_name_uri
+    lcc.log_info("Test Product node being deleted at: %s" % path_to_new_product_node)
+    response1 = requests.delete(path_to_new_product_node, auth=(admin_username, admin_auth))
+    print(str(response1.content))
+    check_that("Test product version created was deleted successfully",
+               response1.status_code, equal_to(200))
+    time.sleep(15)
 
     lcc.log_info("Closing the browser window...")
     driver.close()

@@ -1,3 +1,5 @@
+from helpers import utilities
+
 # Git import constants
 git_import_branch="master"
 # git_import_branch="noopur"
@@ -26,8 +28,6 @@ module_to_be_published = "AT via uploader | Pretty host name in the web console"
     # "Audit"
 edit_metadata_modal_title = "Edit Metadata"
 edit_metadata_modal_warning = "Fields indicated by * are mandatory"
-product_name = "AT Product Test"
-product_name_uri = "at_product_test"
 product_version = "1"
 use_case = "Install"
 url_fragment = "test_url_fragment"
@@ -52,6 +52,9 @@ duplicate_product_name_warning = "Duplicated Product name"
 module_not_found = "Module not found"
 version_url_fragment_warning = "Allowed input for ulrFragment: alphanumeric, hyphen, period and underscore"
 new_product_url_fragment = "Test UrlFragment"
+random = utilities.generate_random_string(4)
+product_name = "AT Product Test" + random
+product_name_uri = "at_product_test" + random
 
 
 # Constants for future use

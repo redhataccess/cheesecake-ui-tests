@@ -102,7 +102,7 @@ class test_search_and_filter(Screenshot):
         utilities.wait(2)
         check_that("verify that 'filter by product and version' functionality filters results correctly",
                    utilities.get_text(self.driver, By.XPATH, locators.PRODUCT_VERSION_DISPLAY_PAGE_XPATH),
-                   contains_string("AT Product Test 1"))
+                   contains_string(constants.product_name + " " + constants.product_version))
 
     @lcc.test("Verify that 'Filter by content Type': Assembly functionality filters results correctly")
     def select_content_type_filter(self):
