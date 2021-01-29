@@ -14,7 +14,7 @@ sort_by_upload_date = "Uploaded date"
 # View module constants
 path_to_module_to_be_published = "/uploader-sample-repo-pantheon2/entities/enterprise/modules/cockpit/con_pretty-host-name-in-the-web-console.adoc"
     # "repositories/rhel-8-docs-nmath-test/entities/enterprise/modules/upgrades-and-differences/ref_audit.adoc"
-module_display_page_path_unpublished = "pantheon/#/module/repositories/uploader-sample-repo-pantheon2/entities/enterprise/modules/core-services/con_host-name.adoc?variant=variant1-uploader"
+module_display_page_path_unpublished = "pantheon/#/module/repositories/uploader-sample-repo-pantheon2/entities/enterprise/modules/core-services/host-name.adoc?variant=variant1-uploader"
 #"pantheon/#/repositories/rhel-8-docs-nmath-test/entities/enterprise/modules/upgrades-and-differences/ref_moved-packages.adoc"
 module_display_page_path_published = "pantheon/#/module/repositories/uploader-sample-repo-pantheon2/entities/enterprise/modules/cockpit/proc_setting-the-host-name-using-the-web-console.adoc?variant=variant1-uploader"
     #"pantheon/#/repositories/rhel-8-docs-nmath-test/entities/enterprise/modules/upgrades-and-differences/ref_audit.adoc?variant=rhel83"
