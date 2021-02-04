@@ -104,3 +104,7 @@ module_display_page_path_after_published = "pantheon/#/assembly/repositories/upl
 image_file_name = "cockpit-hostname-pf4.png"
 
 legal_notice_link = "https://access.redhat.com/docs-legal-notice"
+
+#search beta constants
+no_results_found = "No results match the filter criteria. Select repo filter to show results."
+
