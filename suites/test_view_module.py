@@ -116,7 +116,7 @@ class test_view_module(Screenshot):
     @lcc.test("Verify that module content displays as expected on CP")
     def view_content_on_cp(self):
         # # try:
-        # test_repo_name = base.config_reader('test_repo', 'repo_name')
+        test_repo_name = base.config_reader('test_repo', 'repo_name')
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         utilities.wait(5)
         search_page.search_for_module_and_click(self.driver, constants.published_module)
@@ -128,21 +128,21 @@ class test_view_module(Screenshot):
             content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_CSS)
             # Verify content displayed on CP
             check_that("Module title is displayed",
-                       utilities.find_shadow_dom_element(self.driver, locators.MODULE_TITLE_ON_PORTAL_CSS, locators.MODULE_BODY_CSS).text,
+                       utilities.find_shadow_dom_element(self.driver, locators.MODULE_TITLE_ON_PORTAL_CSS, locators.MODULE_BODY_ON_PORTAL_CSS).text,
                        equal_to(constants.published_module))
             check_that("Product name displayed on Customer Portal",
-                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_NAME_CSS, locators.MODULE_BODY_CSS).text,
+                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_NAME_CSS, locators.MODULE_BODY_ON_PORTAL_CSS).text,
                        equal_to(constants.product_name))
             check_that("Product version displayed on Customer Portal",
-                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_VERSION_CSS, locators.MODULE_BODY_CSS).text,
+                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_VERSION_CSS, locators.MODULE_BODY_ON_PORTAL_CSS).text,
                        equal_to(constants.product_version))
             legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PORTAL_CSS,
-                                                             locators.MODULE_BODY_CSS)
+                                                             locators.MODULE_BODY_ON_PORTAL_CSS)
             check_that("legal notice is displayed at the bottom of preview page", legal_notice.text,
                        contains_string("Legal Notices for Trademarks"))
             legal_notice_href = legal_notice.get_attribute("href")
             check_that("verify legal notice link", legal_notice_href, contains_string(constants.legal_notice_link))
-            image = utilities.find_shadow_dom_element(self.driver, locators.IMAGE_CSS, locators.MODULE_BODY_CSS)
+            image = utilities.find_shadow_dom_element(self.driver, locators.IMAGE_CSS, locators.MODULE_BODY_ON_PORTAL_CSS)
             src = image.get_attribute("src")
             imageasset = urlparse(src)
             imageasset = imageasset.path.split("/")[2]
@@ -152,8 +152,8 @@ class test_view_module(Screenshot):
                 path = subprocess.getoutput(cmd)
                 print("Image file path::", path)
                 print("File name::", constants.image_file_name)
-                # image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/modules/images/" + constants.image_file_name
-                check_that("Path to image1", path, contains_string(constants.image_file_name))
+                image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/modules/images/" + constants.image_file_name
+                check_that("Path to image1", path, equal_to(image_file))
             except subprocess.CalledProcessError as e:
                 lcc.log_info("Unable to decode imageasset")
         except Exception as e:

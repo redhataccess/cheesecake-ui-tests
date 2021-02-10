@@ -92,8 +92,6 @@ def setup_test_repo():
         raise e
 
 
-
-
 # Creates products and add version to it using api endpoint
 @lcc.fixture(scope="session")
 def setup_test_products():

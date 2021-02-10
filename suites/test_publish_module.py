@@ -108,15 +108,13 @@ class test_publish_module(Screenshot):
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
             updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
-                                                                                           locators.UPDATED_DATE_ON_PREVIEW_CSS,
-                                                                                           locators.MODULE_BODY_CSS).text.strip(
-                "Updated ")
+                                                                       locators.UPDATED_DATE_ON_PREVIEW_CSS,
+                                                                       locators.MODULE_BODY_CSS).text.strip("Updated ")
             check_that("updated date reflected on view page", updated_date_view_page,
                        contains_string(self.uploaded_date_module_page))
             published_date_view_page = utilities.find_shadow_dom_element(self.driver,
-                                                                                             locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
-                                                                                             locators.MODULE_BODY_CSS).text.strip(
-                "Published ")
+                                                                         locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
+                                                                         locators.MODULE_BODY_CSS).text.strip("Published ")
             check_that("published date reflected on view page", published_date_view_page,
                        contains_string(self.published_date_module_page))
             legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PREVIEW_CSS,
@@ -141,16 +139,13 @@ class test_publish_module(Screenshot):
         utilities.switch_to_latest_tab(self.driver)
         utilities.wait(6)
         try:
-            updated_date_on_portal = utilities.find_shadow_dom_element(self.driver,
-                                                                                           locators.UPDATED_DATE_ON_PORTAL_CSS,
-                                                                                           locators.MODULE_BODY_CSS).text.strip(
-                "Updated ")
+            updated_date_on_portal = utilities.find_shadow_dom_element(self.driver, locators.UPDATED_DATE_ON_PORTAL_CSS,
+                                                                       locators.MODULE_BODY_CSS).text.strip("Updated ")
             check_that("updated date reflected on view page", updated_date_on_portal,
                        contains_string(self.uploaded_date_module_page))
             published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
-                                                                                             locators.PUBLISHED_DATE_ON_PORTAL_CSS,
-                                                                                             locators.MODULE_BODY_CSS).text.strip(
-                "Published ")
+                                                                         locators.PUBLISHED_DATE_ON_PORTAL_CSS,
+                                                                         locators.MODULE_BODY_CSS).text.strip("Published ")
             check_that("published date reflected on view page", published_date_on_portal,
                        contains_string(self.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:

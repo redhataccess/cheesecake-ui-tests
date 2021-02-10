@@ -24,6 +24,8 @@ url = fixture.url
 @lcc.suite("Suite: Add metadata to assembly, publish assembly and view assembly content", rank="9")
 class test_view_assembly(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
+    modules_count = 0
+    module_titles = []
 
     @lcc.test("Verify that user can add metadata to assembly")
     def add_metadata(self):
@@ -71,22 +73,24 @@ class test_view_assembly(Screenshot):
         try:
             # Get list of modules included
             modules_included = utilities.find_elements_by_css_selector(self.driver, locators.MODULES_INCLUDED_LIST_CSS)
-            modules_count = len(modules_included)
-            module_titles = []
-            for i in range(modules_count):
-                module_titles.append(modules_included[i].text)
+            test_view_assembly.modules_count = len(modules_included)
+            for i in range(test_view_assembly.modules_count):
+                test_view_assembly.module_titles.append(modules_included[i].text)
             utilities.click_element(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS)
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
             assembly_title = utilities.find_shadow_dom_element(self.driver,locators.DOCUMENT_TITLE,
                                                                locators.MODULE_BODY_CSS).text
+            print(assembly_title)
             check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
             product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
                                                              locators.MODULE_BODY_CSS).text
+            print(product_name)
             check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
             product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
                                                                 locators.MODULE_BODY_CSS).text
+            print(product_version)
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
             image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_CSS)
@@ -104,8 +108,8 @@ class test_view_assembly(Screenshot):
                 lcc.log_info("Unable to decode imageasset")
 
             assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
-            for i in range(modules_count):
-                check_that("Assembly body", assembly_body, contains_string(module_titles[i]))
+            for i in range(test_view_assembly.modules_count):
+                check_that("Assembly body", assembly_body, contains_string(test_view_assembly.module_titles[i]))
 
         except Exception as e:
             lcc.log_error(e)
@@ -113,3 +117,55 @@ class test_view_assembly(Screenshot):
         finally:
             self.driver.close()
             utilities.switch_to_first_tab(self.driver)
+
+    @lcc.test("Verify contents of assembly on CP")
+    def view_assembly_on_cp(self):
+        test_repo_name = base.config_reader('test_repo', 'repo_name')
+        try:
+            utilities.click_element(self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
+            utilities.wait(5)
+            utilities.switch_to_latest_tab(self.driver)
+            utilities.wait(7)
+            check_that("URL portal is", self.driver.current_url, contains_string(
+                "https://access.qa.redhat.com/documentation/en-us/" + constants.product_name_uri + "/" + constants.product_version + "/guide/"))
+
+            assembly_title = utilities.find_shadow_dom_element(self.driver, locators.DOCUMENT_TITLE_CP,
+                                                               locators.MODULE_BODY_ON_PORTAL_CSS).text
+            check_that("Assembly title", assembly_title, contains_string(constants.assembly_to_be_published))
+            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
+                                                             locators.MODULE_BODY_ON_PORTAL_CSS).text
+            check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
+            product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
+                                                                locators.MODULE_BODY_ON_PORTAL_CSS).text
+            check_that("Product version reflected on view page", product_version,
+                       contains_string(constants.product_version))
+            image = utilities.find_shadow_dom_element(self.driver, locators.IMAGE_CSS, locators.MODULE_BODY_ON_PORTAL_CSS)
+            src = image.get_attribute("src")
+            imageasset = urlparse(src)
+            imageasset = imageasset.path.split("/")[2]
+            cmd = "echo " + imageasset + "|base64 -d"
+            try:
+                # subprocess.check_call(cmd, shell=True)
+                path = subprocess.getoutput(cmd)
+                print("Image file path::", path)
+                image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/assemblies/images/" + constants.image_file_name
+                check_that("Path to image1", path, equal_to(image_file))
+            except subprocess.CalledProcessError as e:
+                lcc.log_info("Unable to decode imageasset")
+
+            assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
+            for i in range(test_view_assembly.modules_count):
+                check_that("Assembly body", assembly_body, contains_string(test_view_assembly.module_titles[i]))
+
+        except Exception as e:
+            lcc.log_error(e)
+
+        finally:
+            self.driver.close()
+            utilities.switch_to_first_tab(self.driver)
+
+    # @lcc.test("Verify that xrefs resolve as expected")
+    # def resolve_xref(self):
+
+
+
