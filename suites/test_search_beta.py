@@ -8,7 +8,7 @@ from pages import search_beta_page
 from helpers import base
 
 
-@lcc.suite("Suite: Tests for search beta", rank="10")
+@lcc.suite("Suite: Tests for Search Beta", rank="10")
 class test_search_beta(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -49,38 +49,32 @@ class test_search_beta(Screenshot):
         for i in range(repo_list_count):
             if repo_list[i].text == self.repo_name :
                 check_that("Entered repo name is displayed on search results",
-                           repo_list[i].text, contains_string(self.repo_name))
+                           repo_list[i].text, equal_to(self.repo_name))
         utilities.click_element(self.driver, By.CLASS_NAME, locators.CANCEL_BUTTON_ON_REPO_SEARCH_BAR_CLASS_NAME)
         utilities.wait(1)
 
-    @lcc.test("Verify user is able to select a repo; Module and Assemblies section and toggles ")
+    @lcc.test("Verify user is able to select a repo; Module and Assemblies section has content displayed and toggles.")
     def select_repo_filter(self):
         search_beta_page.search_and_select_repo(self.driver, self.repo_name)
         utilities.wait(1)
         utilities.find_element(self.driver, By.CSS_SELECTOR, locators.REPOSITORY_CHECKBOX_CSS).is_selected()
-        check_that("Repository name displayed correctly on right side panel", utilities.get_text(self.driver, By.XPATH,
-                                                                                                 locators.REPOSITORY_NAME_XPATH),
-                   contains_string(self.repo_name))
-        check_that("Modules section has data displayed for selected repo", utilities.find_element(self.driver,
-                                                                                                  By.CSS_SELECTOR,
-                                                                                                  locators.MODULES_CSS).is_displayed(),
-                   is_true())
-        check_that("Assemblies section has data displayed for selected repo", utilities.find_element(self.driver,
-                                                                                                     By.CSS_SELECTOR,
-                                                                                                     locators.ASSEMBLY_CSS).is_displayed(),
-                   is_true())
+        check_that("Repository name displayed correctly on right side panel", utilities.get_text(
+          self.driver, By.XPATH, locators.REPOSITORY_NAME_XPATH), equal_to(self.repo_name))
+        check_that("Modules section has data displayed for selected repo", utilities.find_element(
+          self.driver, By.CSS_SELECTOR, locators.MODULES_CSS).is_displayed(), is_true())
+        check_that("Assemblies section has data displayed for selected repo", utilities.find_element(
+          self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_CSS).is_displayed(), is_true())
+
         utilities.click_element(self.driver, By.XPATH, locators.MODULES_TOGGLE_BUTTON_XPATH)
         utilities.wait(1)
-        check_that("Modules section is collapsible", utilities.find_element(self.driver, By.XPATH,
-                                                                            locators.MODULE_ASSEMBLY_TOGGLE_XPATH).is_displayed(),
-                   is_true())
+        check_that("Modules section is collapsible", utilities.find_element(
+          self.driver, By.XPATH, locators.MODULE_ASSEMBLY_TOGGLE_XPATH).is_displayed(), is_true())
         utilities.click_element(self.driver, By.XPATH, locators.MODULES_TOGGLE_BUTTON_XPATH)
         utilities.wait(1)
         utilities.click_element(self.driver, By.XPATH, locators.ASSEMBLY_TOGGLE_BUTTON_XPATH)
         utilities.wait(1)
-        check_that("Assemblies section is collapsible", utilities.find_element(self.driver, By.XPATH,
-                                                                               locators.MODULE_ASSEMBLY_TOGGLE_XPATH).is_displayed(),
-                   is_true())
+        check_that("Assemblies section is collapsible", utilities.find_element(
+          self.driver, By.XPATH, locators.MODULE_ASSEMBLY_TOGGLE_XPATH).is_displayed(), is_true())
         utilities.wait(1)
         utilities.click_element(self.driver, By.XPATH, locators.ASSEMBLY_TOGGLE_BUTTON_XPATH)
 
@@ -89,11 +83,18 @@ class test_search_beta(Screenshot):
         utilities.wait(1)
         module_title_list = utilities.find_elements_by_css_selector(self.driver, locators.MODULE_TITLES_CSS)
         modules_count = len(module_title_list)
+        modules = modules_count - 1
+        lcc.log_info("Modules displayed: %s " % str(modules))
         for i in range(1, modules_count):
-            check_that("modules listed for selected repo", module_title_list[i].text,
+            check_that("Modules listed for selected repo", module_title_list[i].text,
                        contains_string(self.module_prefix))
         assembly_title_list = utilities.find_elements_by_css_selector(self.driver, locators.ASSEMBLY_TITLES_CSS)
         assembly_count = len(assembly_title_list)
+        assemblies = assembly_count - 1
+        lcc.log_info("Assemblies displayed: %s" % str(assemblies))
         for i in range(1, assembly_count):
-            check_that("assemblies listed for selected repo", assembly_title_list[i].text,
+            check_that("Assemblies listed for selected repo", assembly_title_list[i].text,
                        contains_string(self.assembly_prefix))
+        lcc.log_info("Find the Search beta page preview in the attachment below:")
+        self.driver.save_screenshot("search_beta_repo_selected.png")
+        lcc.save_attachment_file("search_beta_repo_selected.png")
