@@ -26,6 +26,7 @@ logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 test_repo_URL = base.config_reader('test_repo', 'test_repo_url')
 test_repo_name = base.config_reader('test_repo', 'repo_name')
 git_import_repo = base.config_reader('git_import_test_repo', 'git_import_repo_name')
+uploader_repo = base.config_reader('test_repo', 'uploader_repo')
 
 # setting the appropriate URL value from env variable
 env = os.environ['PANTHEON_ENV']
@@ -69,19 +70,36 @@ def setup_test_repo():
     origin.pull('assemblies-2')
 
     logging.info("Installing the Pantheon uploader script..")
-    try:
-        subprocess.check_call(
-            "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
-            shell=True)
-    except subprocess.CalledProcessError as e:
-        logging.error("Unable to install the uploader script")
-        raise e
+    # try:
+    #     subprocess.check_call(
+    #         "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
+    #         shell=True)
+    # except subprocess.CalledProcessError as e:
+    #     logging.error("Unable to install the uploader script")
+    #     raise e
+    #
+    # os.chdir(project_dir_git)
+    uploader_path = os.path.join(os.getcwd(), 'uploader-repo')
+    print(uploader_path)
 
-    os.chdir(project_dir_git)
+    if os.path.isdir(uploader_path):
+        shutil.rmtree(uploader_path)
+
+    os.mkdir(uploader_path)
 
     try:
+        os.chdir(uploader_path)
+        git.Repo.clone_from(uploader_repo, uploader_path)
+        print(os.system("ls"))
+        os.system("chmod +x install.sh")
+        os.system("./install.sh")
+    except Exception as e:
+        logging.error(str(e))
+
+    try:
+        os.chdir(project_dir_git)
         subprocess.check_call(
-            ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
+            ('pantheon push --user={} --password={} --server={}'.format(uploader_username,
                                                                                       uploader_password,
                                                                                       url)), shell=True)
         os.mkdir('screenshots')

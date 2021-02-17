@@ -31,6 +31,7 @@ headless=yes  #If you don't want your tests to run in headless mode, change the 
 [test_repo]
 test_repo_url=<URL for test repo to be used, this is a required value for the tests to execute>
 repo_name=<Repository name as mentioned in pantheon2.yml in the above test repo>
+uploader_repo=<URL for the uploader repo, this is required for installing the uploader>
 module_prefix=<Prefix used for all modules in the above test repo>
 assembly_prefix=<Prefix used for all assemblies in the above test repo>
 
