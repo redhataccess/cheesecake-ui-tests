@@ -69,21 +69,24 @@ def setup_test_repo():
     origin.pull('assemblies-2')
 
     logging.info("Installing the Pantheon uploader script..")
-    try:
-        subprocess.check_call(
-            "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
-            shell=True)
-    except subprocess.CalledProcessError as e:
-        logging.error("Unable to install the uploader script")
-        raise e
+    # try:
+    #     subprocess.check_call(
+    #         "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
+    #         shell=True)
+    # except subprocess.CalledProcessError as e:
+    #     logging.error("Unable to install the uploader script")
+    #     raise e
 
     os.chdir(project_dir_git)
 
     try:
+        # subprocess.check_call(
+        #     ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
+        #                                                                               uploader_password,
+        #                                                                               url)), shell=True)
         subprocess.check_call(
-            ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
-                                                                                      uploader_password,
-                                                                                      url)), shell=True)
+            ('pantheon --user={} --password={} --server={} push'.format(uploader_username, uploader_password,
+                                                                        url)), shell=True)
         os.mkdir('screenshots')
         os.chdir('screenshots')
     except subprocess.CalledProcessError as e:

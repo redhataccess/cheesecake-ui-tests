@@ -6,3 +6,4 @@ requests
 pyyaml
 urllib3
 polling2
+git+https://github.com/redhataccess/pantheon-uploader.git
