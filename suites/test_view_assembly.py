@@ -61,6 +61,7 @@ class test_view_assembly(Screenshot):
             self.driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID), contains_string("Unpublish"))
         # Add a check that the Published column contains some Published time.
 
+    @lcc.disabled()
     @lcc.test("Verify contents of assembly preview in pantheon")
     # 1. Verify assembly title is displayed as expected
     # 2. Verify product name is displayed as expected
@@ -81,19 +82,19 @@ class test_view_assembly(Screenshot):
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
             assembly_title = utilities.find_shadow_dom_element(self.driver,locators.DOCUMENT_TITLE,
-                                                               locators.MODULE_BODY_CSS).text
+                                                               locators.MODULE_BODY_CONTENT_CSS).text
             print(assembly_title)
             check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
             product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_CSS).text
+                                                             locators.MODULE_BODY_CONTENT_CSS).text
             print(product_name)
             check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
             product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_CSS).text
+                                                                locators.MODULE_BODY_CONTENT_CSS).text
             print(product_version)
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_CSS)
+            image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_CONTENT_CSS)
             src = image.get_attribute("src")
             imageasset = urlparse(src)
             imageasset = imageasset.path.split("/")[2]
@@ -157,12 +158,20 @@ class test_view_assembly(Screenshot):
             for i in range(test_view_assembly.modules_count):
                 check_that("Assembly body", assembly_body, contains_string(test_view_assembly.module_titles[i]))
 
+            guides_content_related = utilities.find_shadow_dom_element(self.driver,
+                                                                       "details.related-topic-content__wrapper--for-guide",
+                                                                       locators.MODULE_BODY_ON_PORTAL_CSS)
+            check_that("Content related to this guide setcion", guides_content_related.is_displayed(), equal_to(True))
+            utilities.click_element(self.driver, By.XPATH, "//summary[text()='Content related to this guide']")
+            check_that("Content related to this guide setcion", guides_content_related.is_displayed(), equal_to(False))
+
         except Exception as e:
             lcc.log_error(e)
 
         finally:
             self.driver.close()
             utilities.switch_to_first_tab(self.driver)
+
 
     # @lcc.test("Verify that xrefs resolve as expected")
     # def resolve_xref(self):
