@@ -55,20 +55,20 @@ proxy_url = base.config_reader('proxy', 'proxy_server')
 @lcc.fixture(scope="pre_run")
 def setup_test_repo():
     logging.info("Cloning a test repo from gitlab..")
-    # project_dir_git = os.path.join(os.getcwd(), 'test-repo')
-    #
-    # if os.path.isdir(project_dir_git):
-    #     shutil.rmtree(project_dir_git)
-    #
-    # os.mkdir(project_dir_git)
-    #
-    # repo = git.Repo.init(project_dir_git)
-    # origin = repo.create_remote('origin', test_repo_URL)
-    # origin.fetch()
-    # #origin.pull(origin.refs[0].remote_head)
-    # origin.pull('assemblies-2')
-    #
-    # logging.info("Installing the Pantheon uploader script..")
+    project_dir_git = os.path.join(os.getcwd(), 'test-repo')
+
+    if os.path.isdir(project_dir_git):
+        shutil.rmtree(project_dir_git)
+
+    os.mkdir(project_dir_git)
+
+    repo = git.Repo.init(project_dir_git)
+    origin = repo.create_remote('origin', test_repo_URL)
+    origin.fetch()
+    #origin.pull(origin.refs[0].remote_head)
+    origin.pull('assemblies-2')
+
+    logging.info("Installing the Pantheon uploader script..")
     # try:
     #     subprocess.check_call(
     #         "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
@@ -76,20 +76,23 @@ def setup_test_repo():
     # except subprocess.CalledProcessError as e:
     #     logging.error("Unable to install the uploader script")
     #     raise e
-    #
-    # os.chdir(project_dir_git)
-    #
-    # try:
-    #     subprocess.check_call(
-    #         ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
-    #                                                                                   uploader_password,
-    #                                                                                   url)), shell=True)
-    #     os.mkdir('screenshots')
-    #     os.chdir('screenshots')
-    # except subprocess.CalledProcessError as e:
-    #     logging.info(
-    #         "Test setup did not complete successfully, error encountered during 'pantheon push'")
-    #     raise e
+
+    os.chdir(project_dir_git)
+
+    try:
+        # subprocess.check_call(
+        #     ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
+        #                                                                               uploader_password,
+        #                                                                               url)), shell=True)
+        subprocess.check_call(
+            ('pantheon --user={} --password={} --server={} push'.format(uploader_username, uploader_password,
+                                                                        url)), shell=True)
+        os.mkdir('screenshots')
+        os.chdir('screenshots')
+    except subprocess.CalledProcessError as e:
+        logging.info(
+            "Test setup did not complete successfully, error encountered during 'pantheon push'")
+        raise e
 
 
 # Creates products and add version to it using api endpoint
