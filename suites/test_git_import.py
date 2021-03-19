@@ -47,6 +47,7 @@ class test_git_import(Screenshot):
                    contains_string(constants.repo_url_invalid_error_message))
     
     @lcc.test("Verify that user should be able to upload modules successfully using git import")
+    @lcc.disabled()
     def git_import_for_sample_repo(self):
         git_import_page.import_git_repo(
             self.driver, git_import_repo_URL, git_import_repo_branch)

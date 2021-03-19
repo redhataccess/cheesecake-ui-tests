@@ -50,6 +50,7 @@ uploader_password = base.config_reader('uploader', 'password')
 admin_username = base.config_reader('admin_login', 'username')
 admin_auth = base.config_reader('admin_login', 'password')
 proxy_url = base.config_reader('proxy', 'proxy_server')
+repo_name = base.config_reader('test_repo', 'repo_name')
 
 
 @lcc.fixture(scope="pre_run")
@@ -66,7 +67,7 @@ def setup_test_repo():
     origin = repo.create_remote('origin', test_repo_URL)
     origin.fetch()
     #origin.pull(origin.refs[0].remote_head)
-    origin.pull('assemblies-2')
+    origin.pull('at-uploader')
 
     logging.info("Installing the Pantheon uploader script..")
     # try:
@@ -133,6 +134,7 @@ def setup_test_products():
                response.status_code, any_of(equal_to(201), equal_to(200)))
 
 
+
 def get_product_id():
     # Get ID of the product created
     path_to_product_node = url + "content/products/" + constants.product_name_uri
@@ -186,14 +188,14 @@ def setup(setup_test_repo, setup_test_products):
     # created and closes the browser window.
 
     # # This block of code is the teardown method which deletes the repository uploaded for testing
-    # lcc.log_info("Deleting the test-repo from QA env...")
-    # path_to_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + test_repo_name
-    # lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
-    # time.sleep(15)
-    # response = requests.delete(path_to_repo, auth=(admin_username, admin_auth))
-    # check_that("The test repo was deleted successfully",
-    #            response.status_code, equal_to(200))
-    # time.sleep(15)
+    lcc.log_info("Deleting the test-repo from QA env...")
+    path_to_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + test_repo_name
+    lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
+    time.sleep(15)
+    response = requests.delete(path_to_repo, auth=(admin_username, admin_auth))
+    check_that("The test repo was deleted successfully",
+               response.status_code, equal_to(200))
+    time.sleep(15)
 
     # Deleting the git repo uploaded via git import in the test suite.
     path_to_git_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + git_import_repo

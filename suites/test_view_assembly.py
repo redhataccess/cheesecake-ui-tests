@@ -4,7 +4,7 @@ from helpers.base_screenshot import Screenshot
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 from selenium.common.exceptions import TimeoutException
-from pages import search_page
+from pages import search_page, search_beta_page
 from pages import display_module_page
 from helpers import utilities
 from helpers import constants
@@ -31,7 +31,9 @@ class test_view_assembly(Screenshot):
     def add_metadata(self):
         utilities.wait(5)
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        search_page.search_for_module_and_click(self.driver, constants.assembly_to_be_published)
+        # search_page.search_for_module_and_click(self.driver, constants.assembly_to_be_published)
+        search_beta_page.select_repo(self.driver, fixture.repo_name)
+        search_beta_page.search_module_and_click(self.driver, constants.assembly_to_be_published)
         utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
         check_that("Edit metadata modal title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_MODAL_TITLE_CSS),

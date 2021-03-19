@@ -23,6 +23,7 @@ class test_search_and_filter(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
     @lcc.test('Verify that search results are as expected')
+    @lcc.disabled()
     def search_for_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         utilities.wait(2)
@@ -34,6 +35,7 @@ class test_search_and_filter(Screenshot):
                    contains_string(constants.module_to_search))
 
     @lcc.test("Verify that warning should be displayed when module is not found")
+    @lcc.disabled()
     def search_for_random_text(self):
         utilities.find_elements_by_id(self.driver, locators.SEARCH_BOX_ID).clear()
         utilities.enter_text(self.driver, By.ID, locators.SEARCH_BOX_ID, constants.random_string_search)
@@ -45,8 +47,8 @@ class test_search_and_filter(Screenshot):
         utilities.click_element(self.driver, By.XPATH, locators.CANCEL_BUTTON_XPATH)
         utilities.wait(2)
 
-    @lcc.disabled()
     @lcc.test("verify that the search results for asian characters such as '安装术语' should give accurate results.")
+    @lcc.disabled()
     def search_for_module_with_asian_chars(self):
         utilities.find_elements_by_id(self.driver, locators.SEARCH_BOX_ID).clear()
         utilities.enter_text(self.driver, By.ID, locators.SEARCH_BOX_ID, constants.asian_char_module)
@@ -61,6 +63,7 @@ class test_search_and_filter(Screenshot):
         utilities.wait(2)
 
     @lcc.test("Verify search results from body of the module")
+    @lcc.disabled()
     def search_for_body_of_module(self):
         try:
             utilities.find_elements_by_id(self.driver, locators.SEARCH_BOX_ID).clear()
@@ -87,6 +90,7 @@ class test_search_and_filter(Screenshot):
 
 
     @lcc.test("Verify that product and version filter works as expected")
+    @lcc.disabled()
     def select_product_and_version_filter(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         utilities.wait(2)
@@ -105,5 +109,6 @@ class test_search_and_filter(Screenshot):
                    contains_string(constants.product_name + " " + constants.product_version))
 
     @lcc.test("Verify that 'Filter by content Type': Assembly functionality filters results correctly")
+    @lcc.disabled()
     def select_content_type_filter(self):
         verify_filter_by_content_type(self.driver, "Assembly")

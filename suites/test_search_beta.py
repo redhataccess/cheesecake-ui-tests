@@ -20,7 +20,7 @@ class test_search_beta(Screenshot):
               "warning error msg is displayed when no repo is selected ")
     def no_repo_selected(self):
         utilities.wait(2)
-        utilities.click_element(self.driver, By.XPATH, locators.MENU_SEARCH_BETA_XPATH)
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
         utilities.wait(1)
         # clicking on filter funnel icon twice to close and re-open the filter by repo pannel
         utilities.click_element(self.driver, By.ID, locators.TOGGLE_ID)
@@ -55,7 +55,7 @@ class test_search_beta(Screenshot):
 
     @lcc.test("Verify user is able to select a repo; Module and Assemblies section has content displayed and toggles.")
     def select_repo_filter(self):
-        search_beta_page.search_and_select_repo(self.driver, self.repo_name)
+        search_beta_page.select_repo(self.driver, self.repo_name)
         utilities.wait(1)
         utilities.find_element(self.driver, By.CSS_SELECTOR, locators.REPOSITORY_CHECKBOX_CSS).is_selected()
         check_that("Repository name displayed correctly on right side panel", utilities.get_text(

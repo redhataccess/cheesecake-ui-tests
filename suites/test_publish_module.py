@@ -8,9 +8,11 @@ from selenium.common.exceptions import *
 from helpers import constants
 from helpers import locators
 from helpers import utilities
+from fixtures import fixture
 from helpers.base_screenshot import Screenshot
 from datetime import datetime
 from pages import search_page
+from pages import search_beta_page
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 from polling2 import poll
@@ -36,7 +38,9 @@ class test_publish_module(Screenshot):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         # # Click on the title if it is displayed on the first page
         utilities.wait(5)
-        search_page.search_for_module_and_click(self.driver, constants.unpublished_module)
+        # search_page.search_for_module_and_click(self.driver, constants.unpublished_module)
+        search_beta_page.select_repo(self.driver, fixture.repo_name)
+        search_beta_page.search_module_and_click(self.driver, constants.unpublished_module)
         utilities.wait(5)
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         check_that("Button contains text",
@@ -47,7 +51,9 @@ class test_publish_module(Screenshot):
     @lcc.depends_on('test_edit_metadata.edit_metadata_successfully')
     def publish_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
+        # search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
+        search_beta_page.select_repo(self.driver, fixture.repo_name)
+        search_beta_page.search_module_and_click(self.driver, constants.module_to_be_published)
         utilities.wait(10)
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         utilities.wait(20)
@@ -140,12 +146,12 @@ class test_publish_module(Screenshot):
         utilities.wait(6)
         try:
             updated_date_on_portal = utilities.find_shadow_dom_element(self.driver, locators.UPDATED_DATE_ON_PORTAL_CSS,
-                                                                       locators.MODULE_BODY_CSS).text.strip("Updated ")
+                                                                       locators.MODULE_BODY_CONTENT_CSS).text.strip("Updated ")
             check_that("updated date reflected on view page", updated_date_on_portal,
                        contains_string(self.uploaded_date_module_page))
             published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
                                                                          locators.PUBLISHED_DATE_ON_PORTAL_CSS,
-                                                                         locators.MODULE_BODY_CSS).text.strip("Published ")
+                                                                         locators.MODULE_BODY_CONTENT_CSS).text.strip("Published ")
             check_that("published date reflected on view page", published_date_on_portal,
                        contains_string(self.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
