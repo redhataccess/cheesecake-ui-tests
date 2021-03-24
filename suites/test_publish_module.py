@@ -105,26 +105,26 @@ class test_publish_module(Screenshot):
         utilities.wait(2)
         try:
             product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_CSS).text
+                                                             locators.MODULE_BODY_ON_PORTAL_CSS).text
             check_that("Product name reflected on view page", product_name,
                        contains_string(constants.product_name))
             product_version = utilities.find_shadow_dom_element(self.driver,
                                                                 locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_CSS).text
+                                                                locators.MODULE_BODY_ON_PORTAL_CSS).text
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
             updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
                                                                        locators.UPDATED_DATE_ON_PREVIEW_CSS,
-                                                                       locators.MODULE_BODY_CSS).text.strip("Updated ")
+                                                                       locators.MODULE_BODY_ON_PORTAL_CSS).text.strip("Updated ")
             check_that("updated date reflected on view page", updated_date_view_page,
                        contains_string(self.uploaded_date_module_page))
             published_date_view_page = utilities.find_shadow_dom_element(self.driver,
                                                                          locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
-                                                                         locators.MODULE_BODY_CSS).text.strip("Published ")
+                                                                         locators.MODULE_BODY_ON_PORTAL_CSS).text.strip("Published ")
             check_that("published date reflected on view page", published_date_view_page,
                        contains_string(self.published_date_module_page))
             legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_CSS)
+                                                             locators.MODULE_BODY_ON_PORTAL_CSS)
             check_that("legal notice is displayed at the bottom of preview page", legal_notice.text,
                        contains_string("Legal Notices for Trademarks"))
             legal_notice_href = legal_notice.get_attribute("href")
@@ -146,12 +146,12 @@ class test_publish_module(Screenshot):
         utilities.wait(6)
         try:
             updated_date_on_portal = utilities.find_shadow_dom_element(self.driver, locators.UPDATED_DATE_ON_PORTAL_CSS,
-                                                                       locators.MODULE_BODY_CONTENT_CSS).text.strip("Updated ")
+                                                                       locators.MODULE_BODY_ON_PORTAL_CSS).text.strip("Updated ")
             check_that("updated date reflected on view page", updated_date_on_portal,
                        contains_string(self.uploaded_date_module_page))
             published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
                                                                          locators.PUBLISHED_DATE_ON_PORTAL_CSS,
-                                                                         locators.MODULE_BODY_CONTENT_CSS).text.strip("Published ")
+                                                                         locators.MODULE_BODY_ON_PORTAL_CSS).text.strip("Published ")
             check_that("published date reflected on view page", published_date_on_portal,
                        contains_string(self.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:

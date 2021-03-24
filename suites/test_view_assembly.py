@@ -55,15 +55,12 @@ class test_view_assembly(Screenshot):
     def publish_assembly(self):
         utilities.wait(5)
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
-        check_that("URL", self.driver.current_url,
-                   contains_string(url + constants.module_display_page_path_after_published))
         check_that("Button", utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS), contains_string("Preview"))
         check_that("Button", utilities.get_text(
             self.driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID), contains_string("Unpublish"))
         # Add a check that the Published column contains some Published time.
 
-    @lcc.disabled()
     @lcc.test("Verify contents of assembly preview in pantheon")
     # 1. Verify assembly title is displayed as expected
     # 2. Verify product name is displayed as expected
@@ -164,7 +161,9 @@ class test_view_assembly(Screenshot):
                                                                        "details.related-topic-content__wrapper--for-guide",
                                                                        locators.MODULE_BODY_ON_PORTAL_CSS)
             check_that("Content related to this guide setcion", guides_content_related.is_displayed(), equal_to(True))
-            utilities.click_element(self.driver, By.XPATH, "//summary[text()='Content related to this guide']")
+            link = utilities.find_shadow_dom_element(self.driver, "summary.related-topic-content__title", locators.MODULE_BODY_ON_PORTAL_CSS)
+            link.click()
+            # utilities.click_element(self.driver, By.XPATH, "//summary[text()='Content related to this guide']")
             check_that("Content related to this guide setcion", guides_content_related.is_displayed(), equal_to(False))
 
         except Exception as e:

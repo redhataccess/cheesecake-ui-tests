@@ -43,7 +43,6 @@ class test_view_module(Screenshot):
         # search_page.search_for_module_and_click(self.driver, constants.unpublished_module)
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_module_and_click(self.driver, constants.unpublished_module)
-        check_that("URL", self.driver.current_url, contains_string(url+constants.module_display_page_path_unpublished))
         check_that("Button",
                    utilities.get_text(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID),
                    contains_string("Publish"))
@@ -66,8 +65,6 @@ class test_view_module(Screenshot):
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_module_and_click(self.driver, constants.published_module)
         # utilities.find_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
-        check_that("URL", self.driver.current_url,
-                   contains_string(url + constants.module_display_page_path_published))
         check_that("Button", utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS), contains_string("Preview"))
         check_that("Button", utilities.get_text(
@@ -116,24 +113,24 @@ class test_view_module(Screenshot):
             utilities.click_element(self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(6)
-            content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_CSS)
+            content_body_on_portal = self.driver.find_element_by_css_selector(locators.MODULE_BODY_ON_PORTAL_CSS)
             # Verify content displayed on CP
             check_that("Module title is displayed",
-                       utilities.find_shadow_dom_element(self.driver, locators.MODULE_TITLE_ON_PORTAL_CSS, locators.MODULE_BODY_CONTENT_CSS).text,
+                       utilities.find_shadow_dom_element(self.driver, locators.MODULE_TITLE_ON_PORTAL_CSS, locators.MODULE_BODY_ON_PORTAL_CSS).text,
                        equal_to(constants.published_module))
             check_that("Product name displayed on Customer Portal",
-                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_NAME_CSS, locators.MODULE_BODY_CONTENT_CSS).text,
+                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_NAME_CSS, locators.MODULE_BODY_ON_PORTAL_CSS).text,
                        equal_to(constants.product_name))
             check_that("Product version displayed on Customer Portal",
-                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_VERSION_CSS, locators.MODULE_BODY_CONTENT_CSS).text,
+                       utilities.find_shadow_dom_element(self.driver, locators.CP_PRODUCT_VERSION_CSS, locators.MODULE_BODY_ON_PORTAL_CSS).text,
                        equal_to(constants.product_version))
             legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PORTAL_CSS,
-                                                             locators.MODULE_BODY_CONTENT_CSS)
+                                                             locators.MODULE_BODY_ON_PORTAL_CSS)
             check_that("legal notice is displayed at the bottom of preview page", legal_notice.text,
                        contains_string("Legal Notices for Trademarks"))
             legal_notice_href = legal_notice.get_attribute("href")
             check_that("verify legal notice link", legal_notice_href, contains_string(constants.legal_notice_link))
-            image = utilities.find_shadow_dom_element(self.driver, locators.IMAGE_CSS, locators.MODULE_BODY_CONTENT_CSS)
+            image = utilities.find_shadow_dom_element(self.driver, locators.IMAGE_CSS, locators.MODULE_BODY_ON_PORTAL_CSS)
             src = image.get_attribute("src")
             imageasset = urlparse(src)
             imageasset = imageasset.path.split("/")[2]
@@ -164,7 +161,7 @@ class test_view_module(Screenshot):
             utilities.wait(2)
             utilities.switch_to_latest_tab(self.driver)
             attribute_text = utilities.find_shadow_dom_element(self.driver, locators.ATTRIBUTE_ON_PREVIEW_CSS,
-                                                               locators.MODULE_BODY_CSS).text
+                                                               locators.MODULE_BODY_ON_PORTAL_CSS).text
             check_that("verify attribute is resolving correctly on preview page", attribute_text,
                        contains_string(constants.attribute))
         except Exception as e:

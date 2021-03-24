@@ -79,7 +79,6 @@ class test_edit_metadata(Screenshot):
 
     @lcc.test("Verify that user should be able to add product metadata successfully")
     def edit_metadata_successfully(self):
-        self.driver.refresh()
         display_module_page.reset_edit_metadata_from(self.driver)
         display_module_page.fill_edit_metadata_form(self.driver, constants.product_name, constants.product_version,
                                                     constants.use_case, constants.url_fragment)
