@@ -31,12 +31,16 @@ git_import_repo = base.config_reader('git_import_test_repo', 'git_import_repo_na
 env = os.environ['PANTHEON_ENV']
 if env == "qa":
     url = base.config_reader('qa', 'base_url')
+    sso_url = base.config_reader('qa', 'sso_url')
 elif env == "dev":
     url = base.config_reader('dev', 'base_url')
+    sso_url = base.config_reader('dev', 'sso_url')
 elif env == "stage":
     url = base.config_reader('stage', 'base_url')
+    sso_url = base.config_reader('stage', 'sso_url')
 elif env == "prod":
     url = base.config_reader('prod', 'base_url')
+    sso_url = base.config_reader('prod', 'sso_url')
 else:
     raise Exception("Please set the env variable PANTHEON_ENV as dev/qa/stage specifically. "
                     "To run your tests against QA, run `$export PANTHEON_ENV=qa` before you run the tests")
@@ -114,7 +118,7 @@ def setup_test_products():
               "urlFragment": constants.product_name_uri}
 
     # Hit the api for create product
-    response = requests.post(path_to_product_node, data=create_product_payload, auth=(username, auth))
+    response = requests.post(path_to_product_node, data=create_product_payload, auth=(admin_username, admin_auth))
     check_that("The Product was created successfully",
                response.status_code, any_of(equal_to(201), equal_to(200)))
     lcc.log_info("Creating version for the above product")
@@ -129,7 +133,7 @@ def setup_test_products():
 
 
     # Hit the api for create version for the above product
-    response = requests.post(path_to_version, data=create_version_payload, auth=(username, auth))
+    response = requests.post(path_to_version, data=create_version_payload, auth=(admin_username, admin_auth))
     check_that("The Product version was created successfully",
                response.status_code, any_of(equal_to(201), equal_to(200)))
 

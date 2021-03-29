@@ -11,12 +11,11 @@ sys.path.append("..")
 
 username = base.config_reader('login', 'username')
 password = base.config_reader('login', 'password')
-sso_url = base.config_reader('qa' , 'sso_url')
 
 
 def login(driver):
     # utilities.click_element(driver, By.LINK_TEXT, locators.LOGIN_LINK_TEXT)
-    assert_that("Assert sso url", driver.current_url, contains_string(sso_url))
+    assert_that("Assert sso url", driver.current_url, contains_string(fixture.sso_url))
     utilities.enter_text(driver, By.ID, locators.USER_NAME_ID, username)
     utilities.click_element(driver, By.ID, locators.LOGIN_NEXT_BUTTON_ID)
     utilities.enter_text(driver, By.ID, locators.PASSWORD_ID, password)
