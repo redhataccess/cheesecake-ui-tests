@@ -25,7 +25,7 @@ def reset_edit_metadata_from(driver):
 def fill_edit_metadata_form(driver, product_name, product_version, usecase, url_fragment):
     utilities.wait(2)
     utilities.select_value_from_dropdown(driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_DROPDOWN_CSS, product_name)
-    utilities.wait(2)
+    utilities.wait(5)
     utilities.select_value_from_dropdown(driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_DROPDOWN_CSS, product_version)
     utilities.wait(2)
     utilities.select_value_from_dropdown(driver, By.CSS_SELECTOR, locators.PRODUCT_USECASE_DROPDOWN_CSS, usecase)
@@ -70,6 +70,8 @@ def add_metadata_and_publish(driver):
     add_metadata = requests.post(url=metadata_path, data=body, auth=(username, auth))
     lcc.log_info("Added metadata to::")
     lcc.log_info(path)
+    utilities.wait(2)
+    # print(add_metadata.content)
     utilities.page_reload(driver)
 
     # utilities.click_element(driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
@@ -84,6 +86,8 @@ def add_metadata_and_publish(driver):
     lcc.log_info(path)
     # utilities.click_element(driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
     # utilities.wait(10)
+    utilities.wait(2)
+    # print(publish.content)
     utilities.page_reload(driver)
     utilities.wait(3)
     assert_that("Button contains text", utilities.get_text(driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID), contains_string("Unpublish"))

@@ -114,9 +114,9 @@ def generate_random_string(string_length):
     return random_string
 
 def get_shadow_root(driver, shadow_root_parent):
-    # wait(15)
     try:
         shadow_host = poll(lambda: driver.find_element_by_css_selector(shadow_root_parent), step=1, timeout=30)
+        print(shadow_host)
     except (TimeoutException, NoSuchElementException) as e:
         lcc.log_error(e)
     else:

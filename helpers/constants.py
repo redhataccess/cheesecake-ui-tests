@@ -24,7 +24,7 @@ view_on_portal_page_url = "documentation/en-us/"
 
 
 # Edit metadata constants
-module_to_be_published = "AT via uploader | Pretty host name in the web console"
+module_to_be_published = "at-uploader | Module Edit metadata Publish Title"
     # "Audit"
 edit_metadata_modal_title = "Edit Metadata"
 edit_metadata_modal_warning = "Fields indicated by * are mandatory"
@@ -58,9 +58,9 @@ product_name_uri = "at_product_test" + random
 
 
 # Constants for future use
-published_module = "AT via uploader | Setting the host name using the web console"
+published_module = "at-uploader | Module Published Title"
 # "Changes in core cryptographic components"
-unpublished_module = "AT via uploader | Host name"
+unpublished_module = "at-uploader | Module Unpublished Title and Module type test inside asciidoc Concept"
     # "Moved packages"
 unpublished_module_preview_text = "Released content version not found for module"
 delete_confirmation_modal_title = "Confirmation"
@@ -69,23 +69,23 @@ module_metadata_warning = "Module failed to publish. Check the following:\nAre y
                           "\nDoes the module have all required metadata?"
 
 #constants for verifying attributes
-search_module_with_attribute = "AT via uploader assembly|Introduction"
+search_module_with_attribute = "at-uploader | Assembly with attribute search"
 attribute = "Red Hat Enterprise Linux 8"
 
 # Module type constants
-ref_module_title = "AT via uploader | Installation terminology"
+ref_module_title = "at-uploader | Module type test in filename Reference"
     # "New packages"
-ref_module_title1 = "AT via uploader | Add-ons for the RHEL 8 web console"
+ref_module_title1 = "at-uploader | Module type test inside asciidoc Reference"
     # "OpenSCAP"
-proc_module_title = "AT via uploader | Adding a mount point file system"
+proc_module_title = "at-uploader | Module type test in filename Procedure"
 # "Connecting to the web console from a remote machine"
-proc_module_title1 = "AT via uploader | Connecting to the web console from a remote machine"
+proc_module_title1 = "at-uploader | Module type test inside asciidoc Procedure"
 # "Installing the web console"
-con_module_title = "AT via uploader | Supported architectures"
+con_module_title = "at-uploader | Module type test in filename Concept"
     # "Pretty host name in the web console"
-con_module_title1 = "AT via uploader | Host name"
+con_module_title1 = "at-uploader | Module Unpublished Title and Module type test inside asciidoc Concept"
     # "What is the RHEL web console"
-no_module_type_title = "AT via uploader | Audit"
+no_module_type_title = "at-uploader | Module type none"
     # "What is the RHEL web console"
 path_for_module_type = "/en_US/variants/variant1-uploader/draft/metadata/pant:moduleType.json"
     # "/en_US/variants/rhel83/draft/metadata"
@@ -99,7 +99,7 @@ product_version_url_fragment_2 = "product_version_urlFragment2"
 product_version_url_fragment_3 = "product_version_urlFragment3"
 
 # Assembly tests
-assembly_to_be_published = "AT via uploader assembly|Configuring the host name in the web console<a></a>"
+assembly_to_be_published = "at-uploader | Assembly Publish test"
 module_display_page_path_after_published = "pantheon/#/assembly/repositories/uploader-sample-repo-pantheon2/entities/enterprise/assemblies/assembly_configuring-the-host-name-in-the-web-console.adoc"
 image_file_name = "cockpit-hostname-pf4.png"
 

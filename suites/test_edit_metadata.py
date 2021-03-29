@@ -4,6 +4,7 @@ from lemoncheesecake.matching import *
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 from pages import search_page
 from pages import display_module_page
+from pages import search_beta_page
 from helpers import utilities
 from helpers import constants
 from helpers import locators
@@ -35,16 +36,10 @@ class test_edit_metadata(Screenshot):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         # # Click on the title if it is displayed on the first page
         utilities.wait(5)
-        # try:
-        #     utilities.click_element(self.driver, By.LINK_TEXT, constants.module_to_be_published)
-        # # If the title is not found on the first page, search for the title and then click
-        # # except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
-        # except:
-        #     lcc.log_info("Unexpected error:", sys.exc_info()[0])
-        #     # lcc.log_info("An exception occurred while looking for the module, searching for the module now...")
-        search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
-        # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_DROPDOWN_CSS)
-        # utilities.click_element(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_BUTTON_CSS)
+        # search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)
+        search_beta_page.select_repo(self.driver, fixture.repo_name)
+        search_beta_page.search_module_and_click(self.driver, constants.module_to_be_published)
+        self.driver.refresh()
         utilities.click_element(self.driver, By.XPATH, locators.ADD_METADATA_BUTTON_XPATH)
         check_that("Edit metadata modal title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_MODAL_TITLE_CSS),

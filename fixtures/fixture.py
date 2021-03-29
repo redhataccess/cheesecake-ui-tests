@@ -31,12 +31,16 @@ git_import_repo = base.config_reader('git_import_test_repo', 'git_import_repo_na
 env = os.environ['PANTHEON_ENV']
 if env == "qa":
     url = base.config_reader('qa', 'base_url')
+    sso_url = base.config_reader('qa', 'sso_url')
 elif env == "dev":
     url = base.config_reader('dev', 'base_url')
+    sso_url = base.config_reader('dev', 'sso_url')
 elif env == "stage":
     url = base.config_reader('stage', 'base_url')
+    sso_url = base.config_reader('stage', 'sso_url')
 elif env == "prod":
     url = base.config_reader('prod', 'base_url')
+    sso_url = base.config_reader('prod', 'sso_url')
 else:
     raise Exception("Please set the env variable PANTHEON_ENV as dev/qa/stage specifically. "
                     "To run your tests against QA, run `$export PANTHEON_ENV=qa` before you run the tests")
@@ -50,6 +54,7 @@ uploader_password = base.config_reader('uploader', 'password')
 admin_username = base.config_reader('admin_login', 'username')
 admin_auth = base.config_reader('admin_login', 'password')
 proxy_url = base.config_reader('proxy', 'proxy_server')
+repo_name = base.config_reader('test_repo', 'repo_name')
 
 
 @lcc.fixture(scope="pre_run")
@@ -66,7 +71,7 @@ def setup_test_repo():
     origin = repo.create_remote('origin', test_repo_URL)
     origin.fetch()
     #origin.pull(origin.refs[0].remote_head)
-    origin.pull('assemblies-2')
+    origin.pull('at-uploader')
 
     logging.info("Installing the Pantheon uploader script..")
     # try:
@@ -95,8 +100,6 @@ def setup_test_repo():
         raise e
 
 
-
-
 # Creates products and add version to it using api endpoint
 @lcc.fixture(scope="session")
 def setup_test_products():
@@ -115,7 +118,7 @@ def setup_test_products():
               "urlFragment": constants.product_name_uri}
 
     # Hit the api for create product
-    response = requests.post(path_to_product_node, data=create_product_payload, auth=(username, auth))
+    response = requests.post(path_to_product_node, data=create_product_payload, auth=(admin_username, admin_auth))
     check_that("The Product was created successfully",
                response.status_code, any_of(equal_to(201), equal_to(200)))
     lcc.log_info("Creating version for the above product")
@@ -130,9 +133,10 @@ def setup_test_products():
 
 
     # Hit the api for create version for the above product
-    response = requests.post(path_to_version, data=create_version_payload, auth=(username, auth))
+    response = requests.post(path_to_version, data=create_version_payload, auth=(admin_username, admin_auth))
     check_that("The Product version was created successfully",
                response.status_code, any_of(equal_to(201), equal_to(200)))
+
 
 
 def get_product_id():
@@ -187,7 +191,7 @@ def setup(setup_test_repo, setup_test_products):
     # This block of code is the teardown method which deletes the repository
     # created and closes the browser window.
 
-    # This block of code is the teardown method which deletes the repository uploaded for testing
+    # # This block of code is the teardown method which deletes the repository uploaded for testing
     lcc.log_info("Deleting the test-repo from QA env...")
     path_to_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + test_repo_name
     lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)

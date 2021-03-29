@@ -12,15 +12,19 @@ password=<enter admin password required for teardown operations>
 
 [qa]
 base_url=https://qa.example.com/
+sso_url=https://sso.qa.example.com/
 
 [stage]
 base_url=https://stage.example.com/
+sso_url=https://sso.stage.example.com/
 
 [dev]
 base_url=https://stage.example.com/
+sso_url=https://sso.dev.example.com/
 
 [prod]
 base_url=https://prod.example.com/
+sso_url=https://sso.example.com/
 
 [proxy]
 proxy_server=<proxy server url>
