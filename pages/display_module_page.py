@@ -13,6 +13,7 @@ sys.path.append("..")
 
 username = base.config_reader('login', 'username')
 auth = base.config_reader('login', 'password')
+api_auth = base.config_reader('login', 'api_password')
 
 # Reset edit metadata form
 def reset_edit_metadata_from(driver):
@@ -67,7 +68,7 @@ def add_metadata_and_publish(driver):
         "searchKeywords":""
     }
     # Add metadata from api
-    add_metadata = requests.post(url=metadata_path, data=body, auth=(username, auth))
+    add_metadata = requests.post(url=metadata_path, data=body, auth=(username, api_auth))
     lcc.log_info("Added metadata to::")
     lcc.log_info(path)
     utilities.wait(2)
@@ -81,7 +82,7 @@ def add_metadata_and_publish(driver):
             "locale": "en_US",
             "variant": var[1]
             }
-    publish = requests.post(url=path, data=body, auth=(username, auth))
+    publish = requests.post(url=path, data=body, auth=(username, api_auth))
     lcc.log_info("Published document::")
     lcc.log_info(path)
     # utilities.click_element(driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)

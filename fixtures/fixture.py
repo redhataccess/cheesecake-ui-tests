@@ -48,6 +48,7 @@ else:
 logging.info("Tests are running against Pantheon instance: %s", url)
 username = base.config_reader('login', 'username')
 auth = base.config_reader('login', 'password')
+api_auth = base.config_reader('login', 'api_password')
 headless = base.config_reader('test_mode', 'headless')
 uploader_username = base.config_reader('uploader', 'username')
 uploader_password = base.config_reader('uploader', 'password')
@@ -144,7 +145,7 @@ def get_product_id():
     path_to_product_node = url + "content/products/" + constants.product_name_uri
     path_to_version = path_to_product_node + "/versions/{}".format(constants.product_version)
     path = path_to_version+".json"
-    response = requests.get(url=path, auth=(username, auth))
+    response = requests.get(url=path, auth=(username, api_auth))
     product_uuid = response.json()["jcr:uuid"]
     return product_uuid
 

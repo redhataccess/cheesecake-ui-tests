@@ -144,7 +144,7 @@ class test_module_type(Screenshot):
         # Once landed on the module display page, get path to adoc from the module display page url
         path_to_adoc_file = display_module_page.get_path_to_adoc(self.driver)
         path = path_to_adoc_file + constants.path_for_module_type
-        response = requests.get(url=url + path, auth=(fixture.username, fixture.auth))
+        response = requests.get(url=url + path, auth=(fixture.username, fixture.api_auth))
         check_that("Module type node in backend", response.status_code, equal_to(404))
 
 # Helper methods for actual tests
@@ -152,8 +152,9 @@ class test_module_type(Screenshot):
 
 # This method will click on given title to open the module display page for it
 def open_module_display_page(driver, title):
+    lcc.log_info(driver.page_source)
     if title in driver.page_source:
-        utilities.wait(3)
+        utilities.wait(5)
         utilities.click_element(driver, By.LINK_TEXT, title)
     else:
         # If the title is not found on the first page, search for the title and then click
@@ -168,7 +169,7 @@ def verify_module_type_from_backend(driver, module_type):
     path_to_adoc_file = display_module_page.get_path_to_adoc(driver)
     path = path_to_adoc_file + constants.path_for_module_type
     req = url+path.strip()
-    response = requests.get(url=req, auth=(fixture.username, fixture.auth))
+    response = requests.get(url=req, auth=(fixture.username, fixture.api_auth))
     lcc.log_info("Verifying the response at endpoint: %s " % req)
     check_that("Module type saved in the backend", response.text.upper(),
                contains_string(module_type.upper()))
