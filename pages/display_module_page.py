@@ -83,6 +83,7 @@ def add_metadata_and_publish(driver):
             "variant": var[1]
             }
     publish = requests.post(url=path, data=body, auth=(username, api_auth))
+    lcc.log_info(publish.text)
     lcc.log_info("Published document::")
     lcc.log_info(path)
     # utilities.click_element(driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)

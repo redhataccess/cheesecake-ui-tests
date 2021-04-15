@@ -108,3 +108,7 @@ legal_notice_link = "https://access.redhat.com/docs-legal-notice"
 #search beta constants
 no_results_found = "No results match the filter criteria. Select repo filter to show results."
 
+# Constants for add new draft version test
+module_new_draft_version = "at-uploader | Module new draft version test"
+assembly_new_draft_version = "at-uploader | Assembly new draft version test"
+

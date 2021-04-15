@@ -37,6 +37,14 @@ VIEW_MODULE_TYPE_CSS = "div.pf-l-level:nth-child(6) div:nth-child(3) > div.pf-c-
 UPLOADED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(4) span"
 PUBLISHED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(5) span"
 MODULES_INCLUDED_LIST_CSS = "div.pf-c-content ul li a"
+DRAFT_CARD = "article.pf-c-card-draft"
+PUBLISHED_CARD = "article.pf-c-card.pf-m-selected"
+UPLOAD_TIME_ON_DRAFT_CARD = "article.pf-c-card-draft div.pf-c-card__body div.pf-c-content:nth-child(1) p:nth-child(2)"
+UPLOAD_TIME_ON_PUBLISHED_CARD = "article.pf-m-selected div.pf-c-card__body div.pf-c-content:nth-child(1) p:nth-child(2)"
+DRAFT_CARD_TITLE = "article.pf-c-card-draft div.pf-c-card__header div strong"
+PUBLISHED_CARD_TITLE = "article.pf-m-selected div.pf-c-card__header div strong span"
+ATTRIBUTE_FILE_CSS = "div.pf-c-card__body div.pf-c-content:nth-child(3) p:nth-child(2)"
+CARDS_ON_DETAILS_PAGE_CSS = "article.pf-c-card div div article.pf-c-card"
 
 # Customer portal
 MODULE_TITLE_ON_PORTAL_ID= "rhdocs-header"
