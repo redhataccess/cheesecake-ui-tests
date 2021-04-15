@@ -7,7 +7,7 @@ git_import_submitted_modal_title="Request submitted."
 module_title_prefix = "Automated Title"
 repo_url_empty_warning_message = "A repository url is required."
 invalid_git_repo_url = "_)(*&^%$#@!"
-repo_url_invalid_error_message = "The repository entered does not look like a git repo"
+repo_url_invalid_error_message = "Error cloning the repo due to invalid repo URL"
 sort_by_upload_date = "Uploaded date"
 
 

@@ -1,6 +1,7 @@
 [login]
 username=<Enter_username for pantheon2 login>
 password=<Enter_password for pantheon2 login>
+api_password=<Enter password for API auth>
 
 [uploader]
 username=<enter username for pantheon uploader>

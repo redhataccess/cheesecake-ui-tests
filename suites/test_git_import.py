@@ -46,7 +46,6 @@ class test_git_import(Screenshot):
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.REPO_URL_INVALID_ERROR_CSS),
                    contains_string(constants.repo_url_invalid_error_message))
 
-    @lcc.disabled()
     @lcc.test("Verify that user should be able to upload modules successfully using git import")
     def git_import_for_sample_repo(self):
         git_import_page.import_git_repo(
@@ -56,10 +55,15 @@ class test_git_import(Screenshot):
             constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
         utilities.wait(30)
         utilities.page_reload(self.driver)
-        search_url = fixture.url + 'pantheon/internal/modules.json?search=' + module_title_prefix
+        search_url = fixture.url + 'pantheon/internal/modules.json?repo=' + fixture.git_import_repo \
+                     + '&search=' + module_title_prefix + '&key=Updated&direction=desc'
+
         lcc.log_info("Git import functionality verified using endpoint: %s" % search_url)
         lcc.log_info("Trying to poll the endpoint until we get the required number of search results as"
                      " per the test data ...")
+        req = requests.get(search_url)
+        print(req.content)
+
         poll(lambda: requests.get(search_url).json()["size"] == 9, step=5, timeout=120)
 
         imported_modules_request = requests.get(search_url)
