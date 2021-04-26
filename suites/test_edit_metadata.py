@@ -34,6 +34,7 @@ class test_edit_metadata(Screenshot):
     @lcc.test("Verify that warning should be displayed on Edit Metadata modal when no data is entered")
     def edit_metadata_blank_data(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+        utilities.page_reload(self.driver)
         # # Click on the title if it is displayed on the first page
         utilities.wait(5)
         # search_page.search_for_module_and_click(self.driver, constants.module_to_be_published)

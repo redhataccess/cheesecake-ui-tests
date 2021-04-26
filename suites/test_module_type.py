@@ -38,8 +38,7 @@ class test_module_type(Screenshot):
     def verify_filter_by_content_type_concept(self):
         verify_filter_by_content_type(self.driver, "Concept")
 
-    @lcc.test(
-        "Verify module type: CONCEPT is shown correctly when added as filename 'con_file.adoc' verified using the api")
+    @lcc.test("Verify module type: CONCEPT is shown correctly when added as filename 'con_file.adoc' verified using the api")
     @lcc.depends_on("test_module_type.verify_filter_by_content_type_concept")
     def verify_module_type_from_backend_module_type_in_filename_con(self):
         open_module_display_page(self.driver, constants.con_module_title)
@@ -131,6 +130,7 @@ class test_module_type(Screenshot):
     @lcc.test("Verify module with invalid type defined")
     def verify_no_module_type(self):
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.page_reload(self.driver)
         # try:
         #     search_page.search_for_module_and_click(self.driver, constants.no_module_type_title)
         # except (TimeoutException, StaleElementReferenceException) as e:
@@ -152,12 +152,15 @@ class test_module_type(Screenshot):
 
 # This method will click on given title to open the module display page for it
 def open_module_display_page(driver, title):
-    lcc.log_info(driver.page_source)
-    if title in driver.page_source:
-        utilities.wait(5)
+    print("Inside open module display page")
+    try:
+        print("Title::"+title)
         utilities.click_element(driver, By.LINK_TEXT, title)
-    else:
+        utilities.wait(5)
+    except Exception as e:
+        print("In except...")
         # If the title is not found on the first page, search for the title and then click
+        lcc.log_info(e)
         lcc.log_info("Module not listed on listed in the results after applying module type filter.")
         lcc.log_info("Searching for the module title now...")
         search_beta_page.search_module_and_click(driver, title)
@@ -204,10 +207,9 @@ def verify_filter_by_content_type(driver, module_type):
     module_type_list = []
     for i in module_type_title_list:
         module_type_list.append(i.text)
-    print(module_type_list)
-    print(module_type)
     for i in module_type_list:
         check_that("Module type for all titles", i, contains_string(module_type))
+    utilities.wait(10)
     # all_of(check_that("Module type", module_type.upper(), is_in(module_type_list)),
     #        check_that("All elements in the module type column are same", len(set(module_type_list))==1, is_true()))
 

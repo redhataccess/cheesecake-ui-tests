@@ -6,6 +6,7 @@ CLOSE_WARNING_ALERT_CSS = "div.pf-c-alert__action button"
 # Login page
 LOGIN_LINK_TEXT = "Log In"
 USER_NAME_ID = "username"
+LOGGED_IN_USERNAME = "a.p2-header__login"
 PASSWORD_ID = "password"
 LOGIN_NEXT_BUTTON_ID = "login-show-step2"
 LOGIN_BUTTON_ID = "kc-login"
@@ -37,6 +38,7 @@ VIEW_MODULE_TYPE_CSS = "div.pf-l-level:nth-child(6) div:nth-child(3) > div.pf-c-
 UPLOADED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(4) span"
 PUBLISHED_DATE_MODULE_PAGE_CSS = "section.pf-c-page__main-section.pf-m-light div:nth-child(6) div:nth-child(5) span"
 MODULES_INCLUDED_LIST_CSS = "div.pf-c-content ul li a"
+CARDS_ON_DETAILS_PAGE_CSS = "article.pf-c-card div div article.pf-c-card"
 
 # Customer portal
 MODULE_TITLE_ON_PORTAL_ID= "rhdocs-header"
@@ -52,11 +54,13 @@ SEARCH_BODY_ON_PREVIEW_CSS = "section.sectionbody p:nth-child(2)"
 MODULE_BODY_CSS = "cp-documentation.PFElement"
 MODULE_BODY_ON_PORTAL_CSS = "cp-documentation#rhdocs"
 MODULE_BODY_CONTENT_CSS = "cp-documentation#doc-content"
-MODULE_TITLE_ON_PORTAL_CSS = "#rhdocs-header div h1"
-CP_PRODUCT_NAME_CSS = "span.rhdocs-product-name"
-CP_PRODUCT_VERSION_CSS = "span.rhdocs-product-version"
+MODULE_TITLE_ON_PORTAL_CSS = "header#rhdocs-header div h1"
+CP_PRODUCT_NAME_CSS = "header#rhdocs-header div.rhdocs-products span.rhdocs-product-name"
+CP_PRODUCT_VERSION_CSS = "header#rhdocs-header div.rhdocs-products span.rhdocs-product-version"
 LEGAL_NOTICE_ON_PREVIEW_CSS = "a.rh-docs-legal-notice__link"
-LEGAL_NOTICE_ON_PORTAL_CSS = "a.rh-docs-legal-notice__link"
+LEGAL_NOTICE_ON_PORTAL_CSS = "article#rhdocs-content div.rh-docs-legal-notice a.rh-docs-legal-notice__link"
+CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-guide aside div.sectionbody"
+CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
@@ -134,7 +138,8 @@ ASSEMBLY_BODY_PREVIEW_CSS = "body cp-documentation"
 ATTRIBUTE_ON_PREVIEW_CSS = "section > p:nth-child(1)"
 
 #search beta
-NO_RESULTS_FOUND_CSS = "div.search-results__section--module div.pf-c-empty-state__body"
+NO_MODULE_RESULTS_FOUND_CSS = "div.search-results__section--module div.pf-c-empty-state__body"
+NO_ASSEMBLY_RESULTS_FOUND_CSS = "div.search-results__section--assembly div.pf-c-empty-state__body"
 FILTER_BY_REPO_SEARCH_BAR_XPATH= "//input[@placeholder='Filter']"
 FILTER_BY_REPO_SECTION_CLASS_NAME = "filters-drawer--by-repo"
 SELECT_REPO_CHECKBOX_CLASS_NAME = "pf-c-check__label"

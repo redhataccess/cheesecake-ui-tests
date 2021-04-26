@@ -21,6 +21,7 @@ class test_search_beta(Screenshot):
     def no_repo_selected(self):
         utilities.wait(2)
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.page_reload(self.driver)
         utilities.wait(1)
         # clicking on filter funnel icon twice to close and re-open the filter by repo pannel
         utilities.click_element(self.driver, By.ID, locators.TOGGLE_ID)
@@ -30,7 +31,7 @@ class test_search_beta(Screenshot):
         check_that("Filter by repo section is displayed", utilities.find_element(self.driver, By.CLASS_NAME,
                           locators.FILTER_BY_REPO_SECTION_CLASS_NAME).is_displayed(), is_true())
         check_that("No results found warning message", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                                                          locators.NO_RESULTS_FOUND_CSS),
+                                                                          locators.NO_MODULE_RESULTS_FOUND_CSS),
                    contains_string(constants.no_results_found))
         utilities.click_element(self.driver, By.XPATH, locators.FILTER_BY_REPO_TOGGLE_XPATH)
         utilities.wait(1)

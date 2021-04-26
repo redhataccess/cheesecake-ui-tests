@@ -77,6 +77,7 @@ def wait(count):
 
 
 def switch_to_latest_tab(driver):
+    wait(5)
     driver.switch_to.window(driver.window_handles[1])
     lcc.log_info("Find the CP preview in the attachment below for debugging purposes")
     random = generate_random_string(3)
@@ -115,8 +116,7 @@ def generate_random_string(string_length):
 
 def get_shadow_root(driver, shadow_root_parent):
     try:
-        shadow_host = poll(lambda: driver.find_element_by_css_selector(shadow_root_parent), step=1, timeout=30)
-        print(shadow_host)
+        shadow_host = find_element(driver, By.CSS_SELECTOR,shadow_root_parent )
     except (TimeoutException, NoSuchElementException) as e:
         lcc.log_error(e)
     else:
