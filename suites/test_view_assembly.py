@@ -31,6 +31,7 @@ class test_view_assembly(Screenshot):
     def add_metadata(self):
         utilities.wait(5)
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+        utilities.page_reload(self.driver)
         # search_page.search_for_module_and_click(self.driver, constants.assembly_to_be_published)
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_module_and_click(self.driver, constants.assembly_to_be_published)
@@ -115,8 +116,9 @@ class test_view_assembly(Screenshot):
             lcc.log_error(e)
 
         finally:
-            self.driver.close()
-            utilities.switch_to_first_tab(self.driver)
+            if (len(self.driver.window_handles) > 1):
+                self.driver.close()
+                utilities.switch_to_first_tab(self.driver)
 
     @lcc.test("Verify contents of assembly on CP")
     def view_assembly_on_cp(self):
@@ -158,20 +160,25 @@ class test_view_assembly(Screenshot):
                 check_that("Assembly body", assembly_body, contains_string(test_view_assembly.module_titles[i]))
 
             guides_content_related = utilities.find_shadow_dom_element(self.driver,
-                                                                       "details.related-topic-content__wrapper--for-guide",
+                                                                       locators.CONTENT_RELATED_TO_GUIDES,
                                                                        locators.MODULE_BODY_ON_PORTAL_CSS)
+            self.driver.execute_script("arguments[0].scrollIntoView();", guides_content_related)
+            utilities.wait(20)
             check_that("Content related to this guide setcion", guides_content_related.is_displayed(), equal_to(True))
-            link = utilities.find_shadow_dom_element(self.driver, "summary.related-topic-content__title", locators.MODULE_BODY_ON_PORTAL_CSS)
-            link.click()
             # utilities.click_element(self.driver, By.XPATH, "//summary[text()='Content related to this guide']")
-            check_that("Content related to this guide setcion", guides_content_related.is_displayed(), equal_to(False))
+            additional_res_guide = utilities.find_shadow_dom_element(self.driver,
+                                                                     locators.CONTENT_RELATED_GUIDES_RESOURCES,
+                                                                     locators.MODULE_BODY_ON_PORTAL_CSS)
+            check_that("Content related to this guide setcion to contain Addtional resources setion", additional_res_guide.is_displayed(), equal_to(True))
 
         except Exception as e:
             lcc.log_error(e)
 
         finally:
-            self.driver.close()
-            utilities.switch_to_first_tab(self.driver)
+            if (len(self.driver.window_handles) > 1):
+                self.driver.close()
+                utilities.switch_to_first_tab(self.driver)
+
 
 
     # @lcc.test("Verify that xrefs resolve as expected")

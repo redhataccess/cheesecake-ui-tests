@@ -26,6 +26,7 @@ class test_search_and_filter(Screenshot):
     @lcc.disabled()
     def search_for_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+        utilities.page_reload(self.driver)
         utilities.wait(2)
         utilities.enter_text(self.driver, By.ID, locators.SEARCH_BOX_ID, constants.module_to_search)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
