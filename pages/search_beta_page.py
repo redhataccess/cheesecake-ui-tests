@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-import polling2
+from polling2 import poll
 
 from helpers import utilities, locators
 import lemoncheesecake.api as lcc
@@ -15,7 +15,7 @@ def select_repo(driver, title):
                   timeout=10,
                   step=1)
     utilities.enter_text(driver, By.XPATH, locators.FILTER_BY_REPO_SEARCH_BAR_XPATH, title)
-    polling2.poll(lambda: len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME))==1,
+    poll(lambda: len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME))==1,
                   ignore_exceptions=[NoSuchElementException],
                   timeout=10,
                   step=1)
@@ -59,8 +59,10 @@ def filter_by_content_type(driver, module_type):
     chips = get_filter_chip_list(driver)
     print(chips)
     print(module_type)
-    assert_that("Filter chips listed", chips, has_item(module_type))
-    utilities.wait(3)
+    check_that("Filter chips listed", chips, has_item(module_type))
+    poll(lambda: utilities.find_element(driver, By.CSS_SELECTOR,
+                                        locators.NO_ASSEMBLY_RESULTS_FOUND_CSS).is_displayed() == True, step=0.5,
+         timeout=10)
 
 def get_filter_chip_list(driver):
     list = utilities.find_elements_by_css_selector(driver, locators.FILTER_CHIP_LIST_CSS)
