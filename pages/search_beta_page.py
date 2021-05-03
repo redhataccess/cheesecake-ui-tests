@@ -10,13 +10,19 @@ from lemoncheesecake.matching import *
 def select_repo(driver, title):
     lcc.log_info("Selecting repo::{}".format(title))
     utilities.click_element(driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
-    utilities.wait(2)
+    # Poll until all the repos are listed in the filter
+    poll(lambda: len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME)) >= 1,
+                  ignore_exceptions=[NoSuchElementException],
+                  timeout=10,
+                  step=1)
     utilities.enter_text(driver, By.XPATH, locators.FILTER_BY_REPO_SEARCH_BAR_XPATH, title)
+    # Poll until repo matching the search criteria is listed in the filter
     poll(lambda: len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME))==1,
                   ignore_exceptions=[NoSuchElementException],
-                  timeout=3,
-                  step=0.1)
+                  timeout=10,
+                  step=1)
     # utilities.wait(7)
+    print(len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME)))
     utilities.click_element(driver, By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME)
     utilities.wait(3)
 

@@ -56,12 +56,12 @@ admin_username = base.config_reader('admin_login', 'username')
 admin_auth = base.config_reader('admin_login', 'password')
 proxy_url = base.config_reader('proxy', 'proxy_server')
 repo_name = base.config_reader('test_repo', 'repo_name')
+project_dir_git = os.path.join(os.getcwd(), 'test-repo')
 
 
 @lcc.fixture(scope="pre_run")
 def setup_test_repo():
     logging.info("Cloning a test repo from gitlab..")
-    project_dir_git = os.path.join(os.getcwd(), 'test-repo')
 
     if os.path.isdir(project_dir_git):
         shutil.rmtree(project_dir_git)
@@ -72,7 +72,7 @@ def setup_test_repo():
     origin = repo.create_remote('origin', test_repo_URL)
     origin.fetch()
     #origin.pull(origin.refs[0].remote_head)
-    origin.pull('at-uploader')
+    origin.pull('at-uploader1')
 
     logging.info("Installing the Pantheon uploader script..")
     # try:
