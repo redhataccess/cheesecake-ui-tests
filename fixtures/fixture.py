@@ -19,6 +19,7 @@ from selenium.webdriver.chrome.options import Options
 from lemoncheesecake.matching import *
 from pages import login_page
 from helpers import constants
+from polling2 import poll
 
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
@@ -193,11 +194,16 @@ def setup(setup_test_repo, setup_test_products):
     # created and closes the browser window.
 
     # # This block of code is the teardown method which deletes the repository uploaded for testing
+    lcc.log_info("Starting with teardown")
     lcc.log_info("Deleting the test-repo from QA env...")
+    time.sleep(10)
     path_to_repo = url + "bin/cpm/nodes/node.json/content/repositories/" + test_repo_name
     lcc.log_info("Test repo node being deleted at: %s" % path_to_repo)
-    time.sleep(15)
     response = requests.delete(path_to_repo, auth=(admin_username, admin_auth))
+    print(response.status_code)
+    # poll(lambda: response.status_code == 200, step=10, timeout=300)
+    # print(response.status_code)
+    # time.sleep(200)
     check_that("The test repo was deleted successfully",
                response.status_code, equal_to(200))
     time.sleep(15)

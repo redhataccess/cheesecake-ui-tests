@@ -43,6 +43,8 @@ random_string_search = "abcdefg"
 body_of_module_search = "search for body of the module"
 no_module_found = "No modules found with your search"
 help_user_guide_url = "/pantheon/docs/assemblies/assembly-pantheon-help.html"
+bulk_operations_modules = "at-uploader | Module bulk operations"
+bulk_operations_assemblies = "at-uploader | Assembly bulk operations"
 
 
 # Create new product constants
@@ -123,3 +125,7 @@ ref_module_unpublish = "content/repositories/uploader-test/entities/enterprise/m
 module_new_draft_unpublish = "/repositories/uploader-test/entities/enterprise/modules/core-kernel/new_draft_version.adoc"
 assembly_new_draft_unpublish = "content/repositories/uploader-test/entities/enterprise/assemblies/assembly_new_draft_version.adoc"
 variant = "variant1-uploader"
+
+# Bulk operations constants
+error_message_on_edit_metadata = "Danger alert:\nNo draft versions found on selected items. Unable to save metadata."
+

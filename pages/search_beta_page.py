@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from polling2 import poll
 
-from helpers import utilities, locators
+from helpers import utilities, locators, constants
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 
@@ -13,13 +13,13 @@ def select_repo(driver, title):
     # Poll until all the repos are listed in the filter
     poll(lambda: len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME)) >= 1,
                   ignore_exceptions=[NoSuchElementException],
-                  timeout=10,
+                  timeout=15,
                   step=1)
     utilities.enter_text(driver, By.XPATH, locators.FILTER_BY_REPO_SEARCH_BAR_XPATH, title)
     # Poll until repo matching the search criteria is listed in the filter
     poll(lambda: len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME))==1,
                   ignore_exceptions=[NoSuchElementException],
-                  timeout=10,
+                  timeout=15,
                   step=1)
     # utilities.wait(7)
     print(len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME)))
@@ -33,6 +33,15 @@ def search_module_and_click(driver, title):
         utilities.enter_text(driver, By.CSS_SELECTOR, locators.SEARCH_TITLE_CSS, title)
         # utilities.click_element(driver, By.CSS_SELECTOR, locators.TITLE_SEARCH_ICON_CSS)
         utilities.click_element(driver, By.LINK_TEXT, title)
+    except TimeoutException as e:
+        lcc.log_info("It appears that the module was not found, please check your test data.")
+        raise e
+
+def search_titles(driver, title):
+    lcc.log_info("Searching for title::{}".format(title))
+    try:
+        wait_for_modules(driver)
+        utilities.enter_text(driver, By.CSS_SELECTOR, locators.SEARCH_TITLE_CSS, title)
     except TimeoutException as e:
         lcc.log_info("It appears that the module was not found, please check your test data.")
         raise e
@@ -73,8 +82,12 @@ def get_filter_chip_list(driver):
         list_text.append(i.text)
     return list_text
 
-# def get_all_module_titles(driver):
-#     modules_list = utilities.fi
+def add_bulk_metadata(driver):
+    utilities.select_value_from_dropdown(driver, By.XPATH, locators.EDIT_METADATA_SELECT_PRODUCT, constants.product_name)
+    utilities.select_value_from_dropdown(driver, By.XPATH, locators.EDIT_METADATA_SELECT_VERSION, constants.product_version)
+    utilities.select_value_from_dropdown(driver, By.XPATH, locators.EDIT_METADATA_SELECT_USECASE, constants.use_case)
+    utilities.click_element(driver, By.XPATH, locators.EDIT_METADATA_SAVE)
+
 
 
 

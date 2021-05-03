@@ -25,7 +25,7 @@ uploader_username = fixture.uploader_username
 uploader_password = fixture.uploader_password
 
 
-@lcc.suite("Suite: Upload new draft version", rank="10")
+@lcc.suite("Suite: Upload new draft version", rank=11)
 class test_new_draft(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     now = datetime.now(timezone.utc)

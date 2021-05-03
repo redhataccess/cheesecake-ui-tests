@@ -21,7 +21,7 @@ username = fixture.username
 auth = fixture.auth
 
 
-@lcc.suite("Suite: Create a new product and versions", rank="2")
+@lcc.suite("Suite: Create a new product and versions", rank=2)
 class test_create_product(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 

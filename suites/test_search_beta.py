@@ -8,7 +8,7 @@ from pages import search_beta_page
 from helpers import base
 
 
-@lcc.suite("Suite: Tests for Search Beta", rank="10")
+@lcc.suite("Suite: Tests for Search Beta", rank=10)
 class test_search_beta(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 

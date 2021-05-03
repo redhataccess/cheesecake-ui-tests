@@ -24,7 +24,7 @@ from helpers import base
 url = fixture.url
 
 
-@lcc.suite("Suite: Add metadata to assembly, publish assembly and view assembly content", rank="9")
+@lcc.suite("Suite: Add metadata to assembly, publish assembly and view assembly content", rank=9)
 class test_view_assembly(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     modules_count = 0

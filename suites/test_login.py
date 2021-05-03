@@ -7,7 +7,7 @@ from helpers.base_screenshot import Screenshot
 sys.path.append("..")
 
 
-@lcc.suite("Suite: User login functionality", rank="1")
+@lcc.suite("Suite: User login functionality", rank=1)
 class test_login(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 

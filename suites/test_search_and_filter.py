@@ -18,7 +18,7 @@ from suites.test_module_type import verify_filter_by_content_type
 sys.path.append("..")
 
 
-@lcc.suite("Suite: Tests for all the search and filter functionality", rank="7")
+@lcc.suite("Suite: Tests for all the search and filter functionality", rank=7)
 class test_search_and_filter(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -43,7 +43,7 @@ class test_search_and_filter(Screenshot):
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
         utilities.wait(2)
         check_that("warning alert displayed",
-                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.NO_MODULE_FOUND_CSS),
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ALERT_TITLE_CSS),
                    contains_string(constants.no_module_found))
         utilities.click_element(self.driver, By.XPATH, locators.CANCEL_BUTTON_XPATH)
         utilities.wait(2)
@@ -58,7 +58,7 @@ class test_search_and_filter(Screenshot):
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.SEARCH_BUTTON_CSS)
         utilities.wait(2)
         check_that("module with asian character should be found once CCS-3754 is fixed, checking for warning alert as of now..",
-                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.NO_MODULE_FOUND_CSS),
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ALERT_TITLE_CSS),
                    contains_string(constants.no_module_found))
         utilities.click_element(self.driver, By.XPATH, locators.CANCEL_BUTTON_XPATH)
         utilities.wait(2)

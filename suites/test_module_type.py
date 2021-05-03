@@ -33,7 +33,7 @@ sys.path.append("..")
 url = fixture.url
 
 
-@lcc.suite("Suite: Tests for Module type(CONCEPT, PROCEDURE, REFERENCE) by filter and filename", rank="8")
+@lcc.suite("Suite: Tests for Module type(CONCEPT, PROCEDURE, REFERENCE) by filter and filename", rank=8)
 class test_module_type(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -171,8 +171,11 @@ class test_module_type(Screenshot):
 def open_module_display_page(driver, title):
     print("Inside open module display page")
     try:
-        print("Title::" + title)
-        utilities.click_element(driver, By.LINK_TEXT, title)
+        print("Title::"+title)
+        utilities.wait(3)
+        ele = utilities.find_element(driver, By.LINK_TEXT, title)
+        print(ele.get_attribute("href"))
+        ele.click()
         utilities.wait(5)
     except Exception as e:
         print("In except...")
