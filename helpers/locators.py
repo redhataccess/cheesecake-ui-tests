@@ -116,6 +116,12 @@ PRODUCT_FILTER_DISPLAY_XPATH = "//div[@class='pf-c-chip-group pf-m-category']"
 PRODUCT_VERSION_DISPLAY_PAGE_XPATH = "//div[@class='pf-l-level'][5]//div[1]/div/p/span"
 SEARCH_RESULTS = "ul.pf-c-data-list"
 
+#help_documentation_page
+HELP_ICON_CLASS_NAME = "button.pf-c-dropdown__toggle.pf-m-plain"
+USER_GUIDE_LINK_TEXT = "User Guide"
+TITLE_OF_USER_GUIDE_CSS = "div.rhdocs__header__primary-wrapper h1"
+USER_GUIDE_PARENT_CSS = "cp-documentation#doc-content"
+
 # New Product page
 PRODUCT_NAME_TEXTBOX_ID = "product_name_text"
 PRODUCT_DESCRIPTION_TEXTBOX_ID = "product_description_text"
