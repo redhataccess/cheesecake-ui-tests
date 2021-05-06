@@ -42,6 +42,7 @@ asian_char_module = "安装术语"
 random_string_search = "abcdefg"
 body_of_module_search = "search for body of the module"
 no_module_found = "No modules found with your search"
+help_user_guide_url = "/pantheon/docs/assemblies/assembly-pantheon-help.html"
 
 
 # Create new product constants
