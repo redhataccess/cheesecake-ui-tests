@@ -11,6 +11,9 @@ from helpers import constants
 from helpers import locators
 from fixtures import fixture
 from selenium.webdriver.common.by import By
+
+from suites.test_publish_module import unpublish_module
+
 sys.path.append("..")
 
 # SUITE = {
@@ -38,7 +41,8 @@ class test_module_type(Screenshot):
     def verify_filter_by_content_type_concept(self):
         verify_filter_by_content_type(self.driver, "Concept")
 
-    @lcc.test("Verify module type: CONCEPT is shown correctly when added as filename 'con_file.adoc' verified using the api")
+    @lcc.test(
+        "Verify module type: CONCEPT is shown correctly when added as filename 'con_file.adoc' verified using the api")
     @lcc.depends_on("test_module_type.verify_filter_by_content_type_concept")
     def verify_module_type_from_backend_module_type_in_filename_con(self):
         open_module_display_page(self.driver, constants.con_module_title)
@@ -147,14 +151,27 @@ class test_module_type(Screenshot):
         response = requests.get(url=url + path, auth=(fixture.username, fixture.api_auth))
         check_that("Module type node in backend", response.status_code, equal_to(404))
 
-# Helper methods for actual tests
+    def teardown_suite(self):
+        response = unpublish_module(self, constants.proc_module_unpublish, constants.variant)
+        check_that("Unpublish request status code", response.status_code, equal_to(200))
+        lcc.log_info("Module published for module_type:PROCEDURE test is unpublished successfully..")
 
+        response = unpublish_module(self, constants.ref_module_unpublish, constants.variant)
+        check_that("Unpublish request status code", response.status_code, equal_to(200))
+        lcc.log_info("Module published for module_type:REFERENCE test is unpublished successfully..")
+
+        response = unpublish_module(self, constants.con_module_unpublish, constants.variant)
+        check_that("Unpublish request status code", response.status_code, equal_to(200))
+        lcc.log_info("Module published for module_type:CONCEPT test is unpublished successfully..")
+
+
+# Helper methods for actual tests
 
 # This method will click on given title to open the module display page for it
 def open_module_display_page(driver, title):
     print("Inside open module display page")
     try:
-        print("Title::"+title)
+        print("Title::" + title)
         utilities.click_element(driver, By.LINK_TEXT, title)
         utilities.wait(5)
     except Exception as e:
@@ -171,7 +188,7 @@ def verify_module_type_from_backend(driver, module_type):
     # Once landed on the module display page, get path to adoc from the module display page url
     path_to_adoc_file = display_module_page.get_path_to_adoc(driver)
     path = path_to_adoc_file + constants.path_for_module_type
-    req = url+path.strip()
+    req = url + path.strip()
     response = requests.get(url=req, auth=(fixture.username, fixture.api_auth))
     lcc.log_info("Verifying the response at endpoint: %s " % req)
     check_that("Module type saved in the backend", response.text.upper(),
@@ -212,4 +229,3 @@ def verify_filter_by_content_type(driver, module_type):
     utilities.wait(10)
     # all_of(check_that("Module type", module_type.upper(), is_in(module_type_list)),
     #        check_that("All elements in the module type column are same", len(set(module_type_list))==1, is_true()))
-

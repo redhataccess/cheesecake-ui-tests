@@ -11,6 +11,9 @@ from pages import search_page, display_module_page, search_beta_page
 from helpers import utilities, locators, constants, base
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.common.by import By
+
+from suites.test_publish_module import unpublish_module
+
 sys.path.append("..")
 from fixtures import fixture
 
@@ -179,3 +182,8 @@ class test_view_module(Screenshot):
             if (len(self.driver.window_handles) > 1):
                 self.driver.close()
                 utilities.switch_to_first_tab(self.driver)
+
+    def teardown_suite(self):
+        response = unpublish_module(self, constants.view_module_unpubish, constants.variant)
+        check_that("Unpublish request status code", response.status_code, equal_to(200))
+        lcc.log_info("module published for above test is unpublished successfully..")

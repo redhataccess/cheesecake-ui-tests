@@ -8,6 +8,9 @@ from helpers import utilities, constants, locators
 from pages import search_beta_page, display_module_page
 from selenium.webdriver.common.by import By
 from datetime import datetime,timezone, timedelta
+
+from suites.test_publish_module import unpublish_module
+
 sys.path.append("..")
 import os
 import subprocess
@@ -124,4 +127,12 @@ class test_new_draft(Screenshot):
         check_that("Attributes file path on published card",
                    published_card.find_element(By.CSS_SELECTOR, locators.ATTRIBUTE_FILE_CSS).text,
                    equal_to("enterprise/meta/attributes.adoc"))
+
+    def teardown_suite(self):
+        response = unpublish_module(self,constants.module_new_draft_unpublish, constants.variant)
+        check_that("Unpublish request status code for module", response.status_code, equal_to(200))
+
+        response = unpublish_module(self, constants.assembly_new_draft_unpublish, constants.variant)
+        check_that("Unpublish request status code for assembly", response.status_code, equal_to(200))
+
 

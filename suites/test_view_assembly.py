@@ -12,6 +12,9 @@ from helpers import locators
 from fixtures import fixture
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.common.by import By
+
+from suites.test_publish_module import unpublish_module
+
 sys.path.append("..")
 from urllib.parse import urlparse
 import subprocess
@@ -179,10 +182,10 @@ class test_view_assembly(Screenshot):
                 self.driver.close()
                 utilities.switch_to_first_tab(self.driver)
 
-
-
-    # @lcc.test("Verify that xrefs resolve as expected")
-    # def resolve_xref(self):
+    def teardown_suite(self):
+        response = unpublish_module(self,constants.assembly_to_unpublish, constants.variant)
+        check_that("Unpublish request status code", response.status_code, equal_to(200))
+        lcc.log_info("Assembly published for above test is unpublished successfully..")
 
 
 

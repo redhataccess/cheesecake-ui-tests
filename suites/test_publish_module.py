@@ -1,11 +1,14 @@
 import datetime
 import sys
 import time
+import requests
 
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 from selenium.common.exceptions import *
-from helpers import constants
+
+from fixtures.fixture import admin_username, admin_auth
+from helpers import constants, base
 from helpers import locators
 from helpers import utilities
 from fixtures import fixture
@@ -18,6 +21,9 @@ from selenium.common.exceptions import TimeoutException, StaleElementReferenceEx
 from polling2 import poll
 
 sys.path.append("..")
+username = base.config_reader('login', 'username')
+auth = base.config_reader('login', 'password')
+api_auth = base.config_reader('login', 'api_password')
 
 
 # SUITE = {
@@ -30,6 +36,7 @@ class test_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     uploaded_date_module_page = ""
     published_date_module_page = ""
+
     # updated_date_view_page = ""
     # published_date_view_page = ""
 
@@ -60,7 +67,7 @@ class test_publish_module(Screenshot):
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         utilities.wait(20)
         # The page needs a refresh because of an existing bug about the "View on Customer Portal not appearing"
-        # self.driver.refresh()
+        self.driver.refresh()
 
         utilities.find_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
         check_that("Button contains text", utilities.get_text(
@@ -118,12 +125,14 @@ class test_publish_module(Screenshot):
                        contains_string(constants.product_version))
             updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
                                                                        locators.UPDATED_DATE_ON_PREVIEW_CSS,
-                                                                       locators.MODULE_BODY_CONTENT_CSS).text.strip("Updated ")
+                                                                       locators.MODULE_BODY_CONTENT_CSS).text.strip(
+                "Updated ")
             check_that("updated date reflected on view page", updated_date_view_page,
                        contains_string(self.uploaded_date_module_page))
             published_date_view_page = utilities.find_shadow_dom_element(self.driver,
                                                                          locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
-                                                                         locators.MODULE_BODY_CONTENT_CSS).text.strip("Published ")
+                                                                         locators.MODULE_BODY_CONTENT_CSS).text.strip(
+                "Published ")
             check_that("published date reflected on view page", published_date_view_page,
                        contains_string(self.published_date_module_page))
             legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PREVIEW_CSS,
@@ -150,12 +159,14 @@ class test_publish_module(Screenshot):
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(6)
             updated_date_on_portal = utilities.find_shadow_dom_element(self.driver, locators.UPDATED_DATE_ON_PORTAL_CSS,
-                                                                       locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute("textContent")
+                                                                       locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
+                "textContent")
             check_that("updated date reflected on view page", updated_date_on_portal,
                        contains_string(self.uploaded_date_module_page))
             published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
                                                                          locators.PUBLISHED_DATE_ON_PORTAL_CSS,
-                                                                         locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute("textContent")
+                                                                         locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
+                "textContent")
             check_that("published date reflected on view page", published_date_on_portal,
                        contains_string(self.published_date_module_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
@@ -166,3 +177,20 @@ class test_publish_module(Screenshot):
                 self.driver.close()
                 utilities.switch_to_first_tab(self.driver)
 
+    def teardown_suite(self):
+        response = unpublish_module(self, constants.module_to_unpublish, constants.variant)
+        check_that("Unpublish request status code", response.status_code, equal_to(200))
+        lcc.log_info("Module published for above test is unpublished successfully..")
+
+
+def unpublish_module(self, module_path, variant):
+    unpublish_url = fixture.url + module_path
+    lcc.log_info("Unpublishing the module: %s" % unpublish_url)
+    payload = {
+        ":operation": "pant:unpublish",
+        "locale": "en_US",
+        "variant": variant
+    }
+    response = requests.post(unpublish_url, data=payload, auth=(admin_username, admin_auth),
+                             headers={'Accept': 'application/json'})
+    return response
