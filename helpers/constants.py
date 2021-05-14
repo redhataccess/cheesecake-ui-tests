@@ -113,3 +113,13 @@ no_results_found = "No results match the filter criteria. Select repo filter to 
 module_new_draft_version = "at-uploader | Module new draft version test"
 assembly_new_draft_version = "at-uploader | Assembly new draft version test"
 
+#path for modules to unpublish
+module_to_unpublish = "content/repositories/uploader-test/entities/enterprise/modules/cockpit/pretty-host-name-in-the-web-console.adoc"
+assembly_to_unpublish = "content/repositories/uploader-test/entities/enterprise/assemblies/assembly_configuring-the-host-name-in-the-web-console.adoc"
+view_module_unpubish = "content/repositories/uploader-test/entities/enterprise/modules/cockpit/setting-the-host-name-using-the-web-console.adoc"
+proc_module_unpublish = "content/repositories/uploader-test/entities/enterprise/modules/installer/proc_adding-a-mount-point.adoc"
+con_module_unpublish = "content/repositories/uploader-test/entities/enterprise/modules/installer/ref_installation-terminology.adoc"
+ref_module_unpublish = "content/repositories/uploader-test/entities/enterprise/modules/installer/con_installation-options.adoc"
+module_new_draft_unpublish = "/repositories/uploader-test/entities/enterprise/modules/core-kernel/new_draft_version.adoc"
+assembly_new_draft_unpublish = "content/repositories/uploader-test/entities/enterprise/assemblies/assembly_new_draft_version.adoc"
+variant = "variant1-uploader"
