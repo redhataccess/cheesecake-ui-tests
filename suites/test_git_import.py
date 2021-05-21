@@ -22,13 +22,15 @@ git_import_repo_URL = base.config_reader('git_import_test_repo', 'git_import_rep
 git_import_repo_Name = base.config_reader('git_import_test_repo', 'git_import_repo_name')
 git_import_repo_branch = base.config_reader('git_import_test_repo', 'git_import_repo_branch')
 number_of_modules = base.config_reader('git_import_test_repo', 'number_of_modules_imported')
+number_of_files_imported = base.config_reader('git_import_test_repo', 'number_of_files_imported')
 module_title_prefix = constants.module_title_prefix
 
 
 @lcc.suite("Suite: Git import functionality", rank=3)
 class test_git_import(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
-    
+
+    # @lcc.disabled()
     @lcc.test("Verify that warning message should be displayed when repository URL is empty")
     def git_import_for_empty_git_repo(self):
         utilities.click_element(
@@ -37,15 +39,21 @@ class test_git_import(Screenshot):
         check_that("Empty git repo url warning message",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.WARNING_ALERT_CSS),
                    contains_string(constants.repo_url_empty_warning_message))
-    
+
+    # @lcc.disabled()
     @lcc.test("Verify that error message should be displayed when repository url has invalid")
     def git_import_for_invalid_git_repo_url(self):
         git_import_page.import_git_repo(
             self.driver, constants.invalid_git_repo_url, git_import_repo_branch)
-        check_that("Invalid git repo url error message",
-                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.REPO_URL_INVALID_ERROR_CSS),
-                   contains_string(constants.repo_url_invalid_error_message))
+        text = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.GIT_IMPORT_ALERT_CSS)
+        print(text)
+        check_that("Invalid git repo url error alert", text, contains_string(constants.failure_alert_message))
+        check_that("Invalid git repo url files count", text, contains_string(constants.failure_alert_files_uploaded))
+        utilities.verify_and_accept_confirmation_modal(
+            self.driver, locators.GIT_IMPORT_REQUEST_SUBMITTED_TITLE,
+            constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_NO)
 
+    # @lcc.disabled()
     @lcc.test("Verify that user should be able to upload modules successfully using git import")
     def git_import_for_sample_repo(self):
         git_import_page.import_git_repo(
@@ -53,8 +61,27 @@ class test_git_import(Screenshot):
         utilities.verify_and_accept_confirmation_modal(
             self.driver, locators.GIT_IMPORT_REQUEST_SUBMITTED_TITLE,
             constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
-        utilities.wait(30)
+        utilities.wait(20)
+        # utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+        poll(lambda: utilities.find_element(self.driver, By.CSS_SELECTOR,
+                                            locators.GIT_IMPORT_SUCCESS_ALERT_CSS).is_displayed(), step=1, timeout=150)
+        # screenshot_filename = "git_import" + utilities.generate_random_string(3) + ".png"
+        # self.driver.save_screenshot(screenshot_filename)
+        # lcc.save_attachment_file(screenshot_filename)
+        text = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.GIT_IMPORT_SUCCESS_ALERT_CSS)
+        print(text)
+        check_that("Git import successful alert", text, contains_string(constants.success_alert_message))
+        check_that("Git import successfully uploaded files count", text,
+                   contains_string(constants.success_alert_files_uploaded + number_of_files_imported))
         utilities.page_reload(self.driver)
+        repo_list = utilities.find_elements_by_css_selector(self.driver, locators.LIST_OF_REPOS_CSS)
+        name = []
+        for i in repo_list:
+            name.append(i.text)
+
+        check_that("Git import repo is listed on search page", name, has_item(git_import_repo_Name))
+
+        # utilities.page_reload(self.driver)
         search_url = fixture.url + 'pantheon/internal/modules.json?repo=' + fixture.git_import_repo \
                      + '&search=' + module_title_prefix + '&key=Updated&direction=desc'
 
@@ -63,8 +90,7 @@ class test_git_import(Screenshot):
                      " per the test data ...")
         req = requests.get(search_url)
         print(req.content)
-
-        poll(lambda: requests.get(search_url).json()["size"] == 9, step=5, timeout=120)
+        # poll(lambda: requests.get(search_url).json()["size"] == 9, step=5, timeout=120)
 
         imported_modules_request = requests.get(search_url)
         imported_modules = imported_modules_request.json()
@@ -82,3 +108,5 @@ class test_git_import(Screenshot):
         lcc.log_info("Number of modules imported successfully from repo: %s is %s" % (git_import_repo_URL,
                                                                                       str(len(imported_modules_array))))
         check_that("Count of modules uploaded using git import", len(imported_modules_array), equal_to(int(number_of_modules)))
+
+

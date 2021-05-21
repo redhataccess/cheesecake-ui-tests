@@ -127,6 +127,7 @@ class test_view_assembly(Screenshot):
     def view_assembly_on_cp(self):
         test_repo_name = base.config_reader('test_repo', 'repo_name')
         try:
+            utilities.page_reload(self.driver)
             utilities.click_element(self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)

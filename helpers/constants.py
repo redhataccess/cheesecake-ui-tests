@@ -9,7 +9,10 @@ repo_url_empty_warning_message = "A repository url is required."
 invalid_git_repo_url = "_)(*&^%$#@!"
 repo_url_invalid_error_message = "Error cloning the repo due to invalid repo URL"
 sort_by_upload_date = "Uploaded date"
-
+failure_alert_message = "Git Import Failed"
+success_alert_message = "Git Import Successful"
+failure_alert_files_uploaded = "Total files uploaded: 0"
+success_alert_files_uploaded = "Total files uploaded: "
 
 # View module constants
 path_to_module_to_be_published = "/uploader-sample-repo-pantheon2/entities/enterprise/modules/cockpit/con_pretty-host-name-in-the-web-console.adoc"
