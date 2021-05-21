@@ -55,8 +55,11 @@ class test_view_module(Screenshot):
         check_that("Button",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PREVIEW_BUTTON_CSS),
                    contains_string("Preview"))
-        check_that("Publish status",
-                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_PUBLISH_STATUS_CSS),
+        check_that("First Published date",
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_FIRST_PUBLISHED_CSS),
+                   contains_string("--"))
+        check_that("Last Published date",
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_LAST_PUBLISHED_CSS),
                    contains_string("--"))
         check_that("Module display page title",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_DISPLAY_TITLE_CSS),

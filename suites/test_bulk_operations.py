@@ -53,7 +53,9 @@ class test_bulk_operations(Screenshot):
              ignore_exceptions=[NoSuchElementException],
              timeout=20,
              step=1)
+        utilities.wait(3)
         utilities.click_element(self.driver, By.XPATH, locators.VIEW_DETAILS_LINK)
+        utilities.wait(3)
         modules_updated = utilities.find_elements_by_css_selector(self.driver, locators.UPDATED_TITLES_LIST_CSS)
         check_that("Count of successfully updated modules", len(modules_updated), equal_to(4))
         check_that("Skipped modules section text",
@@ -97,7 +99,9 @@ class test_bulk_operations(Screenshot):
              ignore_exceptions=[NoSuchElementException],
              timeout=5,
              step=0.5)
+        utilities.wait(3)
         utilities.click_element(self.driver, By.XPATH, locators.MODULES_SELECT_ALL_TITLE_XPATH)
+        utilities.wait(3)
         # Deselect first title
         utilities.click_element(self.driver, By.XPATH, locators.FIRST_MODULE_CHECKBOX_XPATH)
         utilities.wait(2)
@@ -126,9 +130,12 @@ class test_bulk_operations(Screenshot):
     # @lcc.disabled()
     def published_title_add_metadata(self):
         utilities.click_element(self.driver, By.XPATH, locators.FIRST_MODULE_CHECKBOX_XPATH)
+        utilities.wait(2)
         bulk_edit_metadata = utilities.find_element(self.driver, By.XPATH, locators.BULK_EDIT_METADATA_XPATH)
         bulk_edit_metadata.click()
+        utilities.wait(2)
         search_beta_page.add_bulk_metadata(self.driver)
+        utilities.wait(2)
         check_that("Alert message displayed when trying to add metadata to published title",
             utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ALERT_TITLE_CSS),
             equal_to(constants.error_message_on_edit_metadata))

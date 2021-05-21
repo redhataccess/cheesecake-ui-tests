@@ -34,8 +34,8 @@ api_auth = base.config_reader('login', 'api_password')
 @lcc.suite("Suite: Publish module test", rank=5)
 class test_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
-    uploaded_date_module_page = ""
-    published_date_module_page = ""
+    first_pub_date_details_page = ""
+    last_pub_date_details_page = ""
 
     # updated_date_view_page = ""
     # published_date_view_page = ""
@@ -66,9 +66,9 @@ class test_publish_module(Screenshot):
         utilities.wait(10)
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         utilities.wait(20)
+        print("Clicked publish")
         # The page needs a refresh because of an existing bug about the "View on Customer Portal not appearing"
         self.driver.refresh()
-
         utilities.find_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
         check_that("Button contains text", utilities.get_text(
             self.driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID), contains_string("Unpublish"))
@@ -81,16 +81,16 @@ class test_publish_module(Screenshot):
                    contains_string(constants.view_on_portal_link))
 
         # get UPLOADED date in variable and covert into desired format- (DD Month YYYY)
-        self.uploaded_date_module_page = (utilities.get_text(
-            self.driver, By.CSS_SELECTOR, locators.UPLOADED_DATE_MODULE_PAGE_CSS))
+        self.first_pub_date_details_page = (utilities.get_text(
+            self.driver, By.CSS_SELECTOR, locators.FIRST_PUB_DATE_MODULE_PAGE_CSS))
         lcc.log_info(
-            "captured uploaded date from module info page : " + self.uploaded_date_module_page)
+            "captured 1st published date from module info page : " + self.first_pub_date_details_page)
 
         # get published date in variable and convert into desired format-(DD Month YYYY)
-        self.published_date_module_page = (utilities.get_text(
-            self.driver, By.CSS_SELECTOR, locators.PUBLISHED_DATE_MODULE_PAGE_CSS)).rstrip('\n Version released')
+        self.last_pub_date_details_page = (utilities.get_text(
+            self.driver, By.CSS_SELECTOR, locators.LAST_PUB_DATE_MODULE_PAGE_CSS))
         lcc.log_info(
-            "captured published date from module info page : " + test_publish_module.published_date_module_page)
+            "captured last published date from module info page : " + test_publish_module.last_pub_date_details_page)
 
         # adding checks if the module is displayed on the UI
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
@@ -128,13 +128,13 @@ class test_publish_module(Screenshot):
                                                                        locators.MODULE_BODY_CONTENT_CSS).text.strip(
                 "Updated ")
             check_that("updated date reflected on view page", updated_date_view_page,
-                       contains_string(self.uploaded_date_module_page))
+                       contains_string(self.first_pub_date_details_page))
             published_date_view_page = utilities.find_shadow_dom_element(self.driver,
                                                                          locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
                                                                          locators.MODULE_BODY_CONTENT_CSS).text.strip(
                 "Published ")
             check_that("published date reflected on view page", published_date_view_page,
-                       contains_string(self.published_date_module_page))
+                       contains_string(self.last_pub_date_details_page))
             legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PREVIEW_CSS,
                                                              locators.MODULE_BODY_CONTENT_CSS)
             check_that("legal notice is displayed at the bottom of preview page", legal_notice.text,
@@ -153,6 +153,7 @@ class test_publish_module(Screenshot):
     @lcc.test("Verify info on customer portal")
     def product_info_on_customer_portal(self):
         utilities.wait(5)
+        utilities.page_reload(self.driver)
         utilities.click_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
         try:
             utilities.wait(5)
@@ -162,13 +163,13 @@ class test_publish_module(Screenshot):
                                                                        locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
                 "textContent")
             check_that("updated date reflected on view page", updated_date_on_portal,
-                       contains_string(self.uploaded_date_module_page))
+                       contains_string(self.first_pub_date_details_page))
             published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
                                                                          locators.PUBLISHED_DATE_ON_PORTAL_CSS,
                                                                          locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
                 "textContent")
             check_that("published date reflected on view page", published_date_on_portal,
-                       contains_string(self.published_date_module_page))
+                       contains_string(self.last_pub_date_details_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
             lcc.log_error("Some problem accessing the Customer Portal, please check.")
             lcc.log_error(e)
