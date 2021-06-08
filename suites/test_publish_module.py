@@ -32,7 +32,7 @@ api_auth = base.config_reader('login', 'api_password')
 # }
 
 @lcc.suite("Suite: Publish module test", rank=5)
-class test_publish_module(Screenshot):
+class test_prelive_url_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     first_pub_date_details_page = ""
     last_pub_date_details_page = ""
@@ -57,7 +57,7 @@ class test_publish_module(Screenshot):
                    utilities.get_text(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID),
                    contains_string("Publish"))
 
-    @lcc.test("Verify that user is able to successfully publish module with product metadata added")
+    @lcc.test("Verify that user is able to successfully publish module with product metadata added, also checks for Pre-live URL functionality")
     @lcc.depends_on('test_edit_metadata.edit_metadata_successfully')
     def publish_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
