@@ -32,7 +32,7 @@ api_auth = base.config_reader('login', 'api_password')
 # }
 
 @lcc.suite("Suite: Publish module test", rank=5)
-class test_publish_module(Screenshot):
+class test_prelive_url_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     first_pub_date_details_page = ""
     last_pub_date_details_page = ""
@@ -50,12 +50,14 @@ class test_publish_module(Screenshot):
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_module_and_click(self.driver, constants.unpublished_module)
         utilities.wait(5)
+        tooltip_icon = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.NO_URL_TOOLTIP_ICON)
+        check_that("No url tooltip icon is displayed", tooltip_icon.is_displayed(), is_true())
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         check_that("Button contains text",
                    utilities.get_text(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID),
                    contains_string("Publish"))
 
-    @lcc.test("Verify that user is able to successfully publish module with product metadata added")
+    @lcc.test("Verify that user is able to successfully publish module with product metadata added, also checks for Pre-live URL functionality")
     @lcc.depends_on('test_edit_metadata.edit_metadata_successfully')
     def publish_module(self):
         utilities.click_element(self.driver, By.LINK_TEXT, "Search")
@@ -64,6 +66,13 @@ class test_publish_module(Screenshot):
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_module_and_click(self.driver, constants.module_to_be_published)
         utilities.wait(10)
+
+        pre_live_url = utilities.find_element(self.driver, By.LINK_TEXT, "Pre-live Customer Portal URL")
+        print(pre_live_url.get_attribute('href'))
+        check_that("Pre-live URL link is displayed", pre_live_url.is_displayed(), is_true())
+        copy_pre_live_url = utilities.find_element(self.driver, By.LINK_TEXT, "Copy pre-live URL")
+        check_that("Copy Pre-live URL is displayed", copy_pre_live_url.is_displayed(), is_true())
+
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         utilities.wait(20)
         print("Clicked publish")

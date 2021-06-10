@@ -47,6 +47,7 @@ DRAFT_CARD_TITLE = "article.pf-c-card-draft div.pf-c-card__header div strong"
 PUBLISHED_CARD_TITLE = "article.pf-m-selected div.pf-c-card__header div strong span"
 ATTRIBUTE_FILE_CSS = "div.pf-c-card__body div.pf-c-content:nth-child(3) p:nth-child(2)"
 CARDS_ON_DETAILS_PAGE_CSS = "article.pf-c-card div div article.pf-c-card"
+NO_URL_TOOLTIP_ICON = "div.pf-l-level:nth-child(3) div:nth-child(4) span div"
 
 # Customer portal
 MODULE_TITLE_ON_PORTAL_ID= "rhdocs-header"
