@@ -71,6 +71,12 @@ def find_elements_by_css_selector(driver, locator):
         lcc.log_error(str(e))
     return elements_list_by_css_selector
 
+def find_elements_by_XPATH(driver, locator):
+    try:
+        elements_list_by_XPATH = driver.find_elements(By.XPATH, locator)
+    except NoSuchElementException as e:
+        lcc.log_error(str(e))
+    return elements_list_by_XPATH
 
 def wait(count):
     time.sleep(count)
