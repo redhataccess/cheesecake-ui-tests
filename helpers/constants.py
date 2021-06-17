@@ -113,6 +113,7 @@ legal_notice_link = "https://access.redhat.com/docs-legal-notice"
 
 #search beta constants
 no_results_found = "No results match the filter criteria. Select repo filter to show results."
+publish_module = "at-uploader | Module type none"
 
 # Constants for add new draft version test
 module_new_draft_version = "at-uploader | Module new draft version test"
@@ -127,6 +128,7 @@ con_module_unpublish = "content/repositories/uploader-test/entities/enterprise/m
 ref_module_unpublish = "content/repositories/uploader-test/entities/enterprise/modules/installer/con_installation-options.adoc"
 module_new_draft_unpublish = "/repositories/uploader-test/entities/enterprise/modules/core-kernel/new_draft_version.adoc"
 assembly_new_draft_unpublish = "content/repositories/uploader-test/entities/enterprise/assemblies/assembly_new_draft_version.adoc"
+search_module_unpublish = "content/repositories/uploader-test/entities/enterprise/modules/core-services/databases-intro.adoc"
 variant = "variant1-uploader"
 
 # Bulk operations constants

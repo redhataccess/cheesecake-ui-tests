@@ -32,7 +32,7 @@ api_auth = base.config_reader('login', 'api_password')
 # }
 
 @lcc.suite("Suite: Publish module test", rank=5)
-class test_prelive_url_publish_module(Screenshot):
+class test_publish_module(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     first_pub_date_details_page = ""
     last_pub_date_details_page = ""
