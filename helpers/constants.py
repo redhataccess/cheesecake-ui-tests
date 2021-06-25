@@ -114,6 +114,7 @@ legal_notice_link = "https://access.redhat.com/docs-legal-notice"
 #search beta constants
 no_results_found = "No results match the filter criteria. Select repo filter to show results."
 publish_module = "at-uploader | Module type none"
+error_for_multiple_repos_selected = "Please deselect all but one repository to continue."
 
 # Constants for add new draft version test
 module_new_draft_version = "at-uploader | Module new draft version test"
