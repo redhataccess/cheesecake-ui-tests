@@ -133,3 +133,9 @@ def find_shadow_dom_element (driver,locator, shadow_root_parent):
     shadow_root = get_shadow_root(driver, shadow_root_parent)
     element = shadow_root.find_element_by_css_selector(locator)
     return element
+
+def read_file(filename):
+    file = open(filename)
+    line = file.read()
+    file.close()
+    return  line

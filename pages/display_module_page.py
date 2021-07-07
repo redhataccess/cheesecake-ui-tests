@@ -38,11 +38,8 @@ def fill_edit_metadata_form(driver, product_name, product_version, usecase, url_
 
 # Returns path to the adoc file from the display module page url for that module
 def get_path_to_adoc(driver):
-    url = driver.current_url
-    temp = urllib.urlparse(url).fragment
-    temp = temp.strip("/module")
-    path = temp.split('?')[0]
-    path = "content/"+path
+    path = utilities.get_text(driver, By.CSS_SELECTOR, locators.PATH_TO_ADOC_CSS)
+    print(path)
     return path
 
 # Adds metadata to the module which is currently open and publishes it

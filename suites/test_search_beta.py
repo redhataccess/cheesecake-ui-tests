@@ -9,7 +9,7 @@ from helpers import base
 from suites.test_publish_module import unpublish_module
 
 
-@lcc.suite("Suite: Tests for Search Beta", rank=10)
+@lcc.suite("Suite: Tests for Search Beta", rank=11)
 class test_search_beta(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -128,7 +128,7 @@ class test_search_beta(Screenshot):
         utilities.click_element(self.driver, By.CLASS_NAME, locators.PUBLISHED_STATUS_CLASS_NAME)
         utilities.wait(2)
         check_that("Published module is filtered", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                         locators.FIRST_MODULE_LISTED_CSS),contains_string(constants.publish_module))
+                                                                      locators.FIRST_MODULE_LISTED_CSS), contains_string(constants.publish_module))
         check_that("Green check is displayed for published module", utilities.find_element(self.driver, By.CLASS_NAME,
                                                         locators.GREEN_CHECK_CLASS_NAME).is_displayed(), is_true())
         utilities.wait(3)
@@ -141,19 +141,19 @@ class test_search_beta(Screenshot):
                                           locators.STATUS_TOOLBAR_CHIP_CLASS_NAME).is_displayed(), is_true())
         utilities.wait(3)
         check_that("'Concept' content type filter is selected", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                              locators.FIRST_MODULE_LISTED_CSS), contains_string("Concept"))
+                                                                                   locators.FIRST_MODULE_LISTED_CSS), contains_string("Concept"))
         utilities.wait(1)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.CONCEPT_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.PROCEDURE_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.wait(3)
         check_that("'Procedure' content type filter is selected", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                        locators.FIRST_MODULE_LISTED_CSS), contains_string("Procedure"))
+                                                                                     locators.FIRST_MODULE_LISTED_CSS), contains_string("Procedure"))
         utilities.wait(1)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.PROCEDURE_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.REFERENCE_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.wait(3)
         check_that("'Reference' content type filter is selected", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                   locators.FIRST_MODULE_LISTED_CSS), contains_string("Reference"))
+                                                                                     locators.FIRST_MODULE_LISTED_CSS), contains_string("Reference"))
         utilities.wait(2)
 
     def teardown_suite(self):

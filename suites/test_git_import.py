@@ -61,7 +61,7 @@ class test_git_import(Screenshot):
         utilities.verify_and_accept_confirmation_modal(
             self.driver, locators.GIT_IMPORT_REQUEST_SUBMITTED_TITLE,
             constants.git_import_submitted_modal_title, locators.GIT_IMPORT_REQUEST_SUBMITTED_YES)
-        utilities.wait(20)
+        utilities.wait(5)
         # utilities.click_element(self.driver, By.LINK_TEXT, "Search")
         poll(lambda: utilities.find_element(self.driver, By.CSS_SELECTOR,
                                             locators.GIT_IMPORT_SUCCESS_ALERT_CSS).is_displayed(), step=1, timeout=150)

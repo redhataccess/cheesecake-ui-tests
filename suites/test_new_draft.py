@@ -25,19 +25,22 @@ uploader_username = fixture.uploader_username
 uploader_password = fixture.uploader_password
 
 
-@lcc.suite("Suite: Upload new draft version", rank=11)
+@lcc.suite("Suite: Upload new draft version", rank=12)
 class test_new_draft(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
     now = datetime.now(timezone.utc)
     print("Now::",now)
-    now_plus_15 = now + timedelta(minutes=15)
+    now_plus_30 = now + timedelta(minutes=30)
     now_minus_15 = now - timedelta(minutes=15)
-    print("Range::", now_minus_15, "--", now_plus_15)
+    print("Range::", now_minus_15, "--", now_plus_30)
     flag = False
 
     def check_date_in_range(self, date):
         flag = False
-        if (self.now_minus_15 <= date <= self.now_plus_15):
+        lcc.log_info(str(self.now_minus_15))
+        lcc.log_info(str(self.now_plus_30))
+        print("After::", self.now_plus_30)
+        if (self.now_minus_15 <= date <= self.now_plus_30):
             flag = True
             print("date-time::", date)
         return flag
@@ -101,6 +104,7 @@ class test_new_draft(Screenshot):
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.DRAFT_CARD_TITLE), equal_to("Draft"))
         check_that("Published text displayed on card",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PUBLISHED_CARD_TITLE), equal_to("Published"))
+        lcc.log_info("Now date time::%s" % draft_date)
         check_that("Draft upload date in expected range", self.check_date_in_range(draft_date), is_true())
         check_that("Uploaded date for published card in expected range", self.check_date_in_range(pub_date), is_true())
         check_that("Uploaded date for published card should be less than draft uploaded date", pub_date < draft_date,

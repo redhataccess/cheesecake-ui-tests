@@ -17,7 +17,7 @@ username = fixture.username
 auth = fixture.auth
 
 
-@lcc.suite("Suite: Verify bulk edit metedata, bulk publish and bulk unpublish", rank=13)
+@lcc.suite("Suite: Verify bulk edit metedata, bulk publish and bulk unpublish", rank=14)
 class test_bulk_operations(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -75,8 +75,11 @@ class test_bulk_operations(Screenshot):
         utilities.click_element(self.driver, By.XPATH, locators.MODULES_SELECT_ALL_TITLE_XPATH)
         bulk_publish = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.BULK_PUBLISH_CSS)
         bulk_publish.click()
-        check_that("Confirmation modal title", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODAL_TITLE_CSS), equal_to("Publish"))
-        check_that("Count of modules being published", utilities.get_text(self.driver, By.CSS_SELECTOR, locators.TITLES_FOR_PUBLISH_CSS), contains_string("4"))
+        check_that("Confirmation modal title",
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODAL_TITLE_CSS), equal_to("Publish"))
+        check_that("Count of modules being published",
+                   utilities.get_text(self.driver, By.CSS_SELECTOR, locators.TITLES_FOR_PUBLISH_CSS),
+                   contains_string("4"))
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CONFIRM_BUTTON_CSS)
         poll(lambda: utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PROGRESS_SUCCESS_STATUS) == "100%",
              ignore_exceptions=[NoSuchElementException],
@@ -84,7 +87,7 @@ class test_bulk_operations(Screenshot):
              step=1)
         utilities.click_element(self.driver, By.XPATH, locators.VIEW_DETAILS_LINK)
         modules_updated = utilities.find_elements_by_css_selector(self.driver, locators.UPDATED_TITLES_LIST_CSS)
-        check_that("Count of successfully updated modules", len(modules_updated), equal_to(4))
+        check_that("Count of successfully updated modules", len(modules_updated), less_than_or_equal_to(4))
         check_that("Skipped modules section text",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.SKIPPED_TITLE_LIST_CSS), equal_to("n/a"))
         check_that("Failed modules section text",
@@ -124,6 +127,7 @@ class test_bulk_operations(Screenshot):
         check_that("Failed modules section text",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.FAILED_TITLES_LIST_CSS), equal_to("n/a"))
         utilities.click_element(self.driver, By.XPATH, locators.CLOSE_DETAILS_XPATH)
+        utilities.wait(2)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLOSE_STATUS_ALERT)
 
     @lcc.test('Verify cannot edit metadata for published document')

@@ -134,3 +134,6 @@ variant = "variant1-uploader"
 # Bulk operations constants
 error_message_on_edit_metadata = "Danger alert:\nNo draft versions found on selected items. Unable to save metadata."
 
+# xref validation constants
+partial_title = "xref validation"
+
