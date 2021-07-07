@@ -228,3 +228,5 @@ LAST_PUBLISHED_DATE_ON_SEARCH_PAGE_XPATH = "//table[@aria-label='Selectable Tabl
 PAGINATION_ON_SEARCH_PAGE = "//button[@data-action='next']"
 ERROR_FOR_MULTIPLE_REPO_SELECTED = "div.pf-c-alert__description"
 SELECT_FIRST_REPO_XPATH = "//div[@aria-label='Repository List']//ul//li[1]//div//input"
+SELECT_SECOND_REPO_XPATH = "//div[@aria-label='Repository List']//ul//li[2]//div//input"
+CLEAR_REPO_FILTER_CSS = "div.filters-drawer__repo-search span.pf-c-search-input__clear"

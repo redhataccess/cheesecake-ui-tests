@@ -24,7 +24,7 @@ class test_search_beta(Screenshot):
     def no_repo_selected(self):
         utilities.wait(2)
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
-        utilities.page_reload(self.driver)
+        # utilities.page_reload(self.driver)
         utilities.wait(1)
         # clicking on filter funnel icon twice to close and re-open the filter by repo pannel
         utilities.click_element(self.driver, By.ID, locators.TOGGLE_ID)
@@ -59,9 +59,12 @@ class test_search_beta(Screenshot):
     @lcc.test("Verify that user is able to filter results using find by name, verify listed columns and pagination")
     def find_by_name(self):
         search_beta_page.select_repo(self.driver, self.repo_name)
-        utilities.wait(2)
+        utilities.wait(10)
+        check_that("pagination is enabled on search page", utilities.find_element(self.driver, By.XPATH,
+                            locators.PAGINATION_ON_SEARCH_PAGE).is_enabled(), is_true())
         utilities.enter_text(self.driver, By.CSS_SELECTOR, locators.SEARCH_TITLE_CSS, constants.published_module)
-        utilities.wait(2)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.TITLE_SEARCH_ICON_CSS)
+        utilities.wait(10)
         check_that("entered title can be seen in search results", utilities.get_text(self.driver,
                     By.CSS_SELECTOR, locators.FIRST_MODULE_LISTED_CSS), contains_string(constants.published_module))
         check_that("Title is displayed on search page", utilities.find_element(self.driver, By.XPATH,
@@ -72,19 +75,21 @@ class test_search_beta(Screenshot):
                            locators.UPLOAD_DATE_ON_SEARCH_PAGE_XPATH).is_displayed(), is_true())
         check_that("Last Published Date is displayed on search page", utilities.find_element(self.driver, By.XPATH,
                            locators.LAST_PUBLISHED_DATE_ON_SEARCH_PAGE_XPATH).is_displayed(), is_true())
-        check_that("pagination is enabled on search page", utilities.find_element(self.driver, By.XPATH,
-                            locators.PAGINATION_ON_SEARCH_PAGE).is_enabled(), is_true())
     # error or warning is displayed when 2 repos are selected
-        utilities.click_element(self.driver, By.XPATH, locators.SELECT_FIRST_REPO_XPATH)
-        utilities.wait(2)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLEAR_REPO_FILTER_CSS)
+        utilities.wait(5)
+        utilities.click_element(self.driver, By.XPATH, locators.SELECT_SECOND_REPO_XPATH)
+        utilities.wait(10)
         check_that("verify error message when two repos are selected", utilities.get_text(self.driver,
                    By.CSS_SELECTOR, locators.ERROR_FOR_MULTIPLE_REPO_SELECTED),
                    contains_string(constants.error_for_multiple_repos_selected))
+        # Deselect it
+        utilities.click_element(self.driver, By.XPATH, locators.SELECT_SECOND_REPO_XPATH)
 
     @lcc.test("Verify user is able to select a repo; Module and Assemblies section has content displayed and toggles.")
     def select_repo_filter(self):
-        utilities.click_element(self.driver, By.LINK_TEXT, "Search")
-        search_beta_page.select_repo(self.driver, self.repo_name)
+        # utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+        # search_beta_page.select_repo(self.driver, self.repo_name)
         utilities.wait(1)
         utilities.find_element(self.driver, By.CSS_SELECTOR, locators.REPOSITORY_CHECKBOX_CSS).is_selected()
         check_that("Repository name displayed correctly on right side panel", utilities.get_text(
