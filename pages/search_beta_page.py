@@ -25,7 +25,7 @@ def select_repo(driver, title):
     # utilities.wait(7)
     print(len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME)))
     utilities.click_element(driver, By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME)
-    utilities.wait(3)
+    utilities.wait(10)
 
 def search_module_and_click(driver, title):
     lcc.log_info("Searching for title::{}".format(title))

@@ -1,4 +1,7 @@
 import sys
+
+from polling2 import poll
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
@@ -7,7 +10,6 @@ from helpers.base_screenshot import Screenshot
 from pages import search_beta_page, display_module_page
 from helpers import base
 from suites.test_publish_module import unpublish_module
-
 
 @lcc.suite("Suite: Tests for Search Beta", rank=11)
 class test_search_beta(Screenshot):
@@ -22,7 +24,7 @@ class test_search_beta(Screenshot):
     def no_repo_selected(self):
         utilities.wait(2)
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
-        utilities.page_reload(self.driver)
+        # utilities.page_reload(self.driver)
         utilities.wait(1)
         # clicking on filter funnel icon twice to close and re-open the filter by repo pannel
         utilities.click_element(self.driver, By.ID, locators.TOGGLE_ID)
@@ -30,10 +32,9 @@ class test_search_beta(Screenshot):
         utilities.click_element(self.driver, By.ID, locators.TOGGLE_ID)
         utilities.wait(1)
         check_that("Filter by repo section is displayed", utilities.find_element(self.driver, By.CLASS_NAME,
-                                        locators.FILTER_BY_REPO_SECTION_CLASS_NAME).is_displayed(),is_true())
+                             locators.FILTER_BY_REPO_SECTION_CLASS_NAME).is_displayed(), is_true())
         check_that("No results found warning message", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                                                          locators.NO_MODULE_RESULTS_FOUND_CSS),
-                   contains_string(constants.no_results_found))
+                            locators.NO_MODULE_RESULTS_FOUND_CSS), contains_string(constants.no_results_found))
         utilities.click_element(self.driver, By.XPATH, locators.FILTER_BY_REPO_TOGGLE_XPATH)
         utilities.wait(1)
         utilities.click_element(self.driver, By.XPATH, locators.FILTER_BY_REPO_TOGGLE_XPATH)
@@ -55,9 +56,40 @@ class test_search_beta(Screenshot):
         utilities.click_element(self.driver, By.CLASS_NAME, locators.CANCEL_BUTTON_ON_REPO_SEARCH_BAR_CLASS_NAME)
         utilities.wait(1)
 
+    @lcc.test("Verify that user is able to filter results using find by name, verify listed columns and pagination")
+    def find_by_name(self):
+        search_beta_page.select_repo(self.driver, self.repo_name)
+        utilities.wait(10)
+        check_that("pagination is enabled on search page", utilities.find_element(self.driver, By.XPATH,
+                            locators.PAGINATION_ON_SEARCH_PAGE).is_enabled(), is_true())
+        utilities.enter_text(self.driver, By.CSS_SELECTOR, locators.SEARCH_TITLE_CSS, constants.published_module)
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.TITLE_SEARCH_ICON_CSS)
+        utilities.wait(10)
+        check_that("entered title can be seen in search results", utilities.get_text(self.driver,
+                    By.CSS_SELECTOR, locators.FIRST_MODULE_LISTED_CSS), contains_string(constants.published_module))
+        check_that("Title is displayed on search page", utilities.find_element(self.driver, By.XPATH,
+                           locators.TITLES_ON_SEARCH_PAGE_XPATH).is_displayed(), is_true())
+        check_that("Repository is displayed on search page", utilities.find_element(self.driver, By.XPATH,
+                           locators.REPOSITORY_ON_SEARCH_PAGE_XPATH).is_displayed(), is_true())
+        check_that("Upload date is displayed on search page", utilities.find_element(self.driver, By.XPATH,
+                           locators.UPLOAD_DATE_ON_SEARCH_PAGE_XPATH).is_displayed(), is_true())
+        check_that("Last Published Date is displayed on search page", utilities.find_element(self.driver, By.XPATH,
+                           locators.LAST_PUBLISHED_DATE_ON_SEARCH_PAGE_XPATH).is_displayed(), is_true())
+    # error or warning is displayed when 2 repos are selected
+        utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLEAR_REPO_FILTER_CSS)
+        utilities.wait(5)
+        utilities.click_element(self.driver, By.XPATH, locators.SELECT_SECOND_REPO_XPATH)
+        utilities.wait(10)
+        check_that("verify error message when two repos are selected", utilities.get_text(self.driver,
+                   By.CSS_SELECTOR, locators.ERROR_FOR_MULTIPLE_REPO_SELECTED),
+                   contains_string(constants.error_for_multiple_repos_selected))
+        # Deselect it
+        utilities.click_element(self.driver, By.XPATH, locators.SELECT_SECOND_REPO_XPATH)
+
     @lcc.test("Verify user is able to select a repo; Module and Assemblies section has content displayed and toggles.")
     def select_repo_filter(self):
-        search_beta_page.select_repo(self.driver, self.repo_name)
+        # utilities.click_element(self.driver, By.LINK_TEXT, "Search")
+        # search_beta_page.select_repo(self.driver, self.repo_name)
         utilities.wait(1)
         utilities.find_element(self.driver, By.CSS_SELECTOR, locators.REPOSITORY_CHECKBOX_CSS).is_selected()
         check_that("Repository name displayed correctly on right side panel", utilities.get_text(
@@ -66,7 +98,6 @@ class test_search_beta(Screenshot):
             self.driver, By.CSS_SELECTOR, locators.MODULES_CSS).is_displayed(), is_true())
         check_that("Assemblies section has data displayed for selected repo", utilities.find_element(
             self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_CSS).is_displayed(), is_true())
-
         utilities.click_element(self.driver, By.XPATH, locators.MODULES_TOGGLE_BUTTON_XPATH)
         utilities.wait(1)
         check_that("Modules section is collapsible", utilities.find_element(
@@ -130,7 +161,7 @@ class test_search_beta(Screenshot):
         check_that("Published module is filtered", utilities.get_text(self.driver, By.CSS_SELECTOR,
                                                                       locators.FIRST_MODULE_LISTED_CSS), contains_string(constants.publish_module))
         check_that("Green check is displayed for published module", utilities.find_element(self.driver, By.CLASS_NAME,
-                                                        locators.GREEN_CHECK_CLASS_NAME).is_displayed(), is_true())
+                              locators.GREEN_CHECK_CLASS_NAME).is_displayed(),is_true())
         utilities.wait(3)
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CLEAR_ALL_FILTER_CSS)
         utilities.wait(1)
@@ -141,19 +172,22 @@ class test_search_beta(Screenshot):
                                           locators.STATUS_TOOLBAR_CHIP_CLASS_NAME).is_displayed(), is_true())
         utilities.wait(3)
         check_that("'Concept' content type filter is selected", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                                                                   locators.FIRST_MODULE_LISTED_CSS), contains_string("Concept"))
+                                                                                   locators.FIRST_MODULE_LISTED_CSS),
+                   contains_string("Concept"))
         utilities.wait(1)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.CONCEPT_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.PROCEDURE_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.wait(3)
         check_that("'Procedure' content type filter is selected", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                                                                     locators.FIRST_MODULE_LISTED_CSS), contains_string("Procedure"))
+                                                                                     locators.FIRST_MODULE_LISTED_CSS),
+                   contains_string("Procedure"))
         utilities.wait(1)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.PROCEDURE_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.click_element(self.driver, By.CLASS_NAME, locators.REFERENCE_CONTENT_TYPE_FILTER_CLASS_NAME)
         utilities.wait(3)
         check_that("'Reference' content type filter is selected", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                                                                     locators.FIRST_MODULE_LISTED_CSS), contains_string("Reference"))
+                                                                                     locators.FIRST_MODULE_LISTED_CSS),
+                   contains_string("Reference"))
         utilities.wait(2)
 
     def teardown_suite(self):
