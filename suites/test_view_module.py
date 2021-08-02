@@ -153,7 +153,7 @@ class test_view_module(Screenshot):
                 print("File name::", constants.image_file_name)
                 print("Path to adoc::", adoc_file_path)
                 p1 = os.path.split(adoc_file_path)
-                image_file = "/"+p1[0]+"/images/"+constants.image_file_name
+                image_file = "/content/"+p1[0]+"/images/"+constants.image_file_name
                 # image_file = "/content/repositories/" + test_repo_name + "/entities/enterprise/modules/images/" + constants.image_file_name
                 check_that("Path to image1", path, equal_to(image_file))
             except subprocess.CalledProcessError as e:

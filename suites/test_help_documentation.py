@@ -7,7 +7,7 @@ from lemoncheesecake.matching import *
 from helpers import utilities, locators, constants
 
 
-@lcc.suite("Suite: Tests for help documentation", rank=12)
+@lcc.suite("Suite: Tests for help documentation", rank=13)
 class test_help_documentation():
     driver = lcc.inject_fixture("driver_obj")
 

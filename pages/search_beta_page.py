@@ -15,6 +15,7 @@ def select_repo(driver, title):
                   ignore_exceptions=[NoSuchElementException],
                   timeout=15,
                   step=1)
+    utilities.wait(5)
     utilities.enter_text(driver, By.XPATH, locators.FILTER_BY_REPO_SEARCH_BAR_XPATH, title)
     # Poll until repo matching the search criteria is listed in the filter
     poll(lambda: len(driver.find_elements(By.CLASS_NAME, locators.SELECT_REPO_CHECKBOX_CLASS_NAME))==1,
@@ -42,6 +43,7 @@ def search_titles(driver, title):
     try:
         wait_for_modules(driver)
         utilities.enter_text(driver, By.CSS_SELECTOR, locators.SEARCH_TITLE_CSS, title)
+        utilities.wait(5)
     except TimeoutException as e:
         lcc.log_info("It appears that the module was not found, please check your test data.")
         raise e

@@ -11,7 +11,7 @@ from pages import search_beta_page, display_module_page
 from helpers import base
 from suites.test_publish_module import unpublish_module
 
-@lcc.suite("Suite: Tests for Search Beta", rank=10)
+@lcc.suite("Suite: Tests for Search Beta", rank=11)
 class test_search_beta(Screenshot):
     driver = lcc.inject_fixture("driver_obj")
 
@@ -159,8 +159,7 @@ class test_search_beta(Screenshot):
         utilities.click_element(self.driver, By.CLASS_NAME, locators.PUBLISHED_STATUS_CLASS_NAME)
         utilities.wait(2)
         check_that("Published module is filtered", utilities.get_text(self.driver, By.CSS_SELECTOR,
-                                                                      locators.FIRST_MODULE_LISTED_CSS),
-                   contains_string(constants.publish_module))
+                                                                      locators.FIRST_MODULE_LISTED_CSS), contains_string(constants.publish_module))
         check_that("Green check is displayed for published module", utilities.find_element(self.driver, By.CLASS_NAME,
                               locators.GREEN_CHECK_CLASS_NAME).is_displayed(),is_true())
         utilities.wait(3)
