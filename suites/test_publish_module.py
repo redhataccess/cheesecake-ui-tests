@@ -14,7 +14,6 @@ from helpers import utilities
 from fixtures import fixture
 from helpers.base_screenshot import Screenshot
 from datetime import datetime
-from pages import search_page
 from pages import search_beta_page
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException

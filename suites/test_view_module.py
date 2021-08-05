@@ -7,7 +7,7 @@ from helpers.base_screenshot import Screenshot
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 from selenium.common.exceptions import TimeoutException
-from pages import search_page, display_module_page, search_beta_page
+from pages import display_module_page, search_beta_page
 from helpers import utilities, locators, constants, base
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.common.by import By
