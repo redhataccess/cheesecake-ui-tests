@@ -2,7 +2,6 @@ import sys
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
-from pages import search_page
 from pages import display_module_page
 from pages import search_beta_page
 from helpers import utilities
