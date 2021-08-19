@@ -72,7 +72,9 @@ class test_bulk_operations(Screenshot):
              ignore_exceptions=[NoSuchElementException],
              timeout=5,
              step=0.5)
+        utilities.wait(3)
         utilities.click_element(self.driver, By.XPATH, locators.MODULES_SELECT_ALL_TITLE_XPATH)
+        utilities.wait(3)
         bulk_publish = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.BULK_PUBLISH_CSS)
         bulk_publish.click()
         check_that("Confirmation modal title",
@@ -140,6 +142,7 @@ class test_bulk_operations(Screenshot):
         utilities.wait(2)
         search_beta_page.add_bulk_metadata(self.driver)
         utilities.wait(2)
+        lcc.log_info("This test is failing currenly to the bug CCS-4444")
         check_that("Alert message displayed when trying to add metadata to published title",
             utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ALERT_TITLE_CSS),
             equal_to(constants.error_message_on_edit_metadata))

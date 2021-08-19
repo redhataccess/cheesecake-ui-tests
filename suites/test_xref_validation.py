@@ -81,7 +81,7 @@ class test_xref_validation(Screenshot):
             while (i<=count):
                 # For each xref validation node for every module check all the fields within the node
                 check_that("Validation message", validation_xref[str(i)]['pant:message'],
-                           equal_to("invalid Cross reference exists in the document"))
+                           equal_to(constants.xref_validation_msg))
                 check_that("Validation type", validation_xref[str(i)]['pant:validationType'], equal_to("xref"))
                 check_that("Xref target", validation_xref[str(i)]['pant:xrefTarget'], is_not_none())
                 check_that("Validation status", validation_xref[str(i)]["pant:status"], equal_to("error"))
@@ -167,7 +167,7 @@ class test_xref_validation(Screenshot):
         i=1
         while (i<=count):
             # For each xref validation node for every assembly check all the fields within the node
-            check_that("Validation message", validation_xref[str(i)]['pant:message'], equal_to("invalid Cross reference exists in the document"))
+            check_that("Validation message", validation_xref[str(i)]['pant:message'], equal_to(constants.xref_validation_msg))
             check_that("Validation type", validation_xref[str(i)]['pant:validationType'], equal_to("xref"))
             check_that("Xref target", validation_xref[str(i)]['pant:xrefTarget'], is_not_none())
             check_that("Validation status", validation_xref[str(i)]["pant:status"], equal_to("error"))
