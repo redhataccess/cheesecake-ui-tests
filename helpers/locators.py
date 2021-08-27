@@ -5,11 +5,11 @@ CLOSE_WARNING_ALERT_CSS = "div.pf-c-alert__action button"
 
 # Login page
 LOGIN_LINK_TEXT = "Log In"
-USER_NAME_ID = "username"
+USER_NAME_ID = "username-verification"
 LOGGED_IN_USERNAME = "a.p2-header__login"
 PASSWORD_ID = "password"
 LOGIN_NEXT_BUTTON_ID = "login-show-step2"
-LOGIN_BUTTON_ID = "kc-login"
+LOGIN_BUTTON_ID = "rh-password-verification-submit-button"
 LOGGED_IN_USER_PARTIAL_TEXT = "Log Out"
 
 # Display module page
