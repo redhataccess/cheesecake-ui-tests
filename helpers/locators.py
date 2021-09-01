@@ -143,6 +143,7 @@ UPDATED_TITLES_LIST_CSS = "span#update-succeeded ol li"
 FAILED_TITLES_LIST_CSS = "span#update-failed ul li"
 SKIPPED_TITLE_LIST_CSS = "span#update-ignored ul li"
 CLOSE_DETAILS_XPATH = "//button[@aria-label='Close']"
+SKIPPED_TITLES_LIST_CSS = "span#update-ignored ol li"
 
 
 #help_documentation_page

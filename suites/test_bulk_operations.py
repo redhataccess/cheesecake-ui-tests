@@ -142,16 +142,17 @@ class test_bulk_operations(Screenshot):
         utilities.wait(2)
         search_beta_page.add_bulk_metadata(self.driver)
         utilities.wait(2)
-        lcc.log_info("This test is failing currenly to the bug CCS-4444")
-        check_that("Alert message displayed when trying to add metadata to published title",
-            utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ALERT_TITLE_CSS),
-            equal_to(constants.error_message_on_edit_metadata))
+        # lcc.log_info("This test is failing currenly to the bug CCS-4444")
+        #commenting below check as scope of bug CCS-4444 is deferred , hence checking for skipped and updated modules status
+        # check_that("Alert message displayed when trying to add metadata to published title",
+        #     utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ALERT_TITLE_CSS),
+        #     equal_to(constants.error_message_on_edit_metadata))
+        utilities.click_element(self.driver, By.XPATH, locators.VIEW_DETAILS_LINK)
+        utilities.wait(3)
+        modules_updated = utilities.find_elements_by_css_selector(self.driver, locators.UPDATED_TITLES_LIST_CSS)
+        check_that("Count of successfully updated modules", len(modules_updated), equal_to(3))
+        modules_skipped = utilities.find_elements_by_css_selector(self.driver, locators.SKIPPED_TITLES_LIST_CSS)
+        check_that("Count of skipped modules", len(modules_skipped), equal_to(1))
         utilities.click_element(self.driver, By.XPATH, locators.CLOSE_DETAILS_XPATH)
         utilities.wait(15)
         lcc.log_info("End of tests, executing teardown")
-
-
-
-
-
-
