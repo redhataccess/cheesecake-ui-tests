@@ -92,9 +92,9 @@ def setup_test_repo():
         #     ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
         #                                                                               uploader_password,
         #                                                                               url)), shell=True)
-        subprocess.check_call(
-            ('pantheon --user={} --password={} --server={} push'.format(uploader_username, uploader_password,
-                                                                        url)), shell=True)
+        #subprocess.check_call(
+         #   ('pantheon --user={} --password={} --server={} push'.format(uploader_username, uploader_password,
+          #                                                              url)), shell=True)
         os.mkdir('screenshots')
         os.chdir('screenshots')
     except subprocess.CalledProcessError as e:
