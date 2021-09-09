@@ -91,9 +91,9 @@ def setup_test_repo():
         #     ('python3 ../pantheon.py --user={} --password={} --server={} push'.format(uploader_username,
         #                                                                               uploader_password,
         #                                                                               url)), shell=True)
-        subprocess.check_call(
-            ('pantheon --user={} --password={} --server={} push'.format(uploader_username, uploader_password,
-                                                                        url)), shell=True)
+        #subprocess.check_call(
+         #   ('pantheon --user={} --password={} --server={} push'.format(uploader_username, uploader_password,
+          #                                                              url)), shell=True)
         os.mkdir('screenshots')
         os.chdir('screenshots')
     except subprocess.CalledProcessError as e:
@@ -186,6 +186,7 @@ def setup(setup_test_repo, setup_test_products):
     lcc.log_info(driver.current_url)
     # login to Pantheon v2
     lcc.log_info("Log in to Pantheon v2 using credentials")
+    utilities.wait(20)
     login_page.login(driver)
     # the global driver object can be used globally in the tests.
     yield driver
