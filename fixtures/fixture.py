@@ -76,14 +76,15 @@ def setup_test_repo():
     origin.pull('at-uploader1')
 
     logging.info("Installing the Pantheon uploader script..")
-    # try:
-    #     subprocess.check_call(
-    #         "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
-    #         shell=True)
-    # except subprocess.CalledProcessError as e:
-    #     logging.error("Unable to install the uploader script")
-    #     raise e
-
+    '''
+    try:
+         subprocess.check_call(
+             "curl -o pantheon.py https://raw.githubusercontent.com/redhataccess/pantheon/master/uploader/pantheon.py",
+             shell=True)
+    except subprocess.CalledProcessError as e:
+        logging.error("Unable to install the uploader script")
+        raise e
+    '''
     os.chdir(project_dir_git)
 
     try:
@@ -186,6 +187,7 @@ def setup(setup_test_repo, setup_test_products):
     lcc.log_info(driver.current_url)
     # login to Pantheon v2
     lcc.log_info("Log in to Pantheon v2 using credentials")
+    utilities.wait(20)
     login_page.login(driver)
     # the global driver object can be used globally in the tests.
     yield driver

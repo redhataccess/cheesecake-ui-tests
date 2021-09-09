@@ -29,7 +29,7 @@ def click_element(driver, locator_type, locator_value):
     element.click()
 
 
-def enter_text(driver, locator_type, locator_value, text):
+def enter_text(driver   , locator_type, locator_value, text):
     element = wait_for_element(driver, locator_type, locator_value)
     element.clear()
     element.send_keys(text)
