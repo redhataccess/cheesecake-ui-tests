@@ -156,9 +156,6 @@ GUIDE_TITLE="//div[@class='rhdocs-content-type']"
 PAGE_DATA="help"
 
 
-
-
-
 # New Product page
 PRODUCT_NAME_TEXTBOX_ID = "product_name_text"
 PRODUCT_DESCRIPTION_TEXTBOX_ID = "product_description_text"

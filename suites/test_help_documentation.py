@@ -29,10 +29,15 @@ class test_help_documentation():
               #                                                    locators.USER_GUIDE_PARENT_CSS).text
 
             title_of_user_guide=utilities.get_text(self.driver,By.CSS_SELECTOR,locators.TITLE_OF_USER_GUIDE_CSS)
-            title_guide=utilities.get_text(self.driver,By.XPATH,locators.GUIDE_TITLE)
+            title_guide = utilities.get_text(self.driver, By.XPATH, locators.GUIDE_TITLE)
             print(title_of_user_guide)
             check_that("title of the page", title_of_user_guide, contains_string("Help"))
-            check_that("title contains guide",title_guide,contains_string("Guide"))
+
+            #                                                       locators.TITLE_OF_USER_GUIDE_CSS,
+            #                                                      locators.USER_GUIDE_PARENT_CSS).text
+            title_of_user_guide=utilities.get_text(self.driver,By.CSS_SELECTOR,locators.TITLE_OF_USER_GUIDE_CSS)
+            check_that("title of the page", title_of_user_guide, contains_string("Help"))
+            check_that("title contains guide", title_guide, contains_string("Guide"))
             st = utilities.get_text(self.driver, By.ID, locators.PAGE_DATA)
             check_that("Help Documemnt to ", st, not_(contains_string("Invalid include:")))
         except (TimeoutException, NoSuchElementException) as e:

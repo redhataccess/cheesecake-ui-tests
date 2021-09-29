@@ -147,6 +147,7 @@ class test_module_type(Screenshot):
                      "the asciidoc file")
         # Once landed on the module display page, get path to adoc from the module display page url
         path_to_adoc_file = display_module_page.get_path_to_adoc(self.driver)
+        utilities.wait(5)
         path = path_to_adoc_file + constants.path_for_module_type
         response = requests.get(url=url + path, auth=(fixture.username, fixture.api_auth))
         check_that("Module type node in backend", response.status_code, equal_to(404))
