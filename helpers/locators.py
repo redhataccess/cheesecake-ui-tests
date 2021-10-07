@@ -153,6 +153,9 @@ TITLE_OF_USER_GUIDE_CSS = "div.rhdocs__header__primary-wrapper h1"
 USER_GUIDE_PARENT_CSS = "cp-documentation#doc-content"
 SUPPORTED_OS="//div[@class='sectionbody']/div[@class='paragraph']/preceding-sibling::ul/li/p"
 PREREQUSITES_TITLE="#ref_prerequisites_assembly-help"
+GUIDE_TITLE="//div[@class='rhdocs-content-type']"
+PAGE_DATA="help"
+
 
 
 # New Product page
