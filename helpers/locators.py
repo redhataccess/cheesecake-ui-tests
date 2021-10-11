@@ -158,7 +158,7 @@ PAGE_DATA="help"
 PRODUCT_NAME_TEXTBOX_ID = "product_name_text"
 PRODUCT_DESCRIPTION_TEXTBOX_ID = "product_description_text"
 SAVE_PRODUCT_BUTTON_CSS = "button.pf-c-button.pf-m-primary"
-PRODUCT_URL_FRAGMENT_TEXTBOXx_ID = "product_url_fragment_text"
+PRODUCT_URL_FRAGMENT_TEXTBOX_ID = "product_url_fragment_text"
 NEW_PRODUCT_VERSION_TEXTBOX_ID = "new_version_name_text"
 PRODUCT_VERSION_URL_FRAGMENT_ID = "new_version_url_fragment"
 
