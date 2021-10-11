@@ -151,6 +151,8 @@ HELP_ICON_CLASS_NAME = "button.pf-c-dropdown__toggle.pf-m-plain"
 USER_GUIDE_LINK_TEXT = "User Guide"
 TITLE_OF_USER_GUIDE_CSS = "div.rhdocs__header__primary-wrapper h1"
 USER_GUIDE_PARENT_CSS = "cp-documentation#doc-content"
+GUIDE_TITLE="//div[@class='rhdocs-content-type']"
+PAGE_DATA="help"
 
 # New Product page
 PRODUCT_NAME_TEXTBOX_ID = "product_name_text"
