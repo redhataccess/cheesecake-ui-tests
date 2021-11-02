@@ -205,13 +205,13 @@ class test_xref_validation(Screenshot):
 
         utilities.click_element(self.driver, By.LINK_TEXT, Xref_linkText2)
         utilities.switch_to_latest_tab(self.driver)
-        check_that("Xref to assembly with complete path", utilities.get_page_title(self.driver),
+        check_that("xref to file on same level", utilities.get_page_title(self.driver),
                    "Content Test Module | Logging in to the web console using Kerberos authentication (Image present)" + CP_title_static_part)
         utilities.switch_to_first_tab(self.driver)
 
         utilities.click_element(self.driver, By.LINK_TEXT, Xref_linkText3)
         utilities.switch_to_latest_tab(self.driver)
-        check_that("Xref to assembly with complete path", utilities.get_page_title(self.driver),
+        check_that("Different module included in different assembly", utilities.get_page_title(self.driver),
                    "at-uploader | Module type none" + CP_title_static_part)
         utilities.switch_to_first_tab(self.driver)
 
