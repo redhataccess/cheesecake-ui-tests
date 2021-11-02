@@ -1,7 +1,6 @@
 from helpers import utilities
 from helpers import locators
 from helpers import constants
-from polling2 import poll
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 import urllib.parse as urllib
@@ -92,4 +91,3 @@ def add_metadata_and_publish(driver):
     utilities.wait(3)
     assert_that("Button contains text", utilities.get_text(driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID), contains_string("Unpublish"))
     utilities.wait(5)
-
