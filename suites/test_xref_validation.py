@@ -38,10 +38,10 @@ class test_xref_validation(Screenshot):
                    greater_than_or_equal_to(3))
         # Number of modules returned in the search results
         modules_list = utilities.find_elements_by_css_selector(self.driver, locators.MODULE_SEARCH_RESULTS_CSS)
-        j = 1
+        j=1
         # Iterate throught the list of modules returned
-        while j <= len(modules_list):
-            print("================", j, "====================")
+        while j<=len(modules_list):
+            print("================",j,"====================")
             utilities.click_element(self.driver, By.CSS_SELECTOR, locators.NTH_MODULE_LISTED_CSS.format(j))
             utilities.wait(10)
             # Verify check validation tree is displayed on UI
@@ -59,7 +59,7 @@ class test_xref_validation(Screenshot):
             print(validation_xref)
             # xref node contains validation nodes along with created, createdBy and primaryType fields.
             # Hence, subracting 3 from the count
-            count = len(validation_xref) - 3
+            count = len(validation_xref)-3
             print(count)
             check_that("Count of validation nodes on UI and API matches", validation_count, equal_to(count))
             # Separate the filename and the path wrt to repo name
@@ -77,8 +77,8 @@ class test_xref_validation(Screenshot):
             # Read contents of the adoc file
             content = utilities.read_file(file)
             print(content)
-            i = 1
-            while (i <= count):
+            i=1
+            while (i<=count):
                 # For each xref validation node for every module check all the fields within the node
                 check_that("Validation message", validation_xref[str(i)]['pant:message'],
                            equal_to(constants.xref_validation_msg))
@@ -90,14 +90,14 @@ class test_xref_validation(Screenshot):
                 self.xref_target.append(target_path)
                 # Verify that the xref validation target actually is a part of the file adoc content
                 check_that("File content", content, contains_string(target_path))
-                i = i + 1
+                i=i+1
             # Navigate back to search page and filter out the xref validation titles from the repo to perform tests
             # on the next module in list
             utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
             utilities.page_reload(self.driver)
             search_beta_page.select_repo(self.driver, fixture.repo_name)
             search_beta_page.search_titles(self.driver, constants.partial_title)
-            j = j + 1
+            j=j+1
 
     @lcc.test('Verify xref validation for assembly')
     def xref_validation_assembly(self):
@@ -129,7 +129,7 @@ class test_xref_validation(Screenshot):
         print(validation_xref)
         # xref node contains validation nodes along with created, createdBy and primaryType fields.
         # Hence, subracting 3 from the count
-        count = len(validation_xref) - 3
+        count = len(validation_xref)-3
         print(count)
         # Verify count of xref validation nodes on UI and JCR tree matches
         check_that("Count of validation nodes on UI and API matches", validation_count, equal_to(count))
@@ -164,11 +164,10 @@ class test_xref_validation(Screenshot):
         # Get adoc file content
         content = utilities.read_file(file)
         print(content)
-        i = 1
-        while (i <= count):
+        i=1
+        while (i<=count):
             # For each xref validation node for every assembly check all the fields within the node
-            check_that("Validation message", validation_xref[str(i)]['pant:message'],
-                       equal_to(constants.xref_validation_msg))
+            check_that("Validation message", validation_xref[str(i)]['pant:message'], equal_to(constants.xref_validation_msg))
             check_that("Validation type", validation_xref[str(i)]['pant:validationType'], equal_to("xref"))
             check_that("Xref target", validation_xref[str(i)]['pant:xrefTarget'], is_not_none())
             check_that("Validation status", validation_xref[str(i)]["pant:status"], equal_to("error"))
@@ -186,7 +185,6 @@ class test_xref_validation(Screenshot):
     # @lcc.disabled
     def xref_validations_module_in_CP(self):
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
-        utilities.page_reload(self.driver)
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_module_and_click(self.driver, constants.xref_validation_module_name)
         utilities.wait(4)
@@ -249,8 +247,8 @@ class test_xref_validation(Screenshot):
         print("cwd::", cwd)
         c = cwd.split("test-repo")[1].count("/")
         print("Move %s directories back" % c)
-        k = 0
-        while (k < c):
+        k=0
+        while (k<c):
             os.chdir("..")
             cwd = os.getcwd()
             print("cwd::", cwd)
