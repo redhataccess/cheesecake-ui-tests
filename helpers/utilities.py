@@ -57,7 +57,7 @@ def find_elements_by_id(driver, locator):
 def find_elements_by_class_name(driver, locator):
     try:
         elements_list_by_class = WebDriverWait(driver, 30).until(ec.visibility_of_all_elements_located((By.CLASS_NAME,
-                                                                                                    locator)))
+                                                                                                        locator)))
     except TimeoutException as e:
         lcc.log_error("Element not found after 30 sec wait!!!")
         lcc.log_error(str(e))
@@ -71,12 +71,14 @@ def find_elements_by_css_selector(driver, locator):
         lcc.log_error(str(e))
     return elements_list_by_css_selector
 
+
 def find_elements_by_XPATH(driver, locator):
     try:
         elements_list_by_XPATH = driver.find_elements(By.XPATH, locator)
     except NoSuchElementException as e:
         lcc.log_error(str(e))
     return elements_list_by_XPATH
+
 
 def wait(count):
     time.sleep(count)
@@ -120,22 +122,37 @@ def generate_random_string(string_length):
     random_string = ''.join(random.choice(letters) for i in range(string_length))
     return random_string
 
+
 def get_shadow_root(driver, shadow_root_parent):
     try:
-        shadow_host = find_element(driver, By.CSS_SELECTOR,shadow_root_parent )
+        shadow_host = find_element(driver, By.CSS_SELECTOR, shadow_root_parent)
     except (TimeoutException, NoSuchElementException) as e:
         lcc.log_error(e)
     else:
         root_ele = driver.execute_script("return arguments[0].shadowRoot", shadow_host)
         return root_ele
 
-def find_shadow_dom_element (driver,locator, shadow_root_parent):
+
+def find_shadow_dom_element(driver, locator, shadow_root_parent):
     shadow_root = get_shadow_root(driver, shadow_root_parent)
     element = shadow_root.find_element_by_css_selector(locator)
     return element
+
 
 def read_file(filename):
     file = open(filename)
     line = file.read()
     file.close()
-    return  line
+    return line
+
+
+# def get_current_url(driver):
+#     return driver.current_url
+
+
+def get_page_title(driver):
+    return driver.title
+
+#
+# def go_back_to_previous_page(driver):
+#     driver.execute_script("window.history.go(-1)")

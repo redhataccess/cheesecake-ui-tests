@@ -181,6 +181,40 @@ class test_xref_validation(Screenshot):
                 check_that("File content", content, contains_string(target_path))
             i = i + 1
 
+    @lcc.test('Verify xref validation for module in Customer Portal')
+    def xref_validations_module_in_CP(self):
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.page_reload(self.driver)
+        search_beta_page.select_repo(self.driver, fixture.repo_name)
+        search_beta_page.search_module_and_click(self.driver, constants.xref_validation_module_name)
+        utilities.wait(4)
+        display_module_page.add_metadata_and_publish(self.driver)
+        display_module_page.navigate_into_CP(self.driver)
+
+        Xref_linkText1 = "Xref to assembly with complete path"
+        Xref_linkText2 = "xref to file on same level"
+        Xref_linkText3 = "Different module included in different assembly"
+
+        CP_title_static_part = " | Red Hat Customer Portal"
+
+        utilities.click_element(self.driver, By.LINK_TEXT, Xref_linkText1)
+        utilities.switch_to_latest_tab(self.driver)
+        check_that("Xref to assembly with complete path", utilities.get_page_title(self.driver),
+                   "at-uploader | Assembly Publish test" + CP_title_static_part)
+        utilities.switch_to_first_tab(self.driver)
+
+        utilities.click_element(self.driver, By.LINK_TEXT, Xref_linkText2)
+        utilities.switch_to_latest_tab(self.driver)
+        check_that("Xref to assembly with complete path", utilities.get_page_title(self.driver),
+                   "Content Test Module | Logging in to the web console using Kerberos authentication (Image present)" + CP_title_static_part)
+        utilities.switch_to_first_tab(self.driver)
+
+        utilities.click_element(self.driver, By.LINK_TEXT, Xref_linkText3)
+        utilities.switch_to_latest_tab(self.driver)
+        check_that("Xref to assembly with complete path", utilities.get_page_title(self.driver),
+                   "at-uploader | Module type none" + CP_title_static_part)
+        utilities.switch_to_first_tab(self.driver)
+
     def teardown_test(self, test, status):
         lcc.log_info("Moving back to screenshots dir")
         cwd = os.getcwd()

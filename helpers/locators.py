@@ -52,7 +52,7 @@ XREF_VALIDATION_TREE_ID = "xrefs"
 XREF_VALIDATION_COUNT_CSS = "li#xrefs>div>button span.pf-c-badge.pf-m-read"
 PATH_TO_ADOC_CSS = "div.pf-l-level>div>div.pf-c-content pre"
 GENERATE_HTML_CSS = "button.pf-c-button.pf-m-secondary"
-
+CUSTOMER_PORTAL_XPATH = "//a[text()='View on Customer Portal  ']"
 # Customer portal
 MODULE_TITLE_ON_PORTAL_ID= "rhdocs-header"
 PRODUCT_NAME_ON_PREVIEW_CSS = "span.rhdocs-product-name"

@@ -138,4 +138,5 @@ error_message_on_edit_metadata = "Danger alert:\nNo draft versions found on sele
 # xref validation constants
 partial_title = "xref validation"
 xref_validation_msg = "Invalid cross references"
+xref_validation_module_name = "at-uploader | This doc contains a list of refs"
 

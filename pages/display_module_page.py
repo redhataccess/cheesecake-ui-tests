@@ -1,6 +1,7 @@
 from helpers import utilities
 from helpers import locators
 from helpers import constants
+from polling2 import poll
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
 import urllib.parse as urllib
@@ -8,6 +9,7 @@ import sys
 from fixtures import fixture
 import requests
 from helpers import base
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 sys.path.append("..")
 
@@ -91,3 +93,13 @@ def add_metadata_and_publish(driver):
     utilities.wait(3)
     assert_that("Button contains text", utilities.get_text(driver, By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID), contains_string("Unpublish"))
     utilities.wait(5)
+def navigate_into_CP(driver):
+    utilities.click_element(driver, By.XPATH, locators.CUSTOMER_PORTAL_XPATH)
+    # driver.find_element_by_xpath("//a[text()='View on Customer Portal  ']").click()
+    utilities.switch_to_latest_tab(driver)
+    # poll(lambda: driver.title == pageTitle,
+    #      ignore_exceptions=[NoSuchElementException],
+    #      timeout=20,
+    #      step=1)
+    utilities.wait(20)
+    lcc.log_info("Successfully navigated into Customer Portal")
