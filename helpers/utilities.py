@@ -123,14 +123,14 @@ def generate_random_string(string_length):
 
 def get_shadow_root(driver, shadow_root_parent):
     try:
-        shadow_host = find_element(driver, By.CSS_SELECTOR,shadow_root_parent)
+        shadow_host = find_element(driver, By.CSS_SELECTOR,shadow_root_parent )
     except (TimeoutException, NoSuchElementException) as e:
         lcc.log_error(e)
     else:
         root_ele = driver.execute_script("return arguments[0].shadowRoot", shadow_host)
         return root_ele
 
-def find_shadow_dom_element(driver, locator, shadow_root_parent):
+def find_shadow_dom_element (driver,locator, shadow_root_parent):
     shadow_root = get_shadow_root(driver, shadow_root_parent)
     element = shadow_root.find_element_by_css_selector(locator)
     return element
