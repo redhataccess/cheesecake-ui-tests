@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from lemoncheesecake.matching import *
 import lemoncheesecake.api as lcc
+from helpers import locators
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
 import random
@@ -146,13 +147,10 @@ def read_file(filename):
     return line
 
 
-# def get_current_url(driver):
-#     return driver.current_url
+def get_CP_page_header(driver):
+    headerTitle = get_text(driver, By.XPATH, locators.MODULE_TITLE_XPATH)
+    return headerTitle
 
 
-def get_page_title(driver):
-    return driver.title
-
-#
-# def go_back_to_previous_page(driver):
-#     driver.execute_script("window.history.go(-1)")
+def go_back_to_previous_page(driver):
+    driver.execute_script("window.history.go(-1)")
