@@ -185,6 +185,7 @@ class test_xref_validation(Screenshot):
     # @lcc.disabled
     def xref_validations_module_in_CP(self):
         utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.wait(3)
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_module_and_click(self.driver, constants.xref_validation_module_name)
         utilities.wait(4)
@@ -194,33 +195,24 @@ class test_xref_validation(Screenshot):
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(6)
-            utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText1)
-
+            # utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText1)
+            utilities.java_script_executor(self.driver, constants.jseq_linkText1)
             utilities.wait(4)
-            check_that("Xref to assembly with complete path", utilities.get_CP_page_header(self.driver),
-                       equal_to(constants.Xref_linkText1))
+            check_that("Xref to assembly with complete path", utilities.get_CP_page_header(self.driver), equal_to(constants.Xref_linkText1))
             utilities.go_back_to_previous_page(self.driver)
-
             utilities.wait(4)
-
-            self.driver.find_element_by_xpath(locators.CONSENT_BUTTON_XPATH).click()
-
-            utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText2)
-
+            # utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText2)
+            utilities.java_script_executor(self.driver, constants.jseq_linkText2)
             utilities.wait(4)
-            check_that("xref to file on same level", utilities.get_CP_page_header(self.driver),
-                       equal_to(constants.Xref_linkText2))
+            check_that("xref to file on same level", utilities.get_CP_page_header(self.driver), equal_to(constants.Xref_linkText2))
             utilities.go_back_to_previous_page(self.driver)
-
             utilities.wait(4)
-
-            utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText3)
-
+            self.driver.find_element_by_css_selector(locators.CONSENT_BUTTON_CSS).click()
+            # utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText3)
+            utilities.java_script_executor(self.driver, constants.jseq_linkText3)
             utilities.wait(4)
-            check_that("Different module included in different assembly", utilities.get_CP_page_header(self.driver),
-                       equal_to(constants.Xref_linkText3))
+            check_that("Different module included in different assembly", utilities.get_CP_page_header(self.driver), equal_to(constants.Xref_linkText3))
             utilities.go_back_to_previous_page(self.driver)
-
             utilities.wait(4)
             # utilities.wait(4)
             # self.driver.find_element_by_xpath(locators.CONSENT_BUTTON_XPATH).click()

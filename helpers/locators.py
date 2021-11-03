@@ -54,7 +54,6 @@ PATH_TO_ADOC_CSS = "div.pf-l-level>div>div.pf-c-content pre"
 GENERATE_HTML_CSS = "button.pf-c-button.pf-m-secondary"
 # Customer portal
 MODULE_TITLE_ON_PORTAL_ID= "rhdocs-header"
-MODULE_TITLE_XPATH= "//header[@class='rhdocs__header']//h1"
 PRODUCT_NAME_ON_PREVIEW_CSS = "span.rhdocs-product-name"
 PRODUCT_VERSION_ON_PREVIEW_CSS = "span.rhdocs-product-version"
 UPDATED_DATE_ON_PORTAL_CSS = "li.rh-docs-details-item.rhdocs-updated-date"
@@ -74,7 +73,7 @@ LEGAL_NOTICE_ON_PREVIEW_CSS = "a.rh-docs-legal-notice__link"
 LEGAL_NOTICE_ON_PORTAL_CSS = "article#rhdocs-content div.rh-docs-legal-notice a.rh-docs-legal-notice__link"
 CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-guide aside div.sectionbody"
 CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
-CONSENT_BUTTON_XPATH = "//button[@class='truste-button1']"
+CONSENT_BUTTON_CSS = "button.truste-button1"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
