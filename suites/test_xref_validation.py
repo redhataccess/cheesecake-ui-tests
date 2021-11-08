@@ -11,7 +11,7 @@ from polling2 import poll
 from pages import search_beta_page, display_module_page
 from fixtures import fixture
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
 from helpers import locators
 import requests
 sys.path.append("..")
@@ -180,6 +180,58 @@ class test_xref_validation(Screenshot):
             if not (target_path in self.xref_target):
                 check_that("File content", content, contains_string(target_path))
             i = i + 1
+
+    @lcc.test('Verify xref validation for module in Customer Portal')
+    # @lcc.disabled
+    def xref_validations_module_in_CP(self):
+        utilities.click_element(self.driver, By.LINK_TEXT, locators.MENU_SEARCH_PAGE_LINK_TEXT)
+        utilities.wait(3)
+        search_beta_page.select_repo(self.driver, fixture.repo_name)
+        search_beta_page.search_module_and_click(self.driver, constants.xref_validation_module_name)
+        utilities.wait(4)
+        display_module_page.add_metadata_and_publish(self.driver)
+        utilities.click_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
+        try:
+            utilities.wait(5)
+            utilities.switch_to_latest_tab(self.driver)
+            utilities.wait(6)
+            # utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText1)
+            utilities.java_script_executor(self.driver, locators.jseq_linkText1)
+            utilities.wait(4)
+            check_that("Xref to assembly with complete path", utilities.get_CP_page_header(self.driver), equal_to(constants.Xref_linkText1))
+            utilities.go_back_to_previous_page(self.driver)
+            utilities.wait(4)
+            # utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText2)
+            utilities.java_script_executor(self.driver, locators.jseq_linkText2)
+            utilities.wait(4)
+            check_that("xref to file on same level", utilities.get_CP_page_header(self.driver), equal_to(constants.Xref_linkText2))
+            utilities.go_back_to_previous_page(self.driver)
+            utilities.wait(4)
+            self.driver.find_element_by_css_selector(locators.CONSENT_BUTTON_CSS).click()
+            # utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_linkText3)
+            utilities.java_script_executor(self.driver, locators.jseq_linkText3)
+            utilities.wait(4)
+            check_that("Different module included in different assembly", utilities.get_CP_page_header(self.driver), equal_to(constants.Xref_linkText3))
+            utilities.go_back_to_previous_page(self.driver)
+            utilities.wait(4)
+            # utilities.wait(4)
+            # self.driver.find_element_by_xpath(locators.CONSENT_BUTTON_XPATH).click()
+            # counter=1
+            # for i in constants.Xref_dict:
+            #     utilities.click_element(self.driver, By.LINK_TEXT, constants.Xref_dict[i])
+            #     utilities.wait(4)
+            #     check_that("Xref validation "+ str(counter), utilities.get_CP_page_header(self.driver),
+            #                equal_to(constants.Xref_dict[i]))
+            #     utilities.go_back_to_previous_page(self.driver)
+            #     utilities.wait(4)
+            #     counter=counter+1
+        except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:
+            lcc.log_error("Some problem accessing the Customer Portal, please check.")
+            lcc.log_error(e)
+        finally:
+            if (len(self.driver.window_handles) > 1):
+                self.driver.close()
+                utilities.switch_to_first_tab(self.driver)
 
     def teardown_test(self, test, status):
         lcc.log_info("Moving back to screenshots dir")

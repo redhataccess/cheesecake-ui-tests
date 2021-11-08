@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from lemoncheesecake.matching import *
 import lemoncheesecake.api as lcc
+from helpers import locators
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
 import random
@@ -138,4 +139,15 @@ def read_file(filename):
     file = open(filename)
     line = file.read()
     file.close()
-    return  line
+    return line
+
+def get_CP_page_header(driver):
+    headerTitle = driver.execute_script("return document.querySelector('#doc-content').shadowRoot.querySelector('.rhdocs__header__primary-wrapper > h1').innerText")
+    return headerTitle
+
+def go_back_to_previous_page(driver):
+    driver.execute_script("window.history.go(-1)")
+
+def java_script_executor(driver,jsquery):
+    driver.execute_script(jsquery)
+

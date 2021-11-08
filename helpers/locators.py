@@ -52,7 +52,6 @@ XREF_VALIDATION_TREE_ID = "xrefs"
 XREF_VALIDATION_COUNT_CSS = "li#xrefs>div>button span.pf-c-badge.pf-m-read"
 PATH_TO_ADOC_CSS = "div.pf-l-level>div>div.pf-c-content pre"
 GENERATE_HTML_CSS = "button.pf-c-button.pf-m-secondary"
-
 # Customer portal
 MODULE_TITLE_ON_PORTAL_ID= "rhdocs-header"
 PRODUCT_NAME_ON_PREVIEW_CSS = "span.rhdocs-product-name"
@@ -74,6 +73,10 @@ LEGAL_NOTICE_ON_PREVIEW_CSS = "a.rh-docs-legal-notice__link"
 LEGAL_NOTICE_ON_PORTAL_CSS = "article#rhdocs-content div.rh-docs-legal-notice a.rh-docs-legal-notice__link"
 CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-guide aside div.sectionbody"
 CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
+CONSENT_BUTTON_CSS = "button.truste-button1"
+jseq_linkText1 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(3) > a').click()"
+jseq_linkText2 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(7) > a').click()"
+jseq_linkText3 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(9) > a').click()"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
