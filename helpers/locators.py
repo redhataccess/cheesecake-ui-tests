@@ -74,6 +74,9 @@ LEGAL_NOTICE_ON_PORTAL_CSS = "article#rhdocs-content div.rh-docs-legal-notice a.
 CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-guide aside div.sectionbody"
 CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
 CONSENT_BUTTON_CSS = "button.truste-button1"
+jseq_linkText1 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(3) > a').click()"
+jseq_linkText2 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(7) > a').click()"
+jseq_linkText3 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(9) > a').click()"
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
