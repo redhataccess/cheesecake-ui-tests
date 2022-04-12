@@ -195,7 +195,7 @@ class test_create_product(Screenshot):
         utilities.wait(3)
         utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
         versions_ul = utilities.find_element(self.driver, By.CLASS_NAME, locators.PRODUCT_VERSIONS_UL_CLASS_NAME)
-        versions_list = versions_ul.find_elements_by_tag_name(locators.PRODUCT_VERSIONS_LI_TAG_NAME)
+        versions_list = versions_ul.find_elements(By.TAG_NAME,locators.PRODUCT_VERSIONS_LI_TAG_NAME)
         versions = []
         for version in versions_list:
             versions.append(version.text)
