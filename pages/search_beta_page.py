@@ -43,6 +43,7 @@ def search_titles(driver, title):
     try:
         wait_for_modules(driver)
         utilities.enter_text(driver, By.CSS_SELECTOR, locators.SEARCH_TITLE_CSS, title)
+        utilities.click_element(driver, By.CSS_SELECTOR, locators.SEARCH_ICON_CSS)
         utilities.wait(5)
     except TimeoutException as e:
         lcc.log_info("It appears that the module was not found, please check your test data.")

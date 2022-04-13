@@ -75,9 +75,11 @@ LEGAL_NOTICE_ON_PORTAL_CSS = "article#rhdocs-content div.rh-docs-legal-notice a.
 CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-guide aside div.sectionbody"
 CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
 CONSENT_BUTTON_CSS = "button.truste-button1"
-jseq_linkText1 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(3) > a').click()"
-jseq_linkText2 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(7) > a').click()"
-jseq_linkText3 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(9) > a').click()"
+
+JSEQ_LINKTEXT1 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(3) > a').click()"
+JSEQ_LINKTEXT2 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(7) > a').click()"
+JSEQ_LINKTEXT3 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(9) > a').click()"
+
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
@@ -111,6 +113,7 @@ MODULES_WITH_SOURCE_NAME = "//span[contains(text(),'{}')]"
 MODULES_WITH_CURRENT_DATE = "//span[contains(text(),'{}')]"
 SEARCH_BOX_ID = "searchFilterInput"
 SEARCH_BUTTON_CSS = "input#searchFilterInput+button.pf-c-button.pf-m-control"
+SEARCH_ICON_CSS = "div.pf-c-input-group button.pf-c-button.pf-m-control"
 SORT_BY_DROPDOWN_CSS = "select#sortForm"
 SORT_ORDER_BUTTON_CSS = "select#sortForm+button.pf-c-button.pf-m-control"
 MODULE_TITLE_CSS = "div.pf-c-data-list__cell.pf-m-flex-2 a"

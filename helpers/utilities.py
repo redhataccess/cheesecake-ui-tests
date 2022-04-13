@@ -49,7 +49,7 @@ def get_text(driver, locator_type, locator_value):
 
 def find_elements_by_id(driver, locator):
     try:
-        element_list = driver.find_elements_by_id(locator)
+        element_list = driver.find_elements(By.ID, locator)
     except NoSuchElementException as e:
         lcc.log_error(str(e))
     return element_list
@@ -132,7 +132,7 @@ def get_shadow_root(driver, shadow_root_parent):
 
 def find_shadow_dom_element (driver,locator, shadow_root_parent):
     shadow_root = get_shadow_root(driver, shadow_root_parent)
-    element = shadow_root.find_element_by_css_selector(locator)
+    element = shadow_root.find_elements(By.CSS_SELECTOR, locator)
     return element
 
 def read_file(filename):

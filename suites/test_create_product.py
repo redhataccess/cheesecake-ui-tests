@@ -150,9 +150,9 @@ class test_create_product(Screenshot):
         for product in products:
             if product_name in product.text:
                 lcc.log_info("Adding versions to %s" % product.text)
-                product.find_element_by_class_name("pf-c-options-menu").click()
+                product.find_element(By.CLASS_NAME, "pf-c-options-menu").click()
                 lcc.log_info("Clicking on the dropdown to add product details")
-                product.find_element_by_class_name(locators.PRODUCT_DETAILS_BUTTON_CLASS_NAME).click()
+                product.find_element(By.CLASS_NAME, locators.PRODUCT_DETAILS_BUTTON_CLASS_NAME).click()
                 break
 
         #Verify blank product version and url fragment
@@ -195,7 +195,7 @@ class test_create_product(Screenshot):
         utilities.wait(3)
         utilities.find_element(self.driver, By.ID, locators.NEW_PRODUCT_VERSION_TEXTBOX_ID).clear()
         versions_ul = utilities.find_element(self.driver, By.CLASS_NAME, locators.PRODUCT_VERSIONS_UL_CLASS_NAME)
-        versions_list = versions_ul.find_elements_by_tag_name(locators.PRODUCT_VERSIONS_LI_TAG_NAME)
+        versions_list = versions_ul.find_elements(By.TAG_NAME,locators.PRODUCT_VERSIONS_LI_TAG_NAME)
         versions = []
         for version in versions_list:
             versions.append(version.text)
