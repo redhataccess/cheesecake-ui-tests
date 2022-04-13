@@ -28,7 +28,7 @@ class test_bulk_operations(Screenshot):
         utilities.page_reload(self.driver)
         search_beta_page.select_repo(self.driver, fixture.repo_name)
         search_beta_page.search_titles(self.driver, constants.bulk_operations_modules)
-        poll(lambda: len(utilities.find_elements_by_css_selector(self.driver, locators.MODULES_LIST_CSS))== 5,
+        poll(lambda: len(utilities.find_elements_by_css_selector(self.driver, locators.MODULES_LIST_CSS))== 4,
              ignore_exceptions=[NoSuchElementException],
              timeout=5,
              step=0.5)
@@ -47,7 +47,7 @@ class test_bulk_operations(Screenshot):
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.EDIT_METADATA_MODAL_TITLE),
                    equal_to("Edit Metadata"))
         check_that("Count of selected titles",
-                   utilities.get_text(self.driver, By.ID, locators.SELECTED_MODULES_COUNT_ID), contains_string("5"))
+                   utilities.get_text(self.driver, By.ID, locators.SELECTED_MODULES_COUNT_ID), contains_string("4"))
         search_beta_page.add_bulk_metadata(self.driver)
         poll(lambda: utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PROGRESS_SUCCESS_STATUS) == "100%",
              ignore_exceptions=[NoSuchElementException],
@@ -57,7 +57,7 @@ class test_bulk_operations(Screenshot):
         utilities.click_element(self.driver, By.XPATH, locators.VIEW_DETAILS_LINK)
         utilities.wait(3)
         modules_updated = utilities.find_elements_by_css_selector(self.driver, locators.UPDATED_TITLES_LIST_CSS)
-        check_that("Count of successfully updated modules", len(modules_updated), equal_to(5))
+        check_that("Count of successfully updated modules", len(modules_updated), equal_to(4))
         check_that("Skipped modules section text",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.SKIPPED_TITLE_LIST_CSS), equal_to("n/a"))
         check_that("Failed modules section text",
@@ -68,7 +68,7 @@ class test_bulk_operations(Screenshot):
     @lcc.test('Verify user can bulk publish modules')
     # @lcc.disabled()
     def modules_bulk_publish(self):
-        poll(lambda: len(utilities.find_elements_by_css_selector(self.driver, locators.MODULES_LIST_CSS)) == 5,
+        poll(lambda: len(utilities.find_elements_by_css_selector(self.driver, locators.MODULES_LIST_CSS)) == 4,
              ignore_exceptions=[NoSuchElementException],
              timeout=5,
              step=0.5)
@@ -81,7 +81,7 @@ class test_bulk_operations(Screenshot):
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODAL_TITLE_CSS), equal_to("Publish"))
         check_that("Count of modules being published",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.TITLES_FOR_PUBLISH_CSS),
-                   contains_string("5"))
+                   contains_string("4"))
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CONFIRM_BUTTON_CSS)
         poll(lambda: utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PROGRESS_SUCCESS_STATUS) == "100%",
              ignore_exceptions=[NoSuchElementException],
@@ -89,7 +89,7 @@ class test_bulk_operations(Screenshot):
              step=1)
         utilities.click_element(self.driver, By.XPATH, locators.VIEW_DETAILS_LINK)
         modules_updated = utilities.find_elements_by_css_selector(self.driver, locators.UPDATED_TITLES_LIST_CSS)
-        check_that("Count of successfully updated modules", len(modules_updated), less_than_or_equal_to(5))
+        check_that("Count of successfully updated modules", len(modules_updated), less_than_or_equal_to(4))
         check_that("Skipped modules section text",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.SKIPPED_TITLE_LIST_CSS), equal_to("n/a"))
         check_that("Failed modules section text",
@@ -100,7 +100,7 @@ class test_bulk_operations(Screenshot):
     @lcc.test('Verify user can bulk unpublish modules')
     # @lcc.disabled()
     def modules_bulk_unpublish(self):
-        poll(lambda: len(utilities.find_elements_by_css_selector(self.driver, locators.MODULES_LIST_CSS)) == 5,
+        poll(lambda: len(utilities.find_elements_by_css_selector(self.driver, locators.MODULES_LIST_CSS)) == 4,
              ignore_exceptions=[NoSuchElementException],
              timeout=5,
              step=0.5)
@@ -117,7 +117,7 @@ class test_bulk_operations(Screenshot):
                    equal_to("Unpublish"))
         check_that("Count of modules being unpublished",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.TITLES_FOR_UNPUBLISH_CSS),
-                   contains_string("4"))
+                   contains_string("3"))
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.CONFIRM_BUTTON_CSS)
         poll(lambda: utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PROGRESS_SUCCESS_STATUS) == "100%",
              ignore_exceptions=[NoSuchElementException],
@@ -125,7 +125,7 @@ class test_bulk_operations(Screenshot):
              step=1)
         utilities.click_element(self.driver, By.XPATH, locators.VIEW_DETAILS_LINK)
         modules_updated = utilities.find_elements_by_css_selector(self.driver, locators.UPDATED_TITLES_LIST_CSS)
-        check_that("Count of successfully updated modules", len(modules_updated), equal_to(4))
+        check_that("Count of successfully updated modules", len(modules_updated), equal_to(3))
         check_that("Failed modules section text",
                    utilities.get_text(self.driver, By.CSS_SELECTOR, locators.FAILED_TITLES_LIST_CSS), equal_to("n/a"))
         utilities.click_element(self.driver, By.XPATH, locators.CLOSE_DETAILS_XPATH)
@@ -150,7 +150,7 @@ class test_bulk_operations(Screenshot):
         utilities.click_element(self.driver, By.XPATH, locators.VIEW_DETAILS_LINK)
         utilities.wait(3)
         modules_updated = utilities.find_elements_by_css_selector(self.driver, locators.UPDATED_TITLES_LIST_CSS)
-        check_that("Count of successfully updated modules", len(modules_updated), equal_to(4))
+        check_that("Count of successfully updated modules", len(modules_updated), equal_to(3))
         modules_skipped = utilities.find_elements_by_css_selector(self.driver, locators.SKIPPED_TITLES_LIST_CSS)
         check_that("Count of skipped modules", len(modules_skipped), equal_to(1))
         utilities.click_element(self.driver, By.XPATH, locators.CLOSE_DETAILS_XPATH)
