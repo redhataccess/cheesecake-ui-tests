@@ -24,6 +24,7 @@ MODULE_DISPLAY_LAST_PUBLISHED_CSS = "div.pf-l-level:nth-child(5) div:nth-child(5
 MODULE_METADATA_WARNING_CSS = "div.pf-c-alert__description"
 ADD_METADATA_BUTTON_XPATH = "//button[contains(text(),'Add metadata')]"
 EDIT_METADATA_MODAL_TITLE_CSS = "h1.pf-c-title.pf-m-2xl"
+EDIT_METADATA_MODAL_CLOSE_BUTTON_XPATH = "//button[@aria-label='Close']"
 PRODUCT_NAME_DROPDOWN_CSS = "select[aria-label='FormSelect Product'].pf-c-form-control"
 PRODUCT_VERSION_DROPDOWN_CSS = "select#productVersion"
 PRODUCT_USECASE_DROPDOWN_CSS = "select[aria-label='FormSelect Usecase'].pf-c-form-control"
@@ -74,9 +75,11 @@ LEGAL_NOTICE_ON_PORTAL_CSS = "article#rhdocs-content div.rh-docs-legal-notice a.
 CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-guide aside div.sectionbody"
 CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
 CONSENT_BUTTON_CSS = "button.truste-button1"
+
 JSEQ_LINKTEXT1 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(3) > a').click()"
 JSEQ_LINKTEXT2 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(7) > a').click()"
 JSEQ_LINKTEXT3 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(9) > a').click()"
+
 
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
