@@ -24,6 +24,7 @@ MODULE_DISPLAY_LAST_PUBLISHED_CSS = "div.pf-l-level:nth-child(5) div:nth-child(5
 MODULE_METADATA_WARNING_CSS = "div.pf-c-alert__description"
 ADD_METADATA_BUTTON_XPATH = "//button[contains(text(),'Add metadata')]"
 EDIT_METADATA_MODAL_TITLE_CSS = "h1.pf-c-title.pf-m-2xl"
+EDIT_METADATA_MODAL_CLOSE_BUTTON_XPATH = "//button[@aria-label='Close']"
 PRODUCT_NAME_DROPDOWN_CSS = "select[aria-label='FormSelect Product'].pf-c-form-control"
 PRODUCT_VERSION_DROPDOWN_CSS = "select#productVersion"
 PRODUCT_USECASE_DROPDOWN_CSS = "select[aria-label='FormSelect Usecase'].pf-c-form-control"

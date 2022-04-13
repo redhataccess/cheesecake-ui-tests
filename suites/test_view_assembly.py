@@ -133,7 +133,7 @@ class test_view_assembly(Screenshot):
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
             check_that("URL portal is", self.driver.current_url, contains_string(
-                "https://access.qa.redhat.com/documentation/en-us/" + constants.product_name_uri + "/" + constants.product_version + "/guide/"))
+                "https://access."+fixture.env+".redhat.com/documentation/en-us/" + constants.product_name_uri + "/" + constants.product_version + "/guide/"))
 
             assembly_title = utilities.find_shadow_dom_element(self.driver, locators.DOCUMENT_TITLE_CP,
                                                                locators.MODULE_BODY_ON_PORTAL_CSS).text
