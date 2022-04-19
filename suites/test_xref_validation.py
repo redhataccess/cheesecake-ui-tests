@@ -233,6 +233,8 @@ class test_xref_validation(Screenshot):
             if (len(self.driver.window_handles) > 1):
                 self.driver.close()
                 utilities.switch_to_first_tab(self.driver)
+                utilities.click_element(self.driver,By.ID, locators.MODULE_DISPLAY_UNPUBLISH_BUTTON_ID)
+                utilities.page_reload(self.driver)
 
     def teardown_test(self, test, status):
         lcc.log_info("Moving back to screenshots dir")

@@ -71,7 +71,10 @@ class test_publish_module(Screenshot):
         check_that("Pre-live URL link is displayed", pre_live_url.is_displayed(), is_true())
         copy_pre_live_url = utilities.find_element(self.driver, By.LINK_TEXT, "Copy pre-live URL")
         check_that("Copy Pre-live URL is displayed", copy_pre_live_url.is_displayed(), is_true())
-
+        # utilities.click_element(self.driver, By.ID, locators.ADD_METADATA_BUTTON_XPATH)
+        # utilities.wait(2)
+        # utilities.click_element(self.driver, By.XPATH, locators.EDIT_METADATA_MODAL_CLOSE_BUTTON_XPATH)
+        # utilities.wait(2)
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         utilities.wait(20)
         print("Clicked publish")
