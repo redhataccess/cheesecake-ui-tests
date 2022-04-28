@@ -84,21 +84,24 @@ class test_view_assembly(Screenshot):
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(7)
-            assembly_title = utilities.find_shadow_dom_element(self.driver,locators.DOCUMENT_TITLE,
-                                                               locators.MODULE_BODY_CONTENT_CSS).text
+            # assembly_title = utilities.find_shadow_dom_element(self.driver,locators.DOCUMENT_TITLE,
+            #                                                    locators.MODULE_BODY_CONTENT_CSS).text
+            assembly_title = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.DOCUMENT_TITLE)
             print(assembly_title)
             check_that("Assembly title", constants.assembly_to_be_published, contains_string(assembly_title))
-            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_CONTENT_CSS).text
+            # product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
+            #                                                  locators.MODULE_BODY_CONTENT_CSS).text
+            product_name = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_ON_PREVIEW_CSS)
             print(product_name)
             check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
-            product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_CONTENT_CSS).text
+            # product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
+            #                                                     locators.MODULE_BODY_CONTENT_CSS).text
+            product_version = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_ON_PREVIEW_CSS)
             print(product_version)
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_CONTENT_CSS)
-            src = image.get_attribute("src")
+            # image = utilities.find_shadow_dom_element(self.driver,locators.IMAGE_CSS,locators.MODULE_BODY_CONTENT_CSS)
+            src =  utilities.find_element(self.driver, By.CSS_SELECTOR, locators.IMAGE_CSS).get_attribute("src")
             imageasset = urlparse(src)
             imageasset = imageasset.path.split("/")[2]
             cmd = "echo " + imageasset + "|base64 -d"
@@ -111,7 +114,7 @@ class test_view_assembly(Screenshot):
             except subprocess.CalledProcessError as e:
                 lcc.log_info("Unable to decode imageasset")
 
-            assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
+            assembly_body = self.driver.execute_script(locators.JSEQ_ASSEMBLY_BODY)
             for i in range(test_view_assembly.modules_count):
                 check_that("Assembly body", assembly_body, contains_string(test_view_assembly.module_titles[i]))
 
@@ -135,18 +138,14 @@ class test_view_assembly(Screenshot):
             check_that("URL portal is", self.driver.current_url, contains_string(
                 "https://access."+fixture.env+".redhat.com/documentation/en-us/" + constants.product_name_uri + "/" + constants.product_version + "/guide/"))
 
-            assembly_title = utilities.find_shadow_dom_element(self.driver, locators.DOCUMENT_TITLE_CP,
-                                                               locators.MODULE_BODY_ON_PORTAL_CSS).text
+            assembly_title = utilities.get_text_from_shadow_dom_element_CP(self.driver, locators.MODULE_TITLE_ON_PORTAL_CSS)
             check_that("Assembly title", assembly_title, contains_string(constants.assembly_to_be_published))
-            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_ON_PORTAL_CSS).text
+            product_name = utilities.get_text_from_shadow_dom_element_CP(self.driver, locators.CP_PRODUCT_NAME_CSS)
             check_that("Product name reflected on view page", product_name, contains_string(constants.product_name))
-            product_version = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_ON_PORTAL_CSS).text
+            product_version = utilities.get_text_from_shadow_dom_element_CP(self.driver, locators.CP_PRODUCT_VERSION_CSS)
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            image = utilities.find_shadow_dom_element(self.driver, locators.IMAGE_CSS, locators.MODULE_BODY_ON_PORTAL_CSS)
-            src = image.get_attribute("src")
+            src = self.driver.execute_script(locators.JSEQ_IMAGE_SRC)
             imageasset = urlparse(src)
             imageasset = imageasset.path.split("/")[2]
             cmd = "echo " + imageasset + "|base64 -d"
@@ -159,20 +158,22 @@ class test_view_assembly(Screenshot):
             except subprocess.CalledProcessError as e:
                 lcc.log_info("Unable to decode imageasset")
 
-            assembly_body = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.ASSEMBLY_BODY_PREVIEW_CSS)
+            assembly_body = utilities.get_text_from_shadow_dom_element_CP(self.driver, locators.CONTENT_CSS)
             for i in range(test_view_assembly.modules_count):
                 check_that("Assembly body", assembly_body, contains_string(test_view_assembly.module_titles[i]))
 
-            guides_content_related = utilities.find_shadow_dom_element(self.driver,
-                                                                       locators.CONTENT_RELATED_TO_GUIDES,
-                                                                       locators.MODULE_BODY_ON_PORTAL_CSS)
+            # guides_content_related = utilities.find_shadow_dom_element(self.driver,
+            #                                                            locators.CONTENT_RELATED_TO_GUIDES,
+            #                                                            locators.MODULE_BODY_ON_PORTAL_CSS)
+            guides_content_related = self.driver.execute_script(locators.JSEQ_CONTENT_RELATED_TO_GUIDES)
             self.driver.execute_script("arguments[0].scrollIntoView();", guides_content_related)
             utilities.wait(20)
             check_that("Content related to this guide setcion", guides_content_related.is_displayed(), equal_to(True))
             # utilities.click_element(self.driver, By.XPATH, "//summary[text()='Content related to this guide']")
-            additional_res_guide = utilities.find_shadow_dom_element(self.driver,
-                                                                     locators.CONTENT_RELATED_GUIDES_RESOURCES,
-                                                                     locators.MODULE_BODY_ON_PORTAL_CSS)
+            # additional_res_guide = utilities.find_shadow_dom_element(self.driver,
+            #                                                          locators.CONTENT_RELATED_GUIDES_RESOURCES,
+            #                                                          locators.MODULE_BODY_ON_PORTAL_CSS)
+            additional_res_guide = self.driver.execute_script(locators.JSEQ_CONTENT_RELATED_GUIDES_RESOURCES)
             check_that("Content related to this guide setcion to contain Addtional resources setion", additional_res_guide.is_displayed(), equal_to(True))
 
         except Exception as e:

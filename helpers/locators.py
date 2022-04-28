@@ -76,11 +76,19 @@ CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-
 CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
 CONSENT_BUTTON_CSS = "button.truste-button1"
 
+IMAGE_CSS = "span.image img"
+
+CONTENT_CSS = "#content > div"
 JSEQ_LINKTEXT1 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(3) > a').click()"
 JSEQ_LINKTEXT2 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(7) > a').click()"
 JSEQ_LINKTEXT3 = "return document.querySelector('#rhdocs').shadowRoot.querySelector('p:nth-child(9) > a').click()"
 
 
+JSEQ_LegalNotice_href = "return document.querySelector('#rhdocs').shadowRoot.querySelector('"+LEGAL_NOTICE_ON_PORTAL_CSS+"').href"
+JSEQ_IMAGE_SRC = "return document.querySelector('#rhdocs').shadowRoot.querySelector('"+IMAGE_CSS+"').src"
+
+JSEQ_CONTENT_RELATED_GUIDES_RESOURCES = "return document.querySelector('#rhdocs').shadowRoot.querySelector('"+CONTENT_RELATED_GUIDES_RESOURCES+"')"
+JSEQ_CONTENT_RELATED_TO_GUIDES = "return document.querySelector('#rhdocs').shadowRoot.querySelector('"+CONTENT_RELATED_TO_GUIDES+"')"
 # Menu
 MENU_GIT_IMPORT_LINK_TEXT = "Git Import"
 # MENU_PRODUCTS_LINK_TEXT = "Products"
@@ -156,7 +164,7 @@ SKIPPED_TITLES_LIST_CSS = "span#update-ignored ol li"
 #help_documentation_page
 HELP_ICON_CLASS_NAME = "button.pf-c-dropdown__toggle.pf-m-plain"
 USER_GUIDE_LINK_TEXT = "User Guide"
-TITLE_OF_USER_GUIDE_CSS = "div.rhdocs__header__primary-wrapper h1"
+TITLE_OF_USER_GUIDE_CSS = "#header > h1"
 USER_GUIDE_PARENT_CSS = "cp-documentation#doc-content"
 GUIDE_TITLE="//div[@class='rhdocs-content-type']"
 PAGE_DATA="help"
@@ -188,7 +196,7 @@ IMAGE_CSS = "span.image img"
 ASSEMBLY_BODY_CSS = "div.rhdocs"
 ASSEMBLY_BODY_PREVIEW_CSS = "body cp-documentation"
 ATTRIBUTE_ON_PREVIEW_CSS = "section > p:nth-child(1)"
-
+JSEQ_ASSEMBLY_BODY = "return document.querySelector('#doc-content').innerText"
 #search beta
 NO_MODULE_RESULTS_FOUND_CSS = "div.search-results__section--module div.pf-c-empty-state__body"
 NO_ASSEMBLY_RESULTS_FOUND_CSS = "div.search-results__section--assembly div.pf-c-empty-state__body"

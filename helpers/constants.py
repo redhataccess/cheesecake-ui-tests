@@ -141,7 +141,7 @@ xref_validation_msg = "Invalid cross references"
 xref_validation_module_name = "at-uploader | This doc contains a list of refs"
 # xref validation constants in CP
 Xref_linkText1 = "at-uploader | Assembly Publish test"
-Xref_linkText2 = "xref to same folder’s module"
+Xref_linkText2 = "at-uploader | Module bulk operations 4"
 Xref_linkText3 = "at-uploader | Module type none"
 #
 # Xref_dict = {"Xref_linkText1": "at-uploader | Assembly Publish test",
