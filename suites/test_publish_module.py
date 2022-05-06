@@ -78,7 +78,10 @@ class test_publish_module(Screenshot):
         utilities.click_element(self.driver, By.ID, locators.MODULE_DISPLAY_PUBLISH_BUTTON_ID)
         utilities.wait(20)
         print("Clicked publish")
+        utilities.wait(4)
         # The page needs a refresh because of an existing bug about the "View on Customer Portal not appearing"
+        self.driver.refresh()
+        # The page needs a refresh because of an bug that dates are not appearing"
         self.driver.refresh()
         utilities.find_element(self.driver, By.PARTIAL_LINK_TEXT, "View on Customer Portal")
         check_that("Button contains text", utilities.get_text(
@@ -91,7 +94,7 @@ class test_publish_module(Screenshot):
             self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS),
                    contains_string(constants.view_on_portal_link))
 
-        # get UPLOADED date in variable and covert into desired format- (DD Month YYYY)
+        # get UPLOADED date in variable and convert into desired format- (DD Month YYYY)
         self.first_pub_date_details_page = (utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.FIRST_PUB_DATE_MODULE_PAGE_CSS))
         lcc.log_info(
@@ -101,7 +104,7 @@ class test_publish_module(Screenshot):
         self.last_pub_date_details_page = (utilities.get_text(
             self.driver, By.CSS_SELECTOR, locators.LAST_PUB_DATE_MODULE_PAGE_CSS))
         lcc.log_info(
-            "captured last published date from module info page : " + test_publish_module.last_pub_date_details_page)
+            "captured last published date from module info page : " + self.last_pub_date_details_page)
 
         # adding checks if the module is displayed on the UI
         utilities.click_element(self.driver, By.CSS_SELECTOR, locators.VIEW_ON_PORTAL_LINK_CSS)
@@ -125,29 +128,34 @@ class test_publish_module(Screenshot):
         try:
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(2)
-            product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_CONTENT_CSS).text
+            # product_name = utilities.find_shadow_dom_element(self.driver, locators.PRODUCT_NAME_ON_PREVIEW_CSS,
+            #                                                  locators.MODULE_BODY_CONTENT_CSS).text
+            product_name = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_NAME_ON_PREVIEW_CSS)
             check_that("Product name reflected on view page", product_name,
                        contains_string(constants.product_name))
-            product_version = utilities.find_shadow_dom_element(self.driver,
-                                                                locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
-                                                                locators.MODULE_BODY_CONTENT_CSS).text
+            # product_version = utilities.find_shadow_dom_element(self.driver,
+            #                                                     locators.PRODUCT_VERSION_ON_PREVIEW_CSS,
+            #                                                     locators.MODULE_BODY_CONTENT_CSS).text
+            product_version = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PRODUCT_VERSION_ON_PREVIEW_CSS)
             check_that("Product version reflected on view page", product_version,
                        contains_string(constants.product_version))
-            updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
-                                                                       locators.UPDATED_DATE_ON_PREVIEW_CSS,
-                                                                       locators.MODULE_BODY_CONTENT_CSS).text.strip(
+            # updated_date_view_page = utilities.find_shadow_dom_element(self.driver,
+            #                                                            locators.UPDATED_DATE_ON_PREVIEW_CSS,
+            #                                                            locators.MODULE_BODY_CONTENT_CSS).text.strip(
+            #     "Updated ")
+            updated_date_view_page = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.UPDATED_DATE_ON_PREVIEW_CSS).strip(
                 "Updated ")
             check_that("updated date reflected on view page", updated_date_view_page,
                        contains_string(self.first_pub_date_details_page))
-            published_date_view_page = utilities.find_shadow_dom_element(self.driver,
-                                                                         locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
-                                                                         locators.MODULE_BODY_CONTENT_CSS).text.strip(
+            # published_date_view_page = utilities.find_shadow_dom_element(self.driver,
+            #                                                              locators.PUBLISHED_DATE_ON_PREVIEW_CSS,
+            #                                                              locators.MODULE_BODY_CONTENT_CSS).text.strip(
+            #     "Published ")
+            published_date_view_page = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.PUBLISHED_DATE_ON_PREVIEW_CSS).strip(
                 "Published ")
             check_that("published date reflected on view page", published_date_view_page,
                        contains_string(self.last_pub_date_details_page))
-            legal_notice = utilities.find_shadow_dom_element(self.driver, locators.LEGAL_NOTICE_ON_PREVIEW_CSS,
-                                                             locators.MODULE_BODY_CONTENT_CSS)
+            legal_notice = utilities.find_element(self.driver, By.CSS_SELECTOR, locators.LEGAL_NOTICE_ON_PREVIEW_CSS)
             check_that("legal notice is displayed at the bottom of preview page", legal_notice.text,
                        contains_string("Legal Notices for Trademarks"))
             legal_notice_href = legal_notice.get_attribute("href")
@@ -170,15 +178,17 @@ class test_publish_module(Screenshot):
             utilities.wait(5)
             utilities.switch_to_latest_tab(self.driver)
             utilities.wait(6)
-            updated_date_on_portal = utilities.find_shadow_dom_element(self.driver, locators.UPDATED_DATE_ON_PORTAL_CSS,
-                                                                       locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
-                "textContent")
+            # updated_date_on_portal = utilities.find_shadow_dom_element(self.driver, locators.UPDATED_DATE_ON_PORTAL_CSS,
+            #                                                            locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
+            #     "textContent")
+            updated_date_on_portal = utilities.get_text_from_shadow_dom_element_CP(self.driver, locators.UPDATED_DATE_ON_PORTAL_CSS)
             check_that("updated date reflected on view page", updated_date_on_portal,
                        contains_string(self.first_pub_date_details_page))
-            published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
-                                                                         locators.PUBLISHED_DATE_ON_PORTAL_CSS,
-                                                                         locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
-                "textContent")
+            # published_date_on_portal = utilities.find_shadow_dom_element(self.driver,
+            #                                                              locators.PUBLISHED_DATE_ON_PORTAL_CSS,
+            #                                                              locators.MODULE_BODY_ON_PORTAL_CSS).get_attribute(
+            #     "textContent")
+            published_date_on_portal = utilities.get_text_from_shadow_dom_element_CP(self.driver, locators.PUBLISHED_DATE_ON_PORTAL_CSS)
             check_that("published date reflected on view page", published_date_on_portal,
                        contains_string(self.last_pub_date_details_page))
         except (TimeoutException, StaleElementReferenceException, NoSuchElementException) as e:

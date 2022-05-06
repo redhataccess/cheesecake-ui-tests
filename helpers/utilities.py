@@ -142,7 +142,7 @@ def read_file(filename):
     return line
 
 def get_CP_page_header(driver):
-    headerTitle = driver.execute_script("return document.querySelector('#doc-content').shadowRoot.querySelector('.rhdocs__header__primary-wrapper > h1').innerText")
+    headerTitle = driver.execute_script("return document.querySelector('#rhdocs').shadowRoot.querySelector('.rhdocs__header__primary-wrapper > h1').innerText")
     return headerTitle
 
 def go_back_to_previous_page(driver):
@@ -150,4 +150,7 @@ def go_back_to_previous_page(driver):
 
 def java_script_executor(driver,jsquery):
     driver.execute_script(jsquery)
+
+def get_text_from_shadow_dom_element_CP(driver, css_selector):
+    return driver.execute_script("return document.querySelector('#rhdocs').shadowRoot.querySelector('"+css_selector+"').innerText")
 
