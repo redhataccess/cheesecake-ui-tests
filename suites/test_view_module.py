@@ -175,7 +175,7 @@ class test_view_module(Screenshot):
             utilities.wait(2)
             utilities.switch_to_latest_tab(self.driver)
             # attribute_text = utilities.find_shadow_dom_element(self.driver, locators.ATTRIBUTE_ON_PREVIEW_CSS, locators.MODULE_BODY_CONTENT_CSS).text
-            attribute_text = utilities.get_text(self.driver, By.CSS_SELECTOR, "#rhdocs-preamble > section > p:nth-child(1)")
+            attribute_text = utilities.get_text(self.driver, By.CSS_SELECTOR, locators.MODULE_BODY_CONTENT_CSS)
 
             check_that("verify attribute is resolving correctly on preview page", attribute_text,
                        contains_string(constants.attribute))

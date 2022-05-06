@@ -66,7 +66,9 @@ MODULE_FOUND_ID = "rhdocs"
 SEARCH_BODY_ON_PREVIEW_CSS = "section.sectionbody p:nth-child(2)"
 MODULE_BODY_CSS = "cp-documentation.PFElement"
 MODULE_BODY_ON_PORTAL_CSS = "cp-documentation#rhdocs"
-MODULE_BODY_CONTENT_CSS = "cp-documentation#doc-content"
+# MODULE_BODY_CONTENT_CSS = "cp-documentation#doc-content"
+# changing MODULE_BODY_CONTENT_CSS value as there's no need to use shadow root element
+MODULE_BODY_CONTENT_CSS = "#rhdocs-preamble > section > p:nth-child(1)"
 MODULE_TITLE_ON_PORTAL_CSS = "header#rhdocs-header div h1"
 CP_PRODUCT_NAME_CSS = "header#rhdocs-header div.rhdocs-products span.rhdocs-product-name"
 CP_PRODUCT_VERSION_CSS = "header#rhdocs-header div.rhdocs-products span.rhdocs-product-version"
@@ -75,7 +77,6 @@ LEGAL_NOTICE_ON_PORTAL_CSS = "article#rhdocs-content div.rh-docs-legal-notice a.
 CONTENT_RELATED_GUIDES_RESOURCES = "details.related-topic-content__wrapper--for-guide aside div.sectionbody"
 CONTENT_RELATED_TO_GUIDES = "details.related-topic-content__wrapper--for-guide"
 CONSENT_BUTTON_CSS = "button.truste-button1"
-
 IMAGE_CSS = "span.image img"
 
 CONTENT_CSS = "#content > div"
